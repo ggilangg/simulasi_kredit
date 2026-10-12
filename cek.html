@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cek Instalasi</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f6b5c">
+<style>body{margin:0;padding:16px;font:16px/1.45 system-ui,sans-serif;background:#0e1419;color:#e8eef3}h1{font-size:19px;margin:0 0 12px}
+.r{background:#172028;border:1px solid #27333d;border-radius:12px;padding:10px 12px;margin-bottom:8px;word-break:break-word}.ok{color:#5ce0c0}.no{color:#ff8a80}.w{color:#f0a35e}small{color:#92a1ae;display:block}button{font:inherit;padding:10px 14px;border-radius:10px;border:0;background:#2f9e88;color:#fff;margin-top:6px}</style></head><body>
+<h1>Cek Instalasi Aplikasi</h1><div id="o"></div><button onclick="location.reload()">Cek ulang</button><small style="margin-top:14px">Kirim tangkapan layar halaman ini jika masih gagal dipasang.</small>
+<script>
+const o=document.getElementById("o"),add=(s,t,d)=>{o.insertAdjacentHTML("beforeend",`<div class="r"><b class="${s}">${s==="ok"?"✓":s==="no"?"✗":"!"}</b> ${t}${d?`<small>${d}</small>`:""}</div>`)};
+let prompted=false;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();prompted=true});
+(async()=>{
+ add(location.protocol==="https:"?"ok":"no","HTTPS",location.href);
+ add(matchMedia("(display-mode: standalone)").matches?"ok":"w","Mode tampil",matchMedia("(display-mode: standalone)").matches?"Sedang berjalan sebagai aplikasi terpasang":"Berjalan di tab Chrome (belum dibuka dari ikon aplikasi)");
+ let man=null;try{const l=document.querySelector('link[rel=manifest]'),r=await fetch(l.href);add(r.ok?"ok":"no","Manifest dimuat","status "+r.status+" · "+(r.headers.get("content-type")||"-"));man=await r.json()}catch(e){add("no","Manifest gagal dimuat",String(e))}
+ if(man){add(man.name&&man.short_name&&man.start_url&&man.display==="standalone"?"ok":"no","Isi manifest","name="+man.name+" · start_url="+man.start_url+" · display="+man.display+" · id="+(man.id||"(otomatis dari start_url)"));
+  for(const ic of man.icons||[]){const u=new URL(ic.src,location.href).href;await new Promise(res=>{const im=new Image();im.onload=()=>{add(im.naturalWidth>=192?"ok":"no","Ikon "+ic.sizes+" ("+ic.purpose+")","terbaca "+im.naturalWidth+"x"+im.naturalHeight+" · "+ic.src);res()};im.onerror=()=>{add("no","Ikon tidak ditemukan",u);res()};im.src=u})}}
+ if("serviceWorker" in navigator){try{const reg=await navigator.serviceWorker.getRegistration("./");if(!reg)add("no","Service worker belum terdaftar","Buka halaman aplikasi (index) dulu, tunggu beberapa detik, lalu cek ulang.");else{const st=(reg.active||reg.waiting||reg.installing);add(reg.active?"ok":"w","Service worker","status: "+(st?st.state:"-")+" · scope "+reg.scope);add(navigator.serviceWorker.controller?"ok":"w","Halaman dikendalikan service worker",navigator.serviceWorker.controller?"":"Muat ulang halaman sekali lagi.")}}catch(e){add("no","Service worker error",String(e))}}else add("no","Browser tidak mendukung service worker");
+ if(navigator.getInstalledRelatedApps){try{const a=await navigator.getInstalledRelatedApps();add(a.length?"w":"ok","Terdeteksi sudah terpasang?",a.length?"Ya ("+a.length+"). Copot dulu aplikasi lama lalu coba lagi.":"Tidak ada")}catch(e){}}
+ setTimeout(()=>add(prompted?"ok":"w","Chrome menawarkan instalasi (beforeinstallprompt)",prompted?"Siap dipasang: menu ⋮ lalu Instal aplikasi.":"Tidak muncul. Penyebab umum: aplikasi dianggap sudah terpasang, atau syarat di atas belum lengkap."),3500);
+ add("w","Browser",navigator.userAgent);
+})();
+</script></body></html>

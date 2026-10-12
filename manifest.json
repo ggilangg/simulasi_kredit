@@ -1,0 +1,37 @@
+{
+  "name": "Simulator Kredit Mobil",
+  "short_name": "Sim Kredit",
+  "description": "Simulasi kredit mobil: konvensional, hybrid, Mini For Max, dan EV, lengkap dengan goal seek.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e1419",
+  "theme_color": "#0f6b5c",
+  "lang": "id",
+  "categories": [
+    "finance",
+    "business"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "prefer_related_applications": false
+}
