@@ -82,7 +82,7 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 3px;b
 <label>Nama merek mobil (opsional)</label><input id="e_nm" placeholder="mis. BYD Atto 1">
 <label>Harga OTR *</label><input id="e_otr" inputmode="numeric" placeholder="0">
 <label>DP *</label><select id="e_dm"><option value="P">Isi DP %</option><option value="T">Dari TDP</option><option value="A">Dari angsuran</option></select>
-<label id="e_dpl" style="margin-top:10px">DP (%)</label><input id="e_dpp" inputmode="decimal" placeholder="mis. 30">
+<label id="e_dpl" style="margin-top:10px">DP (%)</label><input id="e_dpp" inputmode="decimal" placeholder="mis. 20">
 <label>Tenor *</label><select id="e_n"><option value="1">1 th</option><option value="2">2 th</option><option value="3" selected>3 th</option><option value="4">4 th</option><option value="5">5 th</option><option value="6">6 th</option></select>
 <label>Ketentuan EV/PHEV</label><div class="chips"><button type="button" class="on" disabled>ADDM</button><button type="button" class="on" disabled>Asuransi Prepaid</button><button type="button" class="on" disabled>EV / PHEV</button></div>
 <label>Jenis asuransi (minimal Combine)</label><select id="e_ins"><option value="COMBINE" selected>Combine</option><option value="COMPREHENSIVE">All Risk (Comprehensive)</option></select>
@@ -98,14 +98,14 @@ table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 3px;b
 </div>
 <div id="e_res" class="hide"></div></section>
 <section id="p_hist" class="hide"><div id="hl"></div></section>
-<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
+<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 6 · tarif TLO EV mengikuti sistem (0,35% untuk OTR Rp200-400 jt)</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
 </main>
 <div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div><div id="dc"></div></div>
 <nav class="nav"><button id="n_calc" class="on"><span>🧮</span>Hitung</button><button id="n_hist"><span>🕘</span>Riwayat</button><button id="n_db"><span>🗄️</span>Database</button></nav>
 <div id="toast" class="toast"></div>
 <script>
 const $=id=>document.getElementById(id),R=x=>"Rp "+Math.round(x).toLocaleString("id-ID"),P=x=>(x*100).toFixed(2).replace(/\.?0+$/,"")+"%",num=t=>+String(t).replace(/\./g,"").replace(/[^\d-]/g,"")||0,pf=t=>parseFloat(String(t).replace(",","."))||0,up=x=>Math.ceil(x/100-1e-9)*100,esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),clone=o=>JSON.parse(JSON.stringify(o));
-const DEF={ev:{prov:.055,dpm:.3,up:4e6,daiAdm:1486000,bunga:[.03,.032,.03,.035,.04,.0525],adm:[1.8e6,1.8e6,1.8e6,2e6,2.3e6,2.3e6],cr:[.0328,.0346,.0247,.0175,.0166],tl:[.0078,.0053,.0042,.003,.0024]},rt:"LJ",rgT:.3,prov:.055,polis:14000,dpm:{P:.2,C:.3},
+const DEF={ev:{prov:.055,dpmin:.2,up:4e6,daiAdm:1486000,bunga:[.03,.032,.027,.035,.04,.0525],bunga20:[.03,.032,.037,.039,.045,.0575],adm:[1.8e6,1.8e6,1.8e6,2e6,2.3e6,2.3e6],cr:[.0328,.0346,.0247,.0175,.0166],tl:[.0056,.0048,.0035,.0027,.0024]},rt:"LJ",rgT:.3,prov:.055,polis:14000,dpm:{P:.2,C:.3},
 bunga:{J:{P:[.03,.032,.037,.039,.045,.0575],C:[.0728,.0788,.0818,.0828,.0918]},LJ:{P:[.03,.032,.03,.035,.04,.0525],C:[.0748,.0798,.0828,.0868,.0948]},S:{P:[.0425,.0475,.05,.055,.065,.071],C:[.0769,.0819,.0849,.0869,.0949]}},
 adm:{P:[1.8e6,1.8e6,2.8e6,5e6,5.3e6,2.3e6],C:[1.8e6,1.8e6,1.8e6,2e6,2.3e6],uP:4e6,uC:3e6},
 jarak:[["Dalam Pontianak",0],["60-120 km",1e6],["121-200 km",2e6],[">200 km",3e6]],cp:[.00631,.00969,.01492,.02003,.02257,.0231],mm:{prov:.055,adm:2.3e6,up:4e6,cp:.0185,pa:[8e5,1.6e6],flat:{J:[.056,.0715],LJ:[.056,.066],S:[.066,.0828]},eff:{J:[.10758972,.12927783],LJ:[.10758972,.11998977],S:[.12558575,.14807633]}}};
@@ -113,12 +113,12 @@ const DEP=[1,.95,.9,.85,.8,.8],LIM=[125e6,200e6,4e8,8e8],AD=[.0253,.0269,.0179,.
 XC={J:[.463692326,.410532467],LJ:[.454779908,.405597402],S:[.468554986,.417027555]},RT={LJ:"Luar Pulau Jawa",J:"Pulau Jawa",S:"S2P"};
 let CFG=clone(DEF),DB=null,UID=null,H=[],LAST=null,W=null,gm=1;
 const RG=(o,dp)=>dp/o.otr>=CFG.rgT-1e-9?"LJ":"J";
-const dmin=o=>o.ev?CFG.ev.dpm:CFG.dpm[o.veh];
+const dmin=o=>o.ev?CFG.ev.dpmin:CFG.dpm[o.veh];
 function calc(o,dp){return o.ev?calcEV(o,dp):o.n===8?calcMM(o,dp):calcR(o,dp)}
 function calcEV(o,dp){const K=CFG,E=K.ev,n=o.n,T=o.otr,ph=T-dp,rows=[];let prem=0;
  for(let y=0;y<n;y++){const b=T*DEP[y],i=LIM.findIndex(l=>b<=l),q=i<0?4:i,kd=o.ins==="COMBINE"&&y>0?"TLO":"Comprehensive",r=kd==="TLO"?(E.tl||DEF.ev.tl)[q]:E.cr[q];prem+=b*r;rows.push({y:y+1,b,kd,r,pr:b*r})}
  const tlp=T*TLP*n,asr=prem+tlp,pa=o.pa?PA[n-1]*(o.pa==200?2:1):0,prov=Math.floor(E.prov*ph),pk=ph+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),
- r=E.bunga[n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,ad=o.dai?E.daiAdm:E.adm[n-1],upg=o.dai?0:E.up,admin=(o.adm||ad+upg)+jr,
+ r=(dp/T>=K.rgT-1e-9?E.bunga:E.bunga20)[n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,ad=o.dai?E.daiAdm:E.adm[n-1],upg=o.dai?0:E.up,admin=(o.adm||ad+upg)+jr,
  cpv=o.cp?up(pk*K.cp[n-1]):0,pre=asr+(o.pq==="PREPAID"?pa:0)+(o.pp==="PREPAID"?prov:0),kk=FL.findIndex(l=>pk<=l),fd=o.dai?0:FV[kk<0?5:kk],tdp=dp+fix+pre+K.polis+fd+admin;
  return{ev:1,dp,ph,prem,tlp,asr,pa,prov,pk,r,tot,bunga:tot-pk,fix,cap:null,sisa:n*12-1,ad,upg,jr,admin,cpv,pre,fd,tdp,tdpcp:tdp+cpv,lunas:T-tdp-cpv,rows}}
 function calcMM(o,dp){const K=CFG,M=K.mm,T=o.otr,ph=T-dp,rv=T*o.rs,rg=RG(o,dp),rows=[],rows2=[];let p1=0,p2=0;
@@ -142,7 +142,7 @@ function calcR(o,dp){const K=CFG,n=o.n,C=o.veh==="C",ph=o.otr-dp,rows=[];let pre
  return{dp,ph,prem,tlp,asr,pa,prov,pk,r,tot,bunga:tot-pk,fix,cap,sisa:n*12-1,ad,upg,jr,admin,cpv,pre,fd,tdp,tdpcp:tdp+cpv,lunas:o.otr-tdp-cpv,rows}}
 const LS={g:k=>{try{return localStorage.getItem(k)}catch(e){return null}},s:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
 const hcol=()=>DB&&UID?DB.collection("data/users/"+UID):null;
-async function loadCfg(){let j=null;try{if(DB){const q=await DB.doc("config/main").get();if(q.exists)j=q.data().json}}catch(e){}j=j||LS.g("sk_cfg");if(j){try{CFG=Object.assign({},DEF,JSON.parse(j))}catch(e){}}CFG.ev=Object.assign({},DEF.ev,CFG.ev);["bunga","adm","cr","tl"].forEach(k=>{CFG.ev[k]=DEF.ev[k].map((v,i)=>CFG.ev[k]&&CFG.ev[k][i]!=null?CFG.ev[k][i]:v)});fillJ();fillR();if(!RGT)$("rg").value=CFG.rt;refresh()}
+async function loadCfg(){let j=null;try{if(DB){const q=await DB.doc("config/main").get();if(q.exists)j=q.data().json}}catch(e){}j=j||LS.g("sk_cfg");if(j){try{CFG=Object.assign({},DEF,JSON.parse(j))}catch(e){}}CFG.ev=Object.assign({},DEF.ev,CFG.ev);["bunga","bunga20","adm","cr","tl"].forEach(k=>{CFG.ev[k]=DEF.ev[k].map((v,i)=>CFG.ev[k]&&CFG.ev[k][i]!=null?CFG.ev[k][i]:v)});if(JSON.stringify(CFG.ev.bunga)==="[0.03,0.032,0.03,0.035,0.04,0.0525]")CFG.ev.bunga=DEF.ev.bunga.slice();if(JSON.stringify(CFG.ev.tl)==="[0.0078,0.0053,0.0042,0.003,0.0024]")CFG.ev.tl=DEF.ev.tl.slice();fillJ();fillR();if(!RGT)$("rg").value=CFG.rt;refresh()}
 async function saveCfg(c){CFG=c;LS.s("sk_cfg",JSON.stringify(c));if(DB){try{await DB.doc("config/main").set({json:JSON.stringify(c)});return"db"}catch(e){return"denied"}}return"local"}
 async function loadH(){const c=hcol();let a=[];if(c){try{a=(await c.get()).docs.filter(d=>d.id[0]==="h").map(d=>JSON.parse(d.data().json))}catch(e){}}else{try{a=JSON.parse(LS.g("sk_hist")||"[]")}catch(e){}}H=a.sort((x,y)=>y.id-x.id).slice(0,100)}
 const saveL=()=>{if(!hcol())LS.s("sk_hist",JSON.stringify(H))};
@@ -179,7 +179,7 @@ function run(save){const o=rd(),K=CFG,w=[],res=$("res");res.classList.remove("hi
  <button class="p full" id="bd">Lihat rincian perhitungan</button>
  <button class="full" id="cpy">Salin ringkasan</button></div>`;
  const s={nm:o.nm,otr:o.otr,dpp:o.dpp,n:o.n,a:c.fix,b:c.mm?c.fix2:c.cap,m:c.mm?1:0,rv:c.mm?c.rv:0,tdp:c.tdpcp,as:o.veh==="C"?"TLO":o.ins,da:o.jr?"Luar PTK "+K.jarak[o.jr][0]:"PTK"};
- $("bd").onclick=detail;$("cpy").onclick=e=>copy(txt(s),e.target);
+ $("bd").onclick=()=>{LAST={o,c};detail()};$("cpy").onclick=e=>copy(txt(s),e.target);
  if(save){addH({id:Date.now(),nm:o.nm,v:o,s});if(!$("p_hist").classList.contains("hide"))hr()}
  res.scrollIntoView({behavior:"smooth",block:"start"})}
 function autoRS(o){const dp=o.otr*o.dpp,mx=Math.floor((1-o.dpp)*100-1e-9)-1;for(let p=mx;p>=1;p--){const c=calcMM({...o,rs:p/100},dp);if(c.fix2<=c.fix)return p/100}return 0}
@@ -223,9 +223,9 @@ function groups(){const g=[],a=[1,2,3,4,5,6],b=a.slice(0,5);
  g.push(["Admin dasar Passenger (Rp)",a.map((t,i)=>[["adm","P",i],"Th "+t,"rp"])],["Admin dasar Commercial (Rp)",b.map((t,i)=>[["adm","C",i],"Th "+t,"rp"])],["Upping admin (Rp)",[[["adm","uP"],"Passenger","rp"],[["adm","uC"],"Commercial","rp"]]],["Tambahan admin per jarak",W.jarak.flatMap((j,i)=>[[["jarak",i,0],"Nama","txt"],[["jarak",i,1],"Biaya (Rp)","rp"]])],["Credit Protection (% pokok hutang)",a.map((t,i)=>[["cp",i],"Th "+t,"pct"])]);
  g.push(["Mini For Max · Umum",[[["mm","prov"],"Provisi (%)","pct"],[["mm","adm"],"Admin dasar (Rp)","rp"],[["mm","up"],"Upping admin (Rp)","rp"],[["mm","cp"],"CP (% pokok hutang)","pct"]]],["Mini For Max · PA (Rp)",[[["mm","pa",0],"UP 100jt","rp"],[["mm","pa",1],"UP 200jt","rp"]]]);
  ["LJ","J","S"].forEach(k=>g.push([`Mini For Max · Bunga ${RT[k]} (%)`,[[["mm","flat",k,0],"Flat thn 1-4","pct"],[["mm","flat",k,1],"Flat thn 5-8","pct"],[["mm","eff",k,0],"Eff thn 1-4","pct"],[["mm","eff",k,1],"Eff thn 5-8","pct"]]]));
- g.push(["EV · Umum",[[["ev","prov"],"Provisi (%)","pct"],[["ev","dpm"],"DP minimum (%)","pct"],[["ev","up"],"Upping admin (Rp)","rp"],[["ev","daiAdm"],"Admin paket Daifit (Rp)","rp"]]],["EV · Bunga flat (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga",i],"Tenor "+t+" th","pct"])],["EV · Admin dasar (Rp)",[1,2,3,4,5,6].map((t,i)=>[["ev","adm",i],"Tenor "+t+" th","rp"])],["EV · Asuransi All Risk (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","cr",i],t,"pct"])],["EV · Asuransi TLO (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","tl",i],t,"pct"])]);return g}
+ g.push(["EV · Umum",[[["ev","prov"],"Provisi (%)","pct"],[["ev","dpmin"],"DP minimum (%)","pct"],[["ev","up"],"Upping admin (Rp)","rp"],[["ev","daiAdm"],"Admin paket Daifit (Rp)","rp"],[["polis"],"Polis (Rp)","rp"]]],["EV · Bunga flat DP 30% ke atas (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga",i],"Tenor "+t+" th","pct"])],["EV · Bunga flat DP 20-29% (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga20",i],"Tenor "+t+" th","pct"])],["EV · Admin dasar (Rp)",[1,2,3,4,5,6].map((t,i)=>[["ev","adm",i],"Tenor "+t+" th","rp"])],["EV · Asuransi All Risk (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","cr",i],t,"pct"])],["EV · Asuransi TLO (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","tl",i],t,"pct"])]);return g}
 const gp=(o,p)=>p.reduce((x,k)=>x[k],o);
-function renderEd(src){W=clone(src||CFG);$("dbs").textContent=DB?"Tersimpan di database bersama.":"Tersimpan di perangkat ini (database bersama belum aktif).";const G=groups().filter(g=>SIM==="E"?(g[0].startsWith("EV ·")||g[0].startsWith("Tambahan admin per jarak")):!g[0].startsWith("EV ·"));
+function renderEd(src){W=clone(src||CFG);$("dbs").textContent=DB?"Tersimpan di database bersama.":"Tersimpan di perangkat ini (database bersama belum aktif).";const G=groups().filter(g=>SIM==="E"?(g[0].startsWith("EV ·")||g[0].startsWith("Tambahan admin per jarak")||g[0].startsWith("Credit Protection")):!g[0].startsWith("EV ·"));
  $("ed").innerHTML=G.map(([t,it],gi)=>`<div class="card"><h4>${t}</h4><div class="gr">${it.map(([p,l,k],ii)=>{const v=gp(W,p),id=`e${gi}_${ii}`;return`<div><label>${l}</label>`+(k==="sel"?`<select id="${id}">${Object.keys(RT).map(x=>`<option value="${x}"${x===v?" selected":""}>${RT[x]}</option>`).join("")}</select>`:`<input id="${id}" inputmode="${k==="txt"?"text":"decimal"}" value="${k==="pct"?+(v*100).toFixed(6):k==="rp"?v.toLocaleString("id-ID"):esc(v)}">`)+"</div>"}).join("")}</div></div>`).join("");
  G.forEach(([t,it],gi)=>it.forEach(([p,l,k],ii)=>$(`e${gi}_${ii}`).addEventListener("change",e=>{const x=e.target.value,v=k==="pct"?Math.round(pf(x)*1e6)/1e8:k==="rp"?num(x):x;gp(W,p.slice(0,-1))[p[p.length-1]]=v;if(k==="rp")e.target.value=v.toLocaleString("id-ID")})))}
 function goTab(t){TAB=t;const ids={calc:SIM==="E"?"p_ev":"p_calc",hist:"p_hist",db:"p_db"};["p_calc","p_ev","p_hist","p_db"].forEach(x=>$(x).classList.add("hide"));$(ids[t]).classList.remove("hide");["calc","hist","db"].forEach(x=>$("n_"+x).classList.toggle("on",x===t));if(t==="hist")hr();if(t==="db")renderEd();scrollTo(0,0)}
@@ -246,18 +246,18 @@ document.querySelectorAll("#simsw button").forEach(b=>b.onclick=()=>setSim(b.dat
 function rdE(){const dm=$("e_dm").value;return{ev:1,veh:"E",ap:"PREPAID",ins:$("e_ins").value,nm:$("e_nm").value.trim(),otr:num($("e_otr").value),dm,dv:dm==="P"?0:num($("e_dpp").value),dpp:dm==="P"?pf($("e_dpp").value)/100:0,n:+$("e_n").value||0,pp:$("e_pp").value,cp:$("e_cpc").checked?1:0,pa:$("e_pac").checked?+$("e_pau").value:0,pq:$("e_pap").value,dai:$("e_dai").checked?1:0,jr:+$("e_jr").value||0,adm:num($("e_adm").value)}}
 function refreshE(){const o=rdE(),E=CFG.ev,m=$("e_dm").value;$("e_pabox").classList.toggle("hide",!$("e_pac").checked);
  $("e_dpl").textContent=m==="P"?"DP (%)":m==="T"?"TDP konsumen (Rp), sudah termasuk DP murni, asuransi, admin, dll":"Angsuran per bulan yang diinginkan (Rp)";
- $("e_dpp").placeholder=m==="P"?"mis. 30":m==="T"?"mis. 300.000.000":"mis. 19.000.000";$("e_dpp").inputMode=m==="P"?"decimal":"numeric";
- $("e_vp").textContent=P(E.prov);$("e_vb").textContent=o.n?P(E.bunga[o.n-1])+" /th":"-";
+ $("e_dpp").placeholder=m==="P"?"mis. 20":m==="T"?"mis. 300.000.000":"mis. 19.000.000";$("e_dpp").inputMode=m==="P"?"decimal":"numeric";
+ $("e_vp").textContent=P(E.prov);{const rr=o.n&&o.dm==="P"&&o.dpp>0?(o.dpp>=CFG.rgT-1e-9?E.bunga:E.bunga20)[o.n-1]:null;$("e_vb").textContent=rr==null?"sesuai DP":P(rr)+" /th"}
  $("e_admh").textContent=o.n?"Otomatis dari Database: "+R(o.dai?E.daiAdm:E.adm[o.n-1]+E.up)+" (belum termasuk jarak)":"";paint()}
 function runE(save){const o=rdE(),E=CFG.ev,w=[],res=$("e_res");res.classList.remove("hide");
  let gk=null;if(o.dm!=="P"&&o.otr>0&&o.n&&o.dv>0){const r=solveDP(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.dpp=r.dpp;gk=o.dm;if(gk==="T")o.dpp=exactTDP(o)}
- if(o.otr<=0)w.push("OTR wajib diisi.");if(!(o.dpp>0))w.push(o.dm==="P"?"DP % wajib diisi.":"Nilai target wajib diisi.");else if(o.dpp>=1)w.push("DP harus di bawah 100%.");else if(o.dpp<E.dpm-1e-9)w.push(`DP minimum EV ${P(E.dpm)}.`);
+ if(o.otr<=0)w.push("OTR wajib diisi.");if(!(o.dpp>0))w.push(o.dm==="P"?"DP % wajib diisi.":"Nilai target wajib diisi.");else if(o.dpp>=1)w.push("DP harus di bawah 100%.");else if(o.dpp<E.dpmin-1e-9)w.push(`DP minimum EV ${P(E.dpmin)}.`);
  if(!o.n)w.push("Tenor wajib dipilih.");
  if(w.length){res.innerHTML=w.map(x=>`<div class="w">⚠ ${x}</div>`).join("");return}
  const dp=o.otr*o.dpp,c=calc(o,dp);LAST={o,c};
- res.innerHTML=`<div class="card">${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}<div class="hero"><span>Angsuran / bulan</span><b>${R(c.fix)}</b><small>${o.n} th ADDM · EV/PHEV · bunga ${P(c.r)} flat</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div><button class="p full" id="e_bd">Lihat rincian perhitungan</button><button class="full" id="e_cpy">Salin ringkasan</button></div>`;
+ res.innerHTML=`<div class="card">${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}${o.otr>2e9?`<div class="w">⚠ OTR di atas Rp2 miliar: tarif asuransi EV di Excel hanya sampai band Rp2 miliar, jadi asuransi di sini perkiraan.</div>`:""}<div class="hero"><span>Angsuran / bulan</span><b>${R(c.fix)}</b><small>${o.n} th ADDM · EV/PHEV · bunga ${P(c.r)} flat</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div><button class="p full" id="e_bd">Lihat rincian perhitungan</button><button class="full" id="e_cpy">Salin ringkasan</button></div>`;
  const sm={ev:1,nm:o.nm,otr:o.otr,dpp:o.dpp,n:o.n,a:c.fix,tdp:c.tdpcp,as:o.ins,da:o.jr?"Luar PTK "+CFG.jarak[o.jr][0]:"PTK"};
- $("e_bd").onclick=detailE;$("e_cpy").onclick=e=>copy(txt(sm),e.target);
+ $("e_bd").onclick=()=>{LAST={o,c};detailE()};$("e_cpy").onclick=e=>copy(txt(sm),e.target);
  if(save){addH({id:Date.now(),t:"EV",nm:o.nm,v:o,s:sm});if(!$("p_hist").classList.contains("hide"))hr()}
  res.scrollIntoView({behavior:"smooth",block:"start"})}
 function detailE(){const {o,c}=LAST,K=CFG,E=K.ev;
