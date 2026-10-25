@@ -11,131 +11,190 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Sim Kredit">
 <style>
-:root{--bg:#f3f5f7;--card:#fff;--tx:#14202b;--mu:#5d6b78;--bd:#dde3e9;--ac:#0f6b5c;--ac2:#e3f2ee;--wb:#fff4e5;--wa:#9a4a0a;--er:#b3261e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1419;--card:#172028;--tx:#e8eef3;--mu:#92a1ae;--bd:#27333d;--ac:#2f9e88;--ac2:#13302b;--wb:#3a2a14;--wa:#f0a35e;--er:#ff8a80}}
-:root[data-theme="dark"]{--bg:#0e1419;--card:#172028;--tx:#e8eef3;--mu:#92a1ae;--bd:#27333d;--ac:#2f9e88;--ac2:#13302b;--wb:#3a2a14;--wa:#f0a35e;--er:#ff8a80}
-html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.hide{display:none!important}.mu{color:var(--mu)}small{color:var(--mu)}
-header{max-width:560px;margin:auto;padding:12px 14px 4px;display:flex;justify-content:space-between;align-items:center}
-header b{font-size:19px}main{max-width:560px;margin:auto;padding:8px 12px 190px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
-h3{margin:0 0 6px;font-size:17px}h4{margin:14px 0 6px;font-size:13px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em}
-label{display:block;font-size:13px;color:var(--mu);margin:12px 0 6px}label:first-child{margin-top:0}
-input,select{width:100%;min-height:48px;padding:10px 12px;font:inherit;font-size:16px;color:var(--tx);background:var(--bg);border:1px solid var(--bd);border-radius:12px}
-input:focus,select:focus{outline:2px solid var(--ac);border-color:transparent}
-#otr{font-size:22px;font-weight:600}
-button{font:inherit;color:var(--tx);cursor:pointer;min-height:44px;padding:8px 14px;background:var(--card);border:1px solid var(--bd);border-radius:12px;-webkit-tap-highlight-color:transparent}
-button.p{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}button.full{width:100%;margin-top:12px;min-height:50px}button.dg{color:var(--er)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}.chips button{flex:1 1 auto;border-radius:22px;padding:8px 12px}.chips button.on{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
-.g2,.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-input[type=range]{padding:0;min-height:36px;accent-color:var(--ac);border:0;background:none}
-.hero{background:var(--ac);color:#fff;border-radius:16px;padding:16px;margin-bottom:10px}.hero span{font-size:13px;opacity:.85}.hero b{display:block;font-size:34px;line-height:1.15}.hero small{color:#fff;opacity:.85}
-.k{background:var(--ac2);border-radius:12px;padding:10px}.k span{font-size:12px;color:var(--mu);display:block}.k b{font-size:18px;color:var(--ac)}
-details{margin-top:10px}summary{min-height:44px;display:flex;align-items:center;justify-content:space-between;font-weight:600;cursor:pointer;list-style:none}summary::-webkit-details-marker{display:none}summary::after{content:"▾";color:var(--mu)}details[open]>summary::after{content:"▴"}
-details.card{margin-top:0}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:8px 3px;border-bottom:1px solid var(--bd);text-align:right}td:first-child,th:first-child{text-align:left}th{font-size:12px;color:var(--mu);font-weight:600}tr.t td{font-weight:700;border-top:2px solid var(--bd)}td button{min-height:34px;padding:2px 10px;font-size:13px}
-.w{background:var(--wb);color:var(--wa);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:14px}
-.row{display:flex;gap:8px;margin-top:10px}.row button{flex:1}.hh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:var(--card);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);padding-bottom:env(safe-area-inset-bottom,0px)}
-.nav button{border:0;border-radius:0;min-height:58px;background:none;color:var(--mu);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}.nav button span{font-size:20px}.nav button.on{color:var(--ac);font-weight:700}
-.sb{position:fixed;z-index:4;left:50%;transform:translateX(-50%);width:min(100%,560px);bottom:calc(58px + env(safe-area-inset-bottom,0px));background:var(--ac);color:#fff;padding:10px 16px;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;gap:8px}
-.sb div{display:flex;flex-direction:column}.sb small{color:#fff;opacity:.8;font-size:11px}.sb b{font-size:17px}
-.toast{position:fixed;z-index:9;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .2s}.toast.on{opacity:1}
-
-.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:env(safe-area-inset-top,0px) 12px calc(24px + env(safe-area-inset-bottom,0px))}
-.sh{display:flex;justify-content:space-between;align-items:center;padding:12px 2px;position:sticky;top:0;background:var(--bg);z-index:2}.sheet>div:last-child{max-width:560px;margin:auto}
-.gr{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}.gr label{margin:0 0 3px;font-size:12px}.gr input,.gr select{min-height:42px;padding:6px 8px;font-size:15px}
+:root{--bg:#f3f6fb;--card:#fff;--fld:#f1f4f9;--tx:#0f1b2d;--mu:#5d6c80;--bd:#e2e8f1;--ac:#0e7c6b;--ac3:#17b39a;--ac2:#e3f4f0;--wb:#fff3e0;--wa:#935100;--er:#c0392b;--sh:0 1px 2px rgba(15,27,45,.05),0 10px 28px rgba(15,27,45,.07);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1118;--card:#131b25;--fld:#0d141c;--tx:#e9eff6;--mu:#8fa0b3;--bd:#232f3f;--ac:#2fb39b;--ac3:#4fd1b7;--ac2:#12302b;--wb:#3a2a14;--wa:#f0a35e;--er:#ff8a80;--sh:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35)}}
+:root[data-theme="dark"]{--bg:#0b1118;--card:#131b25;--fld:#0d141c;--tx:#e9eff6;--mu:#8fa0b3;--bd:#232f3f;--ac:#2fb39b;--ac3:#4fd1b7;--ac2:#12302b;--wb:#3a2a14;--wa:#f0a35e;--er:#ff8a80;--sh:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px);-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.hide{display:none!important}.mu,small{color:var(--mu)}
+header.app{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:560px;margin:auto;padding:10px 14px;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--ac),var(--ac3));display:grid;place-items:center;font-size:20px}
+.brand b{display:block;font-size:17px;line-height:1.15}.brand small{font-size:12px}
+.hb{display:flex;gap:6px}.hb button{min-height:40px;padding:6px 12px;border-radius:12px}
+.segw{max-width:560px;margin:0 auto;padding:0 12px}
+.seg{display:flex;gap:4px;padding:4px;background:var(--fld);border:1px solid var(--bd);border-radius:16px}
+.seg button{flex:1;border:0;background:none;min-height:42px;border-radius:12px;color:var(--mu);font-weight:600;box-shadow:none}
+.seg button.on{background:var(--card);color:var(--tx);box-shadow:var(--sh)}
+main{max-width:560px;margin:auto;padding:12px 12px 110px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+h3{margin:0 0 6px;font-size:18px}h4{margin:14px 0 6px;font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.05em}
+.sec{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;margin:0 0 2px}
+.sec i{width:24px;height:24px;border-radius:50%;background:var(--ac2);color:var(--ac);display:grid;place-items:center;font-size:12px;font-style:normal;font-weight:800}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--mu);margin:14px 0 6px}
+.sec+label{margin-top:10px}
+input,select{width:100%;min-height:50px;padding:10px 14px;font:inherit;font-size:16px;color:var(--tx);background:var(--fld);border:1.5px solid transparent;border-radius:14px;transition:border-color .15s,background .15s}
+input:focus,select:focus{outline:none;border-color:var(--ac);background:var(--card)}
+#otr,#e_otr{font-size:22px;font-weight:700}
+button{font:inherit;color:var(--tx);cursor:pointer;min-height:46px;padding:8px 16px;background:var(--card);border:1.5px solid var(--bd);border-radius:14px;font-weight:600;-webkit-tap-highlight-color:transparent;transition:transform .08s}
+button:active{transform:scale(.98)}
+button.p{background:linear-gradient(135deg,var(--ac),var(--ac3));border-color:transparent;color:#fff;box-shadow:0 6px 16px color-mix(in srgb,var(--ac) 32%,transparent)}
+.full{width:100%;margin-top:12px;min-height:54px}button.dg{color:var(--er)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{flex:1 1 auto;min-height:44px;border-radius:12px;padding:8px 12px;background:var(--fld);border:1.5px solid transparent}
+.chips button.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
 .chips button:disabled{opacity:1}
-.ck{display:flex;align-items:center;gap:12px;min-height:48px;margin:10px 0 0;font-size:16px;color:var(--tx)}.ck input{width:26px;height:26px;min-height:0;accent-color:var(--ac)}
+.g2,.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--ac),var(--ac3));color:#fff;border-radius:22px;padding:20px;margin-bottom:12px;box-shadow:0 12px 30px color-mix(in srgb,var(--ac) 28%,transparent)}
+.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero span{font-size:13px;opacity:.92;font-weight:600}.hero b{display:block;font-size:38px;line-height:1.1;letter-spacing:-.5px;margin:2px 0}.hero small{color:#fff;opacity:.92;position:relative}
+.k{background:var(--fld);border:1px solid var(--bd);border-radius:14px;padding:12px}.k span{font-size:12px;color:var(--mu);display:block}.k b{font-size:18px}
+details.card{padding:0}
+details.card>summary{display:flex;align-items:center;gap:8px;min-height:54px;padding:14px 16px;font-weight:700;cursor:pointer;list-style:none}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"";flex:none;margin-left:auto;width:8px;height:8px;border-right:2px solid var(--mu);border-bottom:2px solid var(--mu);transform:rotate(45deg);transition:transform .2s;margin-bottom:3px}
+details[open].card>summary::after{transform:rotate(-135deg);margin-bottom:-3px}
+details.card>summary small{margin:0 4px 0 auto;font-weight:500;font-size:12.5px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+details.card>summary small+*,details.card>summary small~*{}
+.fb{padding:0 16px 16px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:9px 4px;border-bottom:1px solid var(--bd);text-align:right}td:first-child,th:first-child{text-align:left}
+th{font-size:11.5px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+tr.t td{font-weight:700;border-top:1.5px solid var(--bd)}td button{min-height:34px;padding:2px 10px;font-size:13px}
+.w{background:var(--wb);color:var(--wa);border-radius:14px;padding:12px 14px;margin-bottom:10px;font-size:14px}
+.row{display:flex;gap:8px;margin-top:12px}.row button{flex:1}.hh{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.tags{margin:6px 0 4px}.tags span{display:inline-block;background:var(--fld);border-radius:999px;padding:3px 10px;font-size:12.5px;color:var(--mu);margin:0 6px 6px 0}.tags .ed{background:var(--ac2);color:var(--ac)}
+.srch{padding:12px}.srch small{display:block;margin:6px 4px 0}
+.empty{text-align:center;color:var(--mu);padding:36px 14px}
+.ck{display:flex;align-items:center;gap:12px;min-height:52px;margin:8px 0 0;padding:0 14px;background:var(--fld);border-radius:14px;font-size:16px;font-weight:600;color:var(--tx)}
+.ck input{width:24px;height:24px;min-height:0;accent-color:var(--ac)}
+.gr{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}.gr label{margin:0 0 3px;font-size:12px}.gr input,.gr select{min-height:42px;padding:6px 10px;font-size:15px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--bd);display:grid;grid-template-columns:repeat(3,1fr);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))}
+.nav button{border:0;border-radius:0;min-height:54px;background:none;color:var(--mu);font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.nav button span{font-size:19px;padding:2px 20px;border-radius:14px}.nav button.on{color:var(--ac)}.nav button.on span{background:var(--ac2)}
+.toast{position:fixed;z-index:60;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(8px);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow:auto;padding:env(safe-area-inset-top,0px) 12px calc(28px + env(safe-area-inset-bottom,0px))}
+.sh{display:flex;justify-content:space-between;align-items:center;max-width:560px;margin:auto;padding:12px 2px;position:sticky;top:0;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);z-index:2}.sh b{font-size:18px}
+.shr{display:flex;justify-content:flex-end;max-width:560px;margin:0 auto 10px}
+.sheet>div:last-child{max-width:560px;margin:auto}
+.pop{position:fixed;inset:0;z-index:30;background:rgba(5,10,18,.6);display:flex;align-items:flex-end;justify-content:center}
+.pb{background:var(--card);border-radius:24px 24px 0 0;width:min(100%,560px);max-height:92vh;overflow:auto;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+@media(min-width:600px){.pop{align-items:center}.pb{border-radius:24px}}
+.cfb{text-align:center}.cfi{width:68px;height:68px;border-radius:50%;margin:2px auto 12px;display:grid;place-items:center;font-size:32px;background:var(--ac2);color:var(--ac)}.cfi.warn{background:var(--wb);color:var(--wa)}
+.cfb p{overflow-wrap:anywhere}.cfr{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd);font-size:14px;text-align:left}.cfr span{color:var(--mu)}
+.st{border-radius:14px;padding:12px 14px;margin:0 0 10px;font-size:14px}.st.ok{background:var(--ac2);color:var(--ac)}.st.warn{background:var(--wb);color:var(--wa)}.st.bad{background:color-mix(in srgb,var(--er) 15%,var(--card));color:var(--er)}
 </style></head><body>
-<header><b>🏎️ Simulator Kredit</b><span><button id="inst" class="hide" type="button">📲 Pasang</button> <button id="th" aria-label="Ganti tema">◐</button></span></header>
-<div class="chips" id="simsw" style="max-width:560px;margin:4px auto 0;padding:0 12px"><button type="button" class="on" data-s="K">Konvensional &amp; Hybrid</button><button type="button" data-s="E">EV</button></div>
+<header class="app"><div class="brand"><span class="logo">🏎️</span><div><b>Simulator Kredit</b><small>Konvensional · Hybrid · EV</small></div></div><span class="hb"><button id="inst" class="hide" type="button">📲 Pasang</button><button id="th" aria-label="Ganti tema">◐</button></span></header>
+<div class="segw"><div class="seg" id="simsw"><button type="button" class="on" data-s="K">Konvensional &amp; Hybrid</button><button type="button" data-s="E">EV</button></div></div>
 <main>
 <section id="p_calc">
-<div class="card">
+<div class="card"><div class="sec"><i>1</i>Kendaraan</div>
 <label>Nama merek mobil (opsional)</label><input id="nm" placeholder="mis. Avanza 1.5 G">
 <label>Harga OTR *</label><input id="otr" inputmode="numeric" placeholder="0">
-<label>DP *</label><select id="dm"><option value="P">Isi DP %</option><option value="T">Dari TDP</option><option value="A">Dari angsuran</option></select>
-<label id="dpl" style="margin-top:10px">DP (%)</label><input id="dpp" inputmode="decimal" placeholder="mis. 25">
+<label>Diskon OTR (Rp, opsional)</label><input id="dsk" inputmode="numeric" placeholder="0"></div>
+<div class="card"><div class="sec"><i>2</i>DP &amp; tenor</div>
+<label>Cara mengisi DP *</label><select id="dm"><option value="P">Isi DP %</option><option value="T">Dari TDP</option><option value="A">Dari angsuran</option></select>
+<label id="dpl">DP (%)</label><input id="dpp" inputmode="decimal" placeholder="mis. 25">
 <label>Tenor *</label><select id="n"></select>
 <div style="display:none"><select id="rg"></select></div>
 <div id="rsrow" class="hide"><label>Residu * - Mini For Max</label><select id="rm"><option value="P">Isi residu %</option><option value="C">Cari otomatis</option></select>
-<div id="rsin"><input id="rs" inputmode="decimal" placeholder="mis. 45"></div><div id="rtin" class="hide"><small>Residu dicari otomatis (kelipatan 1%): angsuran thn 5-8 dibuat sedikit di bawah atau sama dengan angsuran thn 1-4. Bisa digabung dengan DP "Dari TDP" atau "Dari angsuran".</small></div></div>
+<div id="rsin"><input id="rs" inputmode="decimal" placeholder="mis. 45"></div><div id="rtin" class="hide"><small>Residu dicari otomatis (kelipatan 1%): angsuran thn 5-8 dibuat sedikit di bawah atau sama dengan angsuran thn 1-4. Bisa digabung dengan DP "Dari TDP" atau "Dari angsuran".</small></div></div></div>
+<div class="card"><div class="sec"><i>3</i>Skema pembiayaan</div>
 <label>Jenis angsuran</label><div class="chips"><button type="button" class="on" disabled>ADDM</button></div>
-<label>Jenis pembayaran asuransi</label><select id="ap"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select>
+<label>Pembayaran asuransi</label><select id="ap"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select>
 <div id="insrow"><label>Jenis asuransi</label><select id="ins"><option value="COMPREHENSIVE">Comprehensive</option><option value="COMBINE" selected>Combine</option><option value="TLO">TLO</option></select></div>
 <label>Jenis kendaraan (bensin / hybrid)</label><select id="veh"><option value="P">Passenger / BV</option><option value="C">Commercial</option></select>
 <label>Skema provisi</label><select id="pp"><option value="PREPAID">Prepaid</option><option value="ONLOAN" selected>Onloan</option></select>
-<div class="g2" style="margin-top:12px"><div class="k"><span>Provisi (otomatis)</span><b id="vp"></b></div><div class="k"><span>Bunga (DP 20-29% Pulau Jawa, ≥30% Luar P. Jawa)</span><b id="vb"></b></div></div>
-<label>Jarak pengiriman (tambah admin)</label><select id="jr"></select>
+<div class="g2" style="margin-top:12px"><div class="k"><span>Provisi (otomatis)</span><b id="vp"></b></div><div class="k"><span>Bunga (otomatis, sesuai DP)</span><b id="vb"></b></div></div>
 <label class="ck"><input type="checkbox" id="cpc"> Credit Protection (CP)</label>
 <label class="ck"><input type="checkbox" id="pac"> PA (Personal Accident)</label>
-<div id="pabox" class="hide"><label>Uang pertanggungan PA</label><select id="pau"><option value="100">UP 100jt</option><option value="200" selected>UP 200jt</option></select><label>Pembayaran PA</label><select id="pap"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select></div>
-<label>Admin dasar + upping (Rp)</label><input id="adm" inputmode="numeric" placeholder="kosong = otomatis"><small id="admh"></small>
+<div id="pabox" class="hide"><label>Uang pertanggungan PA</label><select id="pau"><option value="100">UP 100jt</option><option value="200" selected>UP 200jt</option></select><label>Pembayaran PA</label><select id="pap"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select></div></div>
+<details class="card"><summary><span>Opsi tambahan</span><small id="optsum"></small></summary><div class="fb">
+<label>Jarak pengiriman (tambah admin)</label><select id="jr"></select>
+<label>Admin dasar + upping (Rp)</label><input id="adm" inputmode="numeric" placeholder="kosong = otomatis"><small id="admh"></small></div></details>
 <button class="p full" id="hit">Hitung</button>
-</div>
-<div id="res" class="hide"></div>
+<div id="res" class="hide" style="margin-top:12px"></div>
 </section>
 <section id="p_ev" class="hide">
-<div class="card">
+<div class="card"><div class="sec"><i>1</i>Kendaraan</div>
 <label>Nama merek mobil (opsional)</label><input id="e_nm" placeholder="mis. BYD Atto 1">
 <label>Harga OTR *</label><input id="e_otr" inputmode="numeric" placeholder="0">
-<label>DP *</label><select id="e_dm"><option value="P">Isi DP %</option><option value="T">Dari TDP</option><option value="A">Dari angsuran</option></select>
-<label id="e_dpl" style="margin-top:10px">DP (%)</label><input id="e_dpp" inputmode="decimal" placeholder="mis. 20">
-<label>Tenor *</label><select id="e_n"><option value="1">1 th</option><option value="2">2 th</option><option value="3" selected>3 th</option><option value="4">4 th</option><option value="5">5 th</option><option value="6">6 th</option></select>
+<label>Diskon OTR (Rp, opsional)</label><input id="e_dsk" inputmode="numeric" placeholder="0"></div>
+<div class="card"><div class="sec"><i>2</i>DP &amp; tenor</div>
+<label>Cara mengisi DP *</label><select id="e_dm"><option value="P">Isi DP %</option><option value="T">Dari TDP</option><option value="A">Dari angsuran</option></select>
+<label id="e_dpl">DP (%)</label><input id="e_dpp" inputmode="decimal" placeholder="mis. 20">
+<label>Tenor *</label><select id="e_n"><option value="1">1 th</option><option value="2">2 th</option><option value="3" selected>3 th</option><option value="4">4 th</option><option value="5">5 th</option><option value="6">6 th</option></select></div>
+<div class="card"><div class="sec"><i>3</i>Skema pembiayaan</div>
 <label>Ketentuan EV/PHEV</label><div class="chips"><button type="button" class="on" disabled>ADDM</button><button type="button" class="on" disabled>Asuransi Prepaid</button><button type="button" class="on" disabled>EV / PHEV</button></div>
 <label>Jenis asuransi (minimal Combine)</label><select id="e_ins"><option value="COMBINE" selected>Combine</option><option value="COMPREHENSIVE">All Risk (Comprehensive)</option></select>
 <label>Skema provisi</label><select id="e_pp"><option value="PREPAID">Prepaid</option><option value="ONLOAN" selected>Onloan</option></select>
-<div class="g2" style="margin-top:12px"><div class="k"><span>Provisi (otomatis)</span><b id="e_vp"></b></div><div class="k"><span>Bunga (otomatis)</span><b id="e_vb"></b></div></div>
-<label>Jarak pengiriman (tambah admin)</label><select id="e_jr"></select>
+<div class="g2" style="margin-top:12px"><div class="k"><span>Provisi (otomatis)</span><b id="e_vp"></b></div><div class="k"><span>Bunga (otomatis, sesuai DP)</span><b id="e_vb"></b></div></div>
 <label class="ck"><input type="checkbox" id="e_cpc"> Credit Protection (CP)</label>
 <label class="ck"><input type="checkbox" id="e_pac"> PA (Personal Accident)</label>
 <div id="e_pabox" class="hide"><label>Uang pertanggungan PA</label><select id="e_pau"><option value="100">UP 100jt</option><option value="200" selected>UP 200jt</option></select><label>Pembayaran PA</label><select id="e_pap"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select></div>
-<label class="ck"><input type="checkbox" id="e_dai"> Paket Daifit (Astra Daihatsu)</label>
-<label>Admin dasar + upping (Rp)</label><input id="e_adm" inputmode="numeric" placeholder="kosong = otomatis"><small id="e_admh"></small>
+<label class="ck"><input type="checkbox" id="e_dai"> Paket Daifit (Astra Daihatsu)</label></div>
+<details class="card"><summary><span>Opsi tambahan</span><small id="e_optsum"></small></summary><div class="fb">
+<label>Jarak pengiriman (tambah admin)</label><select id="e_jr"></select>
+<label>Admin dasar + upping (Rp)</label><input id="e_adm" inputmode="numeric" placeholder="kosong = otomatis"><small id="e_admh"></small></div></details>
 <button class="p full" id="e_hit">Hitung</button>
-</div>
-<div id="e_res" class="hide"></div></section>
-<section id="p_hist" class="hide"><div id="hl"></div></section>
-<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 6 · tarif TLO EV mengikuti sistem (0,35% untuk OTR Rp200-400 jt)</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
+<div id="e_res" class="hide" style="margin-top:12px"></div></section>
+<section id="p_hist" class="hide"><div class="card srch"><input id="hq" type="search" placeholder="🔍 Cari nama hitungan, mis. BYD ATTO 1" autocomplete="off" enterkeyhint="search"><small id="hn"></small></div><div id="hl"></div></section>
+<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 11</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
 </main>
-<div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div><div id="dc"></div></div>
+<div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div>
+<div class="shr"><button id="edb" type="button">✏️ Edit</button></div>
+<div id="dc"></div></div>
+<div id="epop" class="pop hide"><div class="pb">
+<h3>Edit hasil perhitungan</h3><p class="mu" style="margin:0 0 6px;font-size:13px">Ubah nilai yang perlu, lalu tekan Terapkan. Rincian langsung dihitung ulang. Database tidak berubah.</p>
+<div class="g2"><div><label>Diskon OTR (Rp)</label><input id="ep_dsk" inputmode="numeric"></div><div><label>Refund (Rp)</label><input id="ep_rf" inputmode="numeric"></div></div>
+<div class="g2"><div><label>Provisi (%)</label><input id="ep_p" inputmode="decimal"></div><div><label>Provisi (Rp)</label><input id="ep_n" inputmode="numeric"></div></div>
+<label>Skema provisi</label><select id="ep_s"><option value="PREPAID">Prepaid</option><option value="ONLOAN">Onloan</option></select>
+<label>Admin dasar + upping (Rp). Tambahan jarak tetap ikut</label><input id="ep_ad" inputmode="numeric">
+<div class="g2"><div><label id="ep_bgl">Bunga flat (% per tahun)</label><input id="ep_bg" inputmode="decimal"></div><div id="ep_bg2w" class="hide"><label>Bunga efektif thn 5-8 (%)</label><input id="ep_bg2" inputmode="decimal"></div></div>
+<label>Total asuransi + TLP (Rp)</label><input id="ep_as" inputmode="numeric"><small class="mu">Jika diubah, tabel premi per tahun tidak ikut berubah.</small>
+<label>Nama simpanan (kosongkan = otomatis)</label><input id="ep_nm">
+<div class="row"><button type="button" id="ep_x">Batal</button><button type="button" class="p" id="ep_ok">Terapkan</button></div>
+<button type="button" class="full" id="ep_sv">Terapkan &amp; simpan ke riwayat</button>
+</div></div>
+<div id="cfm" class="pop hide"><div class="pb cfb"><div class="cfi" id="cf_i">✓</div><h3 id="cf_t"></h3><p class="mu" id="cf_p" style="margin:0 0 10px"></p><div id="cf_r"></div><div class="row" id="cf_b"></div></div></div>
 <nav class="nav"><button id="n_calc" class="on"><span>🧮</span>Hitung</button><button id="n_hist"><span>🕘</span>Riwayat</button><button id="n_db"><span>🗄️</span>Database</button></nav>
 <div id="toast" class="toast"></div>
+
 <script>
 const $=id=>document.getElementById(id),R=x=>"Rp "+Math.round(x).toLocaleString("id-ID"),P=x=>(x*100).toFixed(2).replace(/\.?0+$/,"")+"%",num=t=>+String(t).replace(/\./g,"").replace(/[^\d-]/g,"")||0,pf=t=>parseFloat(String(t).replace(",","."))||0,up=x=>Math.ceil(x/100-1e-9)*100,esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])),clone=o=>JSON.parse(JSON.stringify(o));
-const DEF={ev:{prov:.055,dpmin:.2,up:4e6,daiAdm:1486000,bunga:[.03,.032,.027,.035,.04,.0525],bunga20:[.03,.032,.037,.039,.045,.0575],adm:[1.8e6,1.8e6,1.8e6,2e6,2.3e6,2.3e6],cr:[.0328,.0346,.0247,.0175,.0166],tl:[.0056,.0048,.0035,.0027,.0024]},rt:"LJ",rgT:.3,prov:.055,polis:14000,dpm:{P:.2,C:.3},
+const DEF={ak:{tipis:.1},ev:{prov:.055,dpmin:.2,up:4e6,daiAdm:1486000,bunga:[.03,.032,.027,.035,.04,.0525],bunga20:[.03,.032,.037,.039,.045,.0575],adm:[1.8e6,1.8e6,1.8e6,2e6,2.3e6,2.3e6],cr:[.0328,.0346,.0247,.0175,.0166],tl:[.0056,.0048,.0035,.0027,.0024]},rt:"LJ",rgT:.3,prov:.055,polis:14000,dpm:{P:.2,C:.3},
 bunga:{J:{P:[.03,.032,.037,.039,.045,.0575],C:[.0728,.0788,.0818,.0828,.0918]},LJ:{P:[.03,.032,.03,.035,.04,.0525],C:[.0748,.0798,.0828,.0868,.0948]},S:{P:[.0425,.0475,.05,.055,.065,.071],C:[.0769,.0819,.0849,.0869,.0949]}},
 adm:{P:[1.8e6,1.8e6,2.8e6,5e6,5.3e6,2.3e6],C:[1.8e6,1.8e6,1.8e6,2e6,2.3e6],uP:4e6,uC:3e6},
 jarak:[["Dalam Pontianak",0],["60-120 km",1e6],["121-200 km",2e6],[">200 km",3e6]],cp:[.00631,.00969,.01492,.02003,.02257,.0231],mm:{prov:.055,adm:2.3e6,up:4e6,cp:.0185,pa:[8e5,1.6e6],flat:{J:[.056,.0715],LJ:[.056,.066],S:[.066,.0828]},eff:{J:[.10758972,.12927783],LJ:[.10758972,.11998977],S:[.12558575,.14807633]}}};
 const DEP=[1,.95,.9,.85,.8,.8],LIM=[125e6,200e6,4e8,8e8],AD=[.0253,.0269,.0179,.0114,.0116],AE=[.0051,.0044,.0029,.0023,.0024],AC=.0081,TLP=.002,FL=[5e7,1e8,25e7,5e8,1e9],FV=[3e5,35e4,5e5,75e4,1e6,2e6],PA=[2e5,4e5,6e5,8e5,1e6,1.2e6],
 XC={J:[.463692326,.410532467],LJ:[.454779908,.405597402],S:[.468554986,.417027555]},RT={LJ:"Luar Pulau Jawa",J:"Pulau Jawa",S:"S2P"};
-let CFG=clone(DEF),DB=null,UID=null,H=[],LAST=null,W=null,gm=1;
+let CFG=clone(DEF),DB=null,UID=null,H=[],LAST=null,W=null,gm=1,tm=null,EDON=false,OR=null,OV={},OVK=NOV(),OVE=NOV();
 const RG=(o,dp)=>dp/o.otr>=CFG.rgT-1e-9?"LJ":"J";
 const dmin=o=>o.ev?CFG.ev.dpmin:CFG.dpm[o.veh];
-function calc(o,dp){return o.ev?calcEV(o,dp):o.n===8?calcMM(o,dp):calcR(o,dp)}
+function calc(o,dp){const c=o.ev?calcEV(o,dp):o.n===8?calcMM(o,dp):calcR(o,dp);return addStr(o,c)}
+function addStr(o,c){const d=o.dsk||0,r=o.rfn||0;c.dsk=d;c.rfn=r;c.polis=CFG.polis;c.jl=CFG.jarak[o.jr]?CFG.jarak[o.jr][0]:"";c.prepaid=c.tdpcp-c.dp;c.netTdp=c.tdpcp-d;c.otrNet=o.otr-d;c.onloan=c.pk-c.ph;c.risk=c.pk+r;c.sel=c.otrNet-c.risk;return c}
 function calcEV(o,dp){const K=CFG,E=K.ev,n=o.n,T=o.otr,ph=T-dp,rows=[];let prem=0;
  for(let y=0;y<n;y++){const b=T*DEP[y],i=LIM.findIndex(l=>b<=l),q=i<0?4:i,kd=o.ins==="COMBINE"&&y>0?"TLO":"Comprehensive",r=kd==="TLO"?(E.tl||DEF.ev.tl)[q]:E.cr[q];prem+=b*r;rows.push({y:y+1,b,kd,r,pr:b*r})}
- const tlp=T*TLP*n,asr=prem+tlp,pa=o.pa?PA[n-1]*(o.pa==200?2:1):0,prov=Math.floor(E.prov*ph),pk=ph+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),
- r=(dp/T>=K.rgT-1e-9?E.bunga:E.bunga20)[n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,ad=o.dai?E.daiAdm:E.adm[n-1],upg=o.dai?0:E.up,admin=(o.adm||ad+upg)+jr,
+ const tlp=T*TLP*n,asr=o.asrN!=null?o.asrN:prem+tlp,pa=o.pa?PA[n-1]*(o.pa==200?2:1):0,prov=o.provN!=null?o.provN:Math.floor((o.provO!=null?o.provO:E.prov)*ph),pk=ph+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),
+ r=o.bgO!=null?o.bgO:(dp/T>=K.rgT-1e-9?E.bunga:E.bunga20)[n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,ad=o.dai?E.daiAdm:E.adm[n-1],upg=o.dai?0:E.up,admin=(o.adm||ad+upg)+jr,
  cpv=o.cp?up(pk*K.cp[n-1]):0,pre=asr+(o.pq==="PREPAID"?pa:0)+(o.pp==="PREPAID"?prov:0),kk=FL.findIndex(l=>pk<=l),fd=o.dai?0:FV[kk<0?5:kk],tdp=dp+fix+pre+K.polis+fd+admin;
  return{ev:1,dp,ph,prem,tlp,asr,pa,prov,pk,r,tot,bunga:tot-pk,fix,cap:null,sisa:n*12-1,ad,upg,jr,admin,cpv,pre,fd,tdp,tdpcp:tdp+cpv,lunas:T-tdp-cpv,rows}}
 function calcMM(o,dp){const K=CFG,M=K.mm,T=o.otr,ph=T-dp,rv=T*o.rs,rg=RG(o,dp),rows=[],rows2=[];let p1=0,p2=0;
  const bd=b=>{const i=LIM.findIndex(l=>b<=l);return i<0?4:i};
  [1,.95,.9,.85].forEach((d,y)=>{const b=T*d,q=bd(b),tlo=o.ins==="COMBINE"&&y>0,r=tlo?AE[q]:AD[q];p1+=b*r;rows.push({y:y+1,b,kd:tlo?"TLO":"Comprehensive",r,pr:b*r})});
  for(let y=4;y<8;y++){const b=T*.8,r=AE[bd(b)];p2+=b*r;rows2.push({y:y+1,b,kd:"TLO",r,pr:b*r})}
- const tl=T*TLP*4,as1=p1+tl,as2=p2+tl,pa=o.pa?M.pa[o.pa==200?1:0]:0,prov=M.prov*ph,
+ const tl=T*TLP*4,as1=o.asrN!=null?o.asrN:p1+tl,as2=p2+tl,pa=o.pa?M.pa[o.pa==200?1:0]:0,prov=o.provN!=null?o.provN:(o.provO!=null?o.provO:M.prov)*ph,
  on=(o.ap==="ONLOAN"?as1:0)+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),pk=ph+on,
- e1=M.eff[rg][0],e2=M.eff[rg][1],i=e1/12,g=Math.pow(1+i,48),fv=rv+rv*i,a1=up((pk*g-fv)*i/((1+i)*(g-1))),
+ e1=o.bgO!=null?o.bgO:M.eff[rg][0],e2=o.bgO2!=null?o.bgO2:M.eff[rg][1],i=e1/12,g=Math.pow(1+i,48),fv=rv+rv*i,a1=up((pk*g-fv)*i/((1+i)*(g-1))),
  j=e2/12,g2=Math.pow(1+j,48),a2=up((rv+as2)*j*g2/(g2-1)),jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,admin=(o.adm||M.adm+M.up)+jr,
  cpv=o.cp?up(pk*M.cp):0,pre=(o.ap==="PREPAID"?as1:0)+(o.pq==="PREPAID"?pa:0)+(o.pp==="PREPAID"?prov:0),
  kk=FL.findIndex(l=>pk<=l),fd=FV[kk<0?5:kk],tdp=dp+a1+pre+K.polis+fd+admin;
  return{mm:1,dp,ph,rv,asr:as1,asr2:as2,prem:p1,tlp:tl,prem2:p2,tlp2:tl,pa,prov,pk,r:e1,r2:e2,fl:M.flat[rg],fix:a1,fix2:a2,cap:null,sisa:47,sisa2:48,ad:M.adm,upg:M.up,jr,admin,cpv,pre,fd,tdp,tdpcp:tdp+cpv,lunas:T-tdp-cpv,rows,rows2}}
 function calcR(o,dp){const K=CFG,n=o.n,C=o.veh==="C",ph=o.otr-dp,rows=[];let prem=0;
  for(let y=0;y<n;y++){const b=o.otr*DEP[y],i=LIM.findIndex(l=>b<=l),k=i<0?4:i,kd=C?"TLO":o.ins==="COMPREHENSIVE"?"Comprehensive":o.ins==="COMBINE"?(y?"TLO":"Comprehensive"):"TLO",r=C?AC:kd==="TLO"?AE[k]:AD[k];prem+=b*r;rows.push({y:y+1,b,kd,r,pr:b*r})}
- const tlp=C?0:o.otr*TLP*n,asr=prem+tlp,pa=o.pa?PA[n-1]*(o.pa==200?2:1):0,prov=K.prov*ph,on=(o.ap==="ONLOAN"?asr:0)+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),pk=ph+on,
- r=K.bunga[RG(o,dp)][o.veh][n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),cap=!C&&n>=5?up(XC[RG(o,dp)][n-5]*pk/24):null,
+ const tlp=C?0:o.otr*TLP*n,asr=o.asrN!=null?o.asrN:prem+tlp,pa=o.pa?PA[n-1]*(o.pa==200?2:1):0,prov=o.provN!=null?o.provN:(o.provO!=null?o.provO:K.prov)*ph,on=(o.ap==="ONLOAN"?asr:0)+(o.pq==="ONLOAN"?pa:0)+(o.pp==="ONLOAN"?prov:0),pk=ph+on,
+ r=o.bgO!=null?o.bgO:K.bunga[RG(o,dp)][o.veh][n-1],tot=pk*(1+r*n),fix=up(tot/(12*n)),cap=!C&&n>=5?up(XC[RG(o,dp)][n-5]*pk/24):null,
  ad=K.adm[o.veh][n-1],upg=C?K.adm.uC:K.adm.uP,jr=K.jarak[o.jr]?K.jarak[o.jr][1]:0,admin=(o.adm||ad+upg)+jr,
  cpv=o.cp?up(pk*K.cp[n-1]):0,pre=(o.ap==="PREPAID"?asr:0)+(o.pq==="PREPAID"?pa:0)+(o.pp==="PREPAID"?prov:0),fd=FV[FL.findIndex(l=>pk<=l)<0?5:FL.findIndex(l=>pk<=l)],
  tdp=dp+fix+pre+K.polis+fd+admin;
@@ -160,27 +219,27 @@ function paint(){document.querySelectorAll(".chips[id^=ch_]").forEach(w=>{const 
 
 const tr=(a,b,k)=>`<tr class="${k||""}"><td>${a}</td><td>${b}</td></tr>`,tb=r=>`<table>${r.map(x=>tr(x[0],x[1],x[2])).join("")}</table>`;
 const f0=x=>Math.round(x).toLocaleString("id-ID"),txt=s=>s.m?`${s.nm||"-"}\nOTR : ${f0(s.otr)}\nMIN TDP : ${f0(s.tdp)}\n1-4: ${f0(s.a)}\n5-8: ${f0(s.b)}\n95x`:`${s.nm||"-"}\nOTR : ${R(s.otr)}\nTDP : ${R(s.tdp)}\n${s.n*12-1}x ${f0(s.a)}\n${s.as==="COMBINE"?"Combine":s.as==="COMPREHENSIVE"?"Comprehensive":s.as||"-"}\n${s.da||"PTK"}`;
-function rd(){return{nm:$("nm").value.trim(),otr:num($("otr").value),dm:$("dm").value,dv:$("dm").value==="P"?0:num($("dpp").value),dpp:$("dm").value==="P"?pf($("dpp").value)/100:0,n:+$("n").value||0,veh:$("veh").value,ins:$("ins").value,ap:$("ap").value,pp:$("pp").value,cp:$("cpc").checked?1:0,pa:$("pac").checked?+$("pau").value:0,pq:$("pap").value,jr:+$("jr").value||0,rg:$("rg").value,rs:pf($("rs").value)/100,rm:$("rm").value,adm:num($("adm").value)}}
+function rd(){return{nm:$("nm").value.trim(),otr:num($("otr").value),dm:$("dm").value,dv:$("dm").value==="P"?0:num($("dpp").value),dpp:$("dm").value==="P"?pf($("dpp").value)/100:0,n:+$("n").value||0,veh:$("veh").value,ins:$("ins").value,ap:$("ap").value,pp:$("pp").value,cp:$("cpc").checked?1:0,pa:$("pac").checked?+$("pau").value:0,pq:$("pap").value,jr:+$("jr").value||0,rg:$("rg").value,rs:pf($("rs").value)/100,rm:$("rm").value,adm:num($("adm").value),provO:OVK.po,provN:OVK.pn,bgO:OVK.bg,bgO2:OVK.bg2,asrN:OVK.as,edited:OVK.ed,rfn:OVK.rf,dsk:num($("dsk").value)}}
 function fillJ(){["jr","e_jr"].forEach(id=>{const c=$(id).value||"0";$(id).innerHTML=CFG.jarak.map((j,i)=>`<option value="${i}">${esc(j[0])}${j[1]?" (+"+R(j[1])+")":""}</option>`).join("");$(id).value=+c<CFG.jarak.length?c:"0";mk(id)})}
 let RGT=false;
 function fillR(){const c=$("rg").value,ks=["J","LJ"].concat(CFG.rt==="S"?["S"]:[]);$("rg").innerHTML=ks.map(k=>`<option value="${k}">${RT[k]}</option>`).join("");$("rg").value=ks.includes(c)?c:CFG.rt;mk("rg")}
 function refresh(){const o=rd(),C=o.veh==="C",K=CFG,ns=C?[1,2,3,4,5]:[1,2,3,4,5,6,8],cur=$("n").value||"3";
  if($("n").options.length!==ns.length){$("n").innerHTML=ns.map(i=>`<option value="${i}">${i===8?"8 th (Mini For Max)":i+" th"}</option>`).join("");$("n").value=ns.includes(+cur)?cur:"3";mk("n")}
  const mm=+$("n").value===8;if(mm&&$("ins").value==="TLO")$("ins").value="COMBINE";{const t=document.querySelector('#ch_ins [data-v="TLO"]');if(t)t.style.display=mm?"none":""}$("rsrow").classList.toggle("hide",!mm);$("rsin").classList.toggle("hide",$("rm").value==="C");$("rtin").classList.toggle("hide",$("rm").value!=="C");
- $("insrow").style.display=C?"none":"";$("vp").textContent=P(mm?K.mm.prov:K.prov);const rg=o.dm==="P"&&o.dpp>0?(o.dpp>=K.rgT-1e-9?"LJ":"J"):null,r=rg?(mm?K.mm.eff[rg][0]:K.bunga[rg][o.veh][+$("n").value-1]):null;$("vb").textContent=r==null?"sesuai DP":(mm?P(K.mm.flat[rg][0])+" flat (eff "+P(r)+")":P(r)+" /th")+" · "+RT[rg];$("pabox").classList.toggle("hide",!$("pac").checked);const m=$("dm").value;$("dpl").textContent=m==="P"?"DP (%)":m==="T"?"TDP konsumen (Rp), sudah termasuk DP murni, asuransi, admin, dll":"Angsuran per bulan yang diinginkan (Rp)";$("dpp").placeholder=m==="P"?"mis. 25":m==="T"?"mis. 100.000.000":"mis. 4.500.000";$("dpp").inputMode=m==="P"?"decimal":"numeric";const a0=mm?K.mm.adm:K.adm[o.veh][+$("n").value-1];$("admh").textContent=a0==null?"":"Otomatis dari Database: "+R(a0+(mm?K.mm.up:C?K.adm.uC:K.adm.uP))+" (belum termasuk jarak)";paint()}
-function run(save){const o=rd(),K=CFG,w=[],res=$("res");res.classList.remove("hide");
- let gk=null;if(o.dm!=="P"&&o.otr>0&&o.n&&o.dv>0){const r=solveDP(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.dpp=r.dpp;gk=o.dm;if(gk==="T")o.dpp=exactTDP(o)}
- let gr=null;if(o.n===8&&o.rm==="C"&&o.otr>0&&o.dpp>0&&o.dpp<1){const r=solveRS(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.rs=r.rs;gr=r}
+ $("insrow").style.display=C?"none":"";$("vp").textContent=P(mm?K.mm.prov:K.prov);const rg=o.dm==="P"&&o.dpp>0?(o.dpp>=K.rgT-1e-9?"LJ":"J"):null,r=rg?(mm?K.mm.eff[rg][0]:K.bunga[rg][o.veh][+$("n").value-1]):null;$("vb").textContent=r==null?"sesuai DP":(mm?P(K.mm.flat[rg][0])+" flat (eff "+P(r)+")":P(r)+" /th")+" · "+RT[rg];$("pabox").classList.toggle("hide",!$("pac").checked);const m=$("dm").value;$("dpl").textContent=m==="P"?"DP (%)":m==="T"?"TDP konsumen (Rp), sudah termasuk DP murni, asuransi, admin, dll":"Angsuran per bulan yang diinginkan (Rp)";$("dpp").placeholder=m==="P"?"mis. 25":m==="T"?"mis. 100.000.000":"mis. 4.500.000";$("dpp").inputMode=m==="P"?"decimal":"numeric";const a0=mm?K.mm.adm:K.adm[o.veh][+$("n").value-1];$("admh").textContent=a0==null?"":"Otomatis dari Database: "+R(a0+(mm?K.mm.up:C?K.adm.uC:K.adm.uP))+" (belum termasuk jarak)";optS("optsum",$("jr"),$("adm"));paint()}
+function run(save,snap){const o=snap?{...snap.o}:rd(),K=CFG,w=[],res=$("res");res.classList.remove("hide");
+ let gk=null;if(snap)gk=o.dm&&o.dm!=="P"?o.dm:null;else if(o.dm!=="P"&&o.otr>0&&o.n&&o.dv>0){const r=solveDP(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.dpp=r.dpp;gk=o.dm;if(gk==="T")o.dpp=exactTDP(o)}
+ let gr=null;if(snap)gr=o.n===8&&o.rm==="C"?{}:null;else if(o.n===8&&o.rm==="C"&&o.otr>0&&o.dpp>0&&o.dpp<1){const r=solveRS(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.rs=r.rs;gr=r}
  if(o.otr<=0)w.push("OTR wajib diisi.");if(!(o.dpp>0))w.push(o.dm==="P"?"DP % wajib diisi.":"Nilai target wajib diisi.");else if(o.dpp>=1)w.push("DP harus di bawah 100%.");else if(o.dpp<K.dpm[o.veh]-1e-9)w.push(`DP minimum ${P(K.dpm[o.veh])} untuk ${o.veh==="C"?"Commercial":"Passenger"}.`);
  if(!o.n)w.push("Tenor wajib dipilih.");if(o.n===8){if(!(o.rs>0))w.push("Residu (%) wajib diisi untuk Mini For Max.");else if(o.dpp+o.rs>=1)w.push("DP + residu harus di bawah 100%.")}
- if(w.length){res.innerHTML=w.map(x=>`<div class="w">⚠ ${x}</div>`).join("");return}
- const dp=o.otr*o.dpp,c=calc(o,dp);o.rg=RG(o,dp);LAST={o,c};
- res.innerHTML=`<div class="card">${gr?`<div class="k" style="margin-bottom:10px"><span>Residu otomatis (angsuran 5-8 ≤ 1-4)</span><b>${P(o.rs)} · ${R(c.rv)}</b><small>1-4 ${R(c.fix)} · 5-8 ${R(c.fix2)} · selisih ${R(c.fix-c.fix2)}</small></div>`:""}${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}<div class="hero"><span>${c.mm?"Angsuran thn 1-4":"Angsuran / bulan"+(c.cap?" (Fix)":"")}</span><b>${R(c.fix)}</b><small>${c.mm?"Thn 5-8: "+R(c.fix2)+" · Residu "+P(o.rs)+" = "+R(c.rv)+" · "+RT[o.rg||K.rt]:(c.cap?"Cap "+R(c.cap)+" · ":"")+o.n+" th ADDM · "+RT[o.rg||K.rt]+" · bunga "+P(c.r)+" flat"}</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div>
+ if(snap)w.length=0;if(w.length){res.innerHTML=w.map(x=>`<div class="w">⚠ ${x}</div>`).join("");return}
+ const dp=o.otr*o.dpp,c=snap&&snap.c?snap.c:calc(o,dp);if(!(snap&&snap.c&&o.rg))o.rg=RG(o,dp);LAST={o,c};
+ res.innerHTML=`<div class="card">${snapNote(snap)}${gr?`<div class="k" style="margin-bottom:10px"><span>Residu otomatis (angsuran 5-8 ≤ 1-4)</span><b>${P(o.rs)} · ${R(c.rv)}</b><small>1-4 ${R(c.fix)} · 5-8 ${R(c.fix2)} · selisih ${R(c.fix-c.fix2)}</small></div>`:""}${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}${isEd(o)?`<div class="k" style="margin-bottom:10px"><span>Hasil edit</span><b style="font-size:14px">${edLabel(o,c)}</b></div>`:""}<div class="hero"><span>${c.mm?"Angsuran thn 1-4":"Angsuran / bulan"+(c.cap?" (Fix)":"")}</span><b>${R(c.fix)}</b><small>${c.mm?"Thn 5-8: "+R(c.fix2)+" · Residu "+P(o.rs)+" = "+R(c.rv)+" · "+RT[o.rg||K.rt]:(c.cap?"Cap "+R(c.cap)+" · ":"")+o.n+" th ADDM · "+RT[o.rg||K.rt]+" · bunga "+P(c.r)+" flat"}</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div>${c.dsk>0?`<div class="k" style="margin-top:10px"><span>Net TDP (setelah diskon OTR ${R(c.dsk)})</span><b>${R(c.netTdp)}</b></div>`:""}
  <button class="p full" id="bd">Lihat rincian perhitungan</button>
  <button class="full" id="cpy">Salin ringkasan</button></div>`;
  const s={nm:o.nm,otr:o.otr,dpp:o.dpp,n:o.n,a:c.fix,b:c.mm?c.fix2:c.cap,m:c.mm?1:0,rv:c.mm?c.rv:0,tdp:c.tdpcp,as:o.veh==="C"?"TLO":o.ins,da:o.jr?"Luar PTK "+K.jarak[o.jr][0]:"PTK"};
- $("bd").onclick=()=>{LAST={o,c};detail()};$("cpy").onclick=e=>copy(txt(s),e.target);
- if(save){addH({id:Date.now(),nm:o.nm,v:o,s});if(!$("p_hist").classList.contains("hide"))hr()}
+ $("bd").onclick=()=>{LAST={o,c};OR=null;detail()};$("cpy").onclick=e=>copy(txt(s),e.target);
+ if(save){addH({id:Date.now(),nm:o.nm,v:o,s,c});toast("✓ Tersimpan di Riwayat");if(!$("p_hist").classList.contains("hide"))hr()}
  res.scrollIntoView({behavior:"smooth",block:"start"})}
 function autoRS(o){const dp=o.otr*o.dpp,mx=Math.floor((1-o.dpp)*100-1e-9)-1;for(let p=mx;p>=1;p--){const c=calcMM({...o,rs:p/100},dp);if(c.fix2<=c.fix)return p/100}return 0}
 function solveRS(o){const r=autoRS(o);return r?{rs:r}:{err:"Tidak ada residu (kelipatan 1%) yang membuat angsuran 5-8 sama atau lebih murah dari 1-4."}}
@@ -195,87 +254,148 @@ function cpPa(){const {o,c}=LAST,K=CFG,mm=!!c.mm,n=o.n;let h="";
   h+=`<div class="card"><h4>PA (Personal Accident)</h4>${tb([["Uang pertanggungan","UP "+o.pa+"jt"],["Tarif PA "+(mm?"8":n)+" tahun · UP 100jt / UP 200jt",R(base[0])+" / "+R(base[1])],["Premi PA dipilih",R(c.pa),"t"],["Pembayaran",on?"Onloan (masuk pokok hutang)":"Prepaid (masuk TDP)"]].concat(on?[["Pokok hutang naik menjadi",R(c.pk)]].concat(mm?[]:[["Perkiraan tambahan bunga (PA × bunga × tenor)",R(c.pa*c.r*n)]]):[["Masuk TDP",R(c.pa)]]))}</div>`}
  return h}
 function detailMM(){const {o,c}=LAST,K=CFG,M=K.mm,rg=o.rg||K.rt,NM={COMPREHENSIVE:"Comprehensive (All Risk)",COMBINE:"Combine"},
- it=(rows,t)=>`<div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(t[0])}</td><td>${R(t[1])}</td></tr></table></div>`,
+ it=(rows,t)=>`<div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(t[0])}</td><td>${R(t[1])}</td></tr>${tarifRows(rows,o.otr,t[0],t[1],TLP)}</table></div>`,
  cmpI=["COMPREHENSIVE","COMBINE"].map(k=>[(k===o.ins?"✓ ":"")+NM[k],R(calc({...o,ins:k},c.dp).asr),k===o.ins?"t":""]),pn=t=>`<p class="mu" style="font-size:13px;margin:0 0 8px">${t}</p>`;
- $("dc").innerHTML=`<div class="card"><h4>Input · Mini For Max 8 tahun</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Residu",P(o.rs)+" = "+R(c.rv)],["Tenor","8 tahun (2 periode × 4 tahun)"],["Jenis angsuran","ADDM"],["Asuransi",NM[o.ins]+" ("+o.ap+")"],["Provisi",P(M.prov)+" ("+o.pp+")"],["Bunga Flat / Eff periode 1",P(c.fl[0])+" / "+P(c.r)],["Bunga Flat / Eff periode 2",P(c.fl[1])+" / "+P(c.r2)],["Rate wilayah",RT[rg]],["Jarak",esc(K.jarak[o.jr][0])],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
+ $("dc").innerHTML=`<div class="card"><h4>Input · Mini For Max 8 tahun</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Residu",P(o.rs)+" = "+R(c.rv)],["Tenor","8 tahun (2 periode × 4 tahun)"],["Jenis angsuran","ADDM"],["Asuransi",NM[o.ins]+" ("+o.ap+")"],["Provisi",P(c.ph>0?c.prov/c.ph:M.prov)+" ("+o.pp+")"+(isEd(o)?" · diedit":"")],["Bunga Flat / Eff periode 1",P(c.fl[0])+" / "+P(c.r)],["Bunga Flat / Eff periode 2",P(c.fl[1])+" / "+P(c.r2)],["Rate wilayah",RT[rg]],["Jarak",esc(c.jl||K.jarak[o.jr][0])],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
  <div class="card"><h4>Pembiayaan</h4>${tb([["DP murni",R(c.dp)],["PH awal (OTR - DP)",R(c.ph)],["+ Asuransi onloan",R(o.ap==="ONLOAN"?c.asr:0)],["+ PA onloan",R(o.pq==="ONLOAN"?c.pa:0)],["+ Provisi onloan",R(o.pp==="ONLOAN"?c.prov:0)],["Pokok hutang (PH akhir)",R(c.pk),"t"],["Residu (akhir periode 1)",R(c.rv)],["Angsuran thn 1-4",R(c.fix),"t"],["Sisa angsuran periode 1",c.sisa+" kali (angsuran 1 masuk TDP)"],["Pokok periode 2 (residu + asuransi thn 5-8)",R(c.rv+c.asr2)],["Angsuran thn 5-8",R(c.fix2),"t"],["Sisa angsuran periode 2",c.sisa2+" kali"]])}${pn("Periode 1: anuitas di muka (PMT) dengan bunga efektif, residu ikut diperhitungkan. Periode 2: membiayai residu dan asuransi TLO thn 5-8.")}</div>
- <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi thn 1-4 (prepaid)",R(o.ap==="PREPAID"?c.asr:0)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],["Credit Protection",R(c.cpv)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
+ <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi thn 1-4 (prepaid)",R(o.ap==="PREPAID"?c.asr:0)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(c.polis!=null?c.polis:K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],["Credit Protection",R(c.cpv)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
  <div class="card"><h4>Asuransi thn 1-4 · ${NM[o.ins]}</h4>${pn((o.ins==="COMBINE"?"Tahun 1 All Risk, tahun 2-4 TLO.":"All Risk selama 4 tahun.")+" Nilai pertanggungan 100%, 95%, 90%, 85% OTR.")}${it(c.rows,[c.prem,c.tlp])}${tb([["Total premi + TLP thn 1-4",R(c.asr),"t"]])}<h4>Perbandingan jenis asuransi</h4>${tb(cmpI)}</div>
  <div class="card"><h4>Asuransi thn 5-8 · TLO</h4>${pn("TLO tahun 5-8 dengan nilai pertanggungan 80% OTR, dibiayai di periode 2.")}${it(c.rows2,[c.prem2,c.tlp2])}${tb([["Total premi + TLP thn 5-8",R(c.asr2),"t"]])}</div>`;
- $("dc").insertAdjacentHTML("beforeend",cpPa());$("dt").classList.remove("hide");$("dt").scrollTop=0}
+ $("dc").insertAdjacentHTML("beforeend",cpPa());$("dc").insertAdjacentHTML("afterbegin",topHtml());foldCards();bindTop();$("dt").classList.remove("hide");$("dt").scrollTop=0}
 function detail(){const {o,c}=LAST,K=CFG,C=o.veh==="C";if(c.mm)return detailMM();
  const NM={COMPREHENSIVE:"Comprehensive (All Risk)",COMBINE:"Combine",TLO:"TLO"},sel=C?"TLO":o.ins,nm=NM[sel],note=C?"Commercial memakai TLO dengan rate tetap.":sel==="COMBINE"?"Tahun 1 All Risk, tahun 2 dan seterusnya TLO. Nilai pertanggungan turun tiap tahun: 100%, 95%, 90%, 85%, 80%.":sel==="COMPREHENSIVE"?"All Risk selama seluruh tenor. Nilai pertanggungan turun tiap tahun: 100%, 95%, 90%, 85%, 80%.":"TLO selama seluruh tenor. Nilai pertanggungan turun tiap tahun: 100%, 95%, 90%, 85%, 80%.",cmpI=(C?["TLO"]:["COMPREHENSIVE","COMBINE","TLO"]).map(k=>[(k===sel?"✓ ":"")+NM[k],R(calc({...o,ins:k},c.dp).asr),k===sel?"t":""]);
- $("dc").innerHTML=`<div class="card"><h4>Input</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Tenor",o.n+" tahun"],["Jenis angsuran","ADDM"],["Asuransi",(C?"TLO":o.ins)+" ("+o.ap+")"],["Kendaraan",C?"Commercial":"Passenger/BV"],["Provisi",P(K.prov)+" ("+o.pp+")"],["Bunga",P(c.r)+" flat/th ("+RT[o.rg||K.rt]+")"],["Jarak",esc(K.jarak[o.jr][0])],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
+ $("dc").innerHTML=`<div class="card"><h4>Input</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Tenor",o.n+" tahun"],["Jenis angsuran","ADDM"],["Asuransi",(C?"TLO":o.ins)+" ("+o.ap+")"],["Kendaraan",C?"Commercial":"Passenger/BV"],["Provisi",P(c.ph>0?c.prov/c.ph:K.prov)+" ("+o.pp+")"+(isEd(o)?" · diedit":"")],["Bunga",P(c.r)+" flat/th ("+RT[o.rg||K.rt]+")"],["Jarak",esc(c.jl||K.jarak[o.jr][0])],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
  <div class="card"><h4>Pembiayaan</h4>${tb([["DP murni",R(c.dp)],["PH awal (OTR - DP)",R(c.ph)],["+ Asuransi onloan",R(o.ap==="ONLOAN"?c.asr:0)],["+ PA onloan",R(o.pq==="ONLOAN"?c.pa:0)],["+ Provisi onloan",R(o.pp==="ONLOAN"?c.prov:0)],["Pokok hutang (PH akhir)",R(c.pk),"t"],["Bunga "+P(c.r)+" × "+o.n+" th",R(c.bunga)],["Total PH + bunga",R(c.tot),"t"],[c.cap?"Angsuran Fix":"Angsuran / bulan",R(c.fix)]].concat(c.cap?[["Angsuran Cap (informasi, tidak masuk TDP)",R(c.cap)]]:[],[["Sisa angsuran setelah angsuran ke-1",c.sisa+" kali"]]))}</div>
- <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi + TLP (prepaid)",R(o.ap==="PREPAID"?c.asr:0)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP tanpa CP",R(c.tdp),"t"],["Credit Protection",R(c.cpv)],["TDP + CP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
- <div class="card"><h4>Asuransi ${nm}</h4><p class="mu" style="margin:0 0 8px;font-size:13px">${note}</p><div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai (depresiasi)</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${c.rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(C?0:o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(c.prem)}</td><td>${R(c.tlp)}</td></tr></table></div>${tb([["Total premi + TLP",R(c.asr),"t"],["Dibayar",o.ap==="PREPAID"?"Prepaid (masuk TDP)":"Onloan (masuk pokok hutang)"]])}<h4>Perbandingan jenis asuransi</h4>${tb(cmpI)}</div>`;
- $("dc").insertAdjacentHTML("beforeend",cpPa());$("dt").classList.remove("hide");$("dt").scrollTop=0}
-function hr(){const L=$("hl");if(!H.some(h=>(h.t==="EV")===(SIM==="E"))){L.innerHTML='<div class="card mu">Belum ada riwayat. Setiap kali menekan Hitung, hasilnya tersimpan otomatis di sini.</div>';return}
- L.innerHTML=H.map((h,i)=>(h.t==="EV")!==(SIM==="E")?"":`<div class="card"><div class="hh"><b>${esc(h.nm||"Tanpa merek")}</b><small>${new Date(h.id).toLocaleString("id-ID",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})}</small></div><div class="mu" style="font-size:14px;margin:2px 0 8px">OTR ${R(h.s.otr)} · DP ${P(h.s.dpp)} · ${h.s.n} th</div><div class="two"><div class="k"><span>Angsuran</span><b>${R(h.s.a)}</b>${h.s.b?`<small>${h.s.m?"thn 5-8 ":"cap "}${R(h.s.b)}</small>`:""}</div><div class="k"><span>TDP</span><b>${R(h.s.tdp)}</b></div></div><div class="row"><button class="p" data-o="${i}">Buka</button><button data-s="${i}">Salin</button><button class="dg" data-x="${i}">Hapus</button></div></div>`).join("")+'<button class="full dg" id="clr">Hapus semua</button>';
+ <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi + TLP (prepaid)",R(o.ap==="PREPAID"?c.asr:0)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(c.polis!=null?c.polis:K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP tanpa CP",R(c.tdp),"t"],["Credit Protection",R(c.cpv)],["TDP + CP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
+ <div class="card"><h4>Asuransi ${nm}</h4><p class="mu" style="margin:0 0 8px;font-size:13px">${note}</p><div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai (depresiasi)</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${c.rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(C?0:o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(c.prem)}</td><td>${R(c.tlp)}</td></tr>${tarifRows(c.rows,o.otr,c.prem,c.tlp,C?0:TLP)}</table></div>${tb([["Total premi + TLP",R(c.asr),"t"],["Dibayar",o.ap==="PREPAID"?"Prepaid (masuk TDP)":"Onloan (masuk pokok hutang)"]])}<h4>Perbandingan jenis asuransi</h4>${tb(cmpI)}</div>`;
+ $("dc").insertAdjacentHTML("beforeend",cpPa());$("dc").insertAdjacentHTML("afterbegin",topHtml());foldCards();bindTop();$("dt").classList.remove("hide");$("dt").scrollTop=0}
+function hr(){const L=$("hl"),q=($("hq").value||"").trim().toLowerCase().split(/\s+/).filter(Boolean),mine=h=>(h.t==="EV")===(SIM==="E"),okH=h=>q.every(t=>(h.nm||"tanpa merek").toLowerCase().includes(t)),list=H.filter(mine),shown=list.filter(okH);
+ $("hn").textContent=list.length?(q.length?shown.length+" dari "+list.length+" hitungan":list.length+" hitungan tersimpan"):"";
+ if(!list.length){L.innerHTML='<div class="empty">Belum ada riwayat.<br>Setiap kali menekan Hitung, hasilnya tersimpan otomatis di sini.</div>';return}
+ if(!shown.length){L.innerHTML='<div class="empty">Tidak ada hitungan dengan nama "'+esc($("hq").value.trim())+'".<br>Coba kata kunci lain.</div>';return}
+ L.innerHTML=H.map((h,i)=>!mine(h)||!okH(h)?"":`<div class="card"><div class="hh"><b>${esc(h.nm||"Tanpa merek")}</b><small>${new Date(h.id).toLocaleString("id-ID",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})}</small></div><div class="tags"><span>OTR ${R(h.s.otr)}</span><span>DP ${P(h.s.dpp)}</span><span>${h.s.n} th</span>${isEd(h.v)?'<span class="ed">✏️ diedit</span>':""}</div><div class="two"><div class="k"><span>Angsuran</span><b>${R(h.s.a)}</b>${h.s.b&&h.s.m?`<small>thn 5-8 ${R(h.s.b)}</small>`:""}</div><div class="k"><span>TDP</span><b>${R(h.s.tdp)}</b></div></div><div class="row"><button class="p" data-o="${i}">Buka</button><button data-s="${i}">Salin</button><button class="dg" data-x="${i}">Hapus</button></div></div>`).join("")+(q.length?"":'<button class="full dg" id="clr">Hapus semua</button>');
  L.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>openH(H[+b.dataset.o]));
  L.querySelectorAll("[data-s]").forEach(b=>{const h=H[+b.dataset.s];b.onclick=()=>copy(txt(Object.assign({nm:h.nm,as:h.v.veh==="C"?"TLO":h.v.ins,da:h.v.jr?"Luar PTK "+(CFG.jarak[h.v.jr]||["?"])[0]:"PTK"},h.s)),b)});
  L.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>arm(b,async()=>{await delH(H[+b.dataset.x].id);hr()}));
- $("clr").onclick=e=>arm(e.target,async()=>{await clrH();hr()})}
-function openH(h){if(h.t==="EV")return openHE(h);const v=h.v;$("veh").value=v.veh;refresh();$("nm").value=v.nm||"";$("otr").value=v.otr.toLocaleString("id-ID");$("dm").value="P";$("rm").value="P";$("rs").value=v.rs?+(v.rs*100).toFixed(4):"";$("adm").value=v.adm?v.adm.toLocaleString("id-ID"):"";$("dpp").value=+(v.dpp*100).toFixed(10);["n","ins","ap","pp","jr"].forEach(i=>$(i).value=v[i]);if(v.rg){RGT=true;$("rg").value=v.rg}$("cpc").checked=!!v.cp;$("pac").checked=!!v.pa;if(v.pa)$("pau").value=v.pa;if(v.pq)$("pap").value=v.pq;refresh();goTab("calc");run(false)}
+ const cl=$("clr");if(cl)cl.onclick=e=>arm(e.target,async()=>{await clrH();hr()})}
+function openH(h){if(h.t==="EV")return openHE(h);const v=h.v;$("veh").value=v.veh;refresh();$("nm").value=v.nm||"";$("otr").value=v.otr.toLocaleString("id-ID");$("dm").value="P";$("rm").value="P";$("rs").value=v.rs?+(v.rs*100).toFixed(4):"";$("adm").value=v.adm?v.adm.toLocaleString("id-ID"):"";$("dsk").value=v.dsk?v.dsk.toLocaleString("id-ID"):"";$("dpp").value=+(v.dpp*100).toFixed(10);["n","ins","ap","pp","jr"].forEach(i=>$(i).value=v[i]);if(v.rg){RGT=true;$("rg").value=v.rg}$("cpc").checked=!!v.cp;$("pac").checked=!!v.pa;if(v.pa)$("pau").value=v.pa;if(v.pq)$("pap").value=v.pq;OVK=ovFrom(v);refresh();goTab("calc");run(false,{o:v,c:h.c,ts:h.id})}
 function groups(){const g=[],a=[1,2,3,4,5,6],b=a.slice(0,5);
  g.push(["Umum",[[["rgT"],"DP minimum rate Luar Pulau Jawa (%)","pct"],[["prov"],"Provisi (%)","pct"],[["polis"],"Polis (Rp)","rp"],[["dpm","P"],"DP min Passenger (%)","pct"],[["dpm","C"],"DP min Commercial (%)","pct"]]]);
  ["LJ","J","S"].forEach(k=>["P","C"].forEach(v=>g.push([`Bunga ${RT[k]} · ${v==="P"?"Passenger":"Commercial"} (% flat/th)`,(v==="P"?a:b).map((t,i)=>[["bunga",k,v,i],"Th "+t,"pct"])])));
  g.push(["Admin dasar Passenger (Rp)",a.map((t,i)=>[["adm","P",i],"Th "+t,"rp"])],["Admin dasar Commercial (Rp)",b.map((t,i)=>[["adm","C",i],"Th "+t,"rp"])],["Upping admin (Rp)",[[["adm","uP"],"Passenger","rp"],[["adm","uC"],"Commercial","rp"]]],["Tambahan admin per jarak",W.jarak.flatMap((j,i)=>[[["jarak",i,0],"Nama","txt"],[["jarak",i,1],"Biaya (Rp)","rp"]])],["Credit Protection (% pokok hutang)",a.map((t,i)=>[["cp",i],"Th "+t,"pct"])]);
  g.push(["Mini For Max · Umum",[[["mm","prov"],"Provisi (%)","pct"],[["mm","adm"],"Admin dasar (Rp)","rp"],[["mm","up"],"Upping admin (Rp)","rp"],[["mm","cp"],"CP (% pokok hutang)","pct"]]],["Mini For Max · PA (Rp)",[[["mm","pa",0],"UP 100jt","rp"],[["mm","pa",1],"UP 200jt","rp"]]]);
  ["LJ","J","S"].forEach(k=>g.push([`Mini For Max · Bunga ${RT[k]} (%)`,[[["mm","flat",k,0],"Flat thn 1-4","pct"],[["mm","flat",k,1],"Flat thn 5-8","pct"],[["mm","eff",k,0],"Eff thn 1-4","pct"],[["mm","eff",k,1],"Eff thn 5-8","pct"]]]));
- g.push(["EV · Umum",[[["ev","prov"],"Provisi (%)","pct"],[["ev","dpmin"],"DP minimum (%)","pct"],[["ev","up"],"Upping admin (Rp)","rp"],[["ev","daiAdm"],"Admin paket Daifit (Rp)","rp"],[["polis"],"Polis (Rp)","rp"]]],["EV · Bunga flat DP 30% ke atas (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga",i],"Tenor "+t+" th","pct"])],["EV · Bunga flat DP 20-29% (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga20",i],"Tenor "+t+" th","pct"])],["EV · Admin dasar (Rp)",[1,2,3,4,5,6].map((t,i)=>[["ev","adm",i],"Tenor "+t+" th","rp"])],["EV · Asuransi All Risk (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","cr",i],t,"pct"])],["EV · Asuransi TLO (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","tl",i],t,"pct"])]);return g}
+ g.push(["EV · Umum",[[["ev","prov"],"Provisi (%)","pct"],[["ev","dpmin"],"DP minimum (%)","pct"],[["ev","up"],"Upping admin (Rp)","rp"],[["ev","daiAdm"],"Admin paket Daifit (Rp)","rp"],[["polis"],"Polis (Rp)","rp"]]],["EV · Bunga flat DP 30% ke atas (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga",i],"Tenor "+t+" th","pct"])],["EV · Bunga flat DP 20-29% (% per tahun)",[1,2,3,4,5,6].map((t,i)=>[["ev","bunga20",i],"Tenor "+t+" th","pct"])],["EV · Admin dasar (Rp)",[1,2,3,4,5,6].map((t,i)=>[["ev","adm",i],"Tenor "+t+" th","rp"])],["EV · Asuransi All Risk (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","cr",i],t,"pct"])],["EV · Asuransi TLO (% per band OTR)",["≤125jt","≤200jt","≤400jt","≤800jt","≤2M"].map((t,i)=>[["ev","tl",i],t,"pct"])]);g.push(["Analisa struktur kredit",[[["ak","tipis"],"Batas bantalan tipis (% dari OTR net)","pct"]]]);return g}
 const gp=(o,p)=>p.reduce((x,k)=>x[k],o);
-function renderEd(src){W=clone(src||CFG);$("dbs").textContent=DB?"Tersimpan di database bersama.":"Tersimpan di perangkat ini (database bersama belum aktif).";const G=groups().filter(g=>SIM==="E"?(g[0].startsWith("EV ·")||g[0].startsWith("Tambahan admin per jarak")||g[0].startsWith("Credit Protection")):!g[0].startsWith("EV ·"));
- $("ed").innerHTML=G.map(([t,it],gi)=>`<div class="card"><h4>${t}</h4><div class="gr">${it.map(([p,l,k],ii)=>{const v=gp(W,p),id=`e${gi}_${ii}`;return`<div><label>${l}</label>`+(k==="sel"?`<select id="${id}">${Object.keys(RT).map(x=>`<option value="${x}"${x===v?" selected":""}>${RT[x]}</option>`).join("")}</select>`:`<input id="${id}" inputmode="${k==="txt"?"text":"decimal"}" value="${k==="pct"?+(v*100).toFixed(6):k==="rp"?v.toLocaleString("id-ID"):esc(v)}">`)+"</div>"}).join("")}</div></div>`).join("");
+function renderEd(src){W=clone(src||CFG);$("dbs").textContent=DB?"Tersimpan di database bersama.":"Tersimpan di perangkat ini (database bersama belum aktif).";const G=groups().filter(g=>SIM==="E"?(g[0].startsWith("EV ·")||g[0].startsWith("Tambahan admin per jarak")||g[0].startsWith("Credit Protection")||g[0].startsWith("Analisa struktur")):!g[0].startsWith("EV ·"));
+ $("ed").innerHTML=G.map(([t,it],gi)=>`<details class="card"${gi===0?" open":""}><summary>${t}</summary><div class="fb"><div class="gr">${it.map(([p,l,k],ii)=>{const v=gp(W,p),id=`e${gi}_${ii}`;return`<div><label>${l}</label>`+(k==="sel"?`<select id="${id}">${Object.keys(RT).map(x=>`<option value="${x}"${x===v?" selected":""}>${RT[x]}</option>`).join("")}</select>`:`<input id="${id}" inputmode="${k==="txt"?"text":"decimal"}" value="${k==="pct"?+(v*100).toFixed(6):k==="rp"?v.toLocaleString("id-ID"):esc(v)}">`)+"</div>"}).join("")}</div></div></details>`).join("");
  G.forEach(([t,it],gi)=>it.forEach(([p,l,k],ii)=>$(`e${gi}_${ii}`).addEventListener("change",e=>{const x=e.target.value,v=k==="pct"?Math.round(pf(x)*1e6)/1e8:k==="rp"?num(x):x;gp(W,p.slice(0,-1))[p[p.length-1]]=v;if(k==="rp")e.target.value=v.toLocaleString("id-ID")})))}
 function goTab(t){TAB=t;const ids={calc:SIM==="E"?"p_ev":"p_calc",hist:"p_hist",db:"p_db"};["p_calc","p_ev","p_hist","p_db"].forEach(x=>$(x).classList.add("hide"));$(ids[t]).classList.remove("hide");["calc","hist","db"].forEach(x=>$("n_"+x).classList.toggle("on",x===t));if(t==="hist")hr();if(t==="db")renderEd();scrollTo(0,0)}
 ["calc","hist","db"].forEach(t=>$("n_"+t).onclick=()=>goTab(t));
 $("dsave").onclick=async()=>{const r=await saveCfg(clone(W));fillJ();refresh();$("res").classList.add("hide");toast(r==="db"?"Tersimpan ke database ✓":r==="local"?"Tersimpan di perangkat ✓":"Tidak ada izin tulis database; tersimpan lokal")};
 $("drst").onclick=e=>arm(e.target,()=>{renderEd(DEF);toast("Nilai bawaan dimuat. Tekan Simpan.")});
-$("dx").onclick=()=>$("dt").classList.add("hide");
+$("dx").onclick=()=>{OR=null;$("dt").classList.add("hide")};
 $("hit").onclick=()=>run(true);
-["otr","adm"].forEach(i=>$(i).addEventListener("input",e=>{const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}));
+["otr","adm","dsk"].forEach(i=>$(i).addEventListener("input",e=>{const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}));
 $("dpp").addEventListener("input",e=>{if($("dm").value!=="P"){const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}});$("dm").addEventListener("change",()=>{$("dpp").value="";refresh()});
 $("rg").addEventListener("input",()=>{RGT=true});
-["nm","otr","adm","dpp","dm","n","rg","rs","rm","veh","ins","ap","pp","cpc","pac","pau","pap","jr"].forEach(i=>$(i).addEventListener("input",()=>{refresh();$("res").classList.add("hide")}));
-$("th").onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).getPropertyValue("--bg").trim()==="#0e1419";r.dataset.theme=d?"light":"dark"};
+["nm","otr","dsk","adm","dpp","dm","n","rg","rs","rm","veh","ins","ap","pp","cpc","pac","pau","pap","jr"].forEach(i=>$(i).addEventListener("input",()=>{OVK=NOV();refresh();$("res").classList.add("hide")}));
+$("th").onclick=()=>{const r=document.documentElement,d=getComputedStyle(r).getPropertyValue("--bg").trim()==="#0b1118";r.dataset.theme=d?"light":"dark"};
 ["dm","veh","ap","ins","pp","pau","pap","rm"].forEach(i=>mk(i));
 let SIM="K",TAB="calc";
 function setSim(x){SIM=x;document.querySelectorAll("#simsw button").forEach(b=>b.classList.toggle("on",b.dataset.s===x));if(x==="E")refreshE();goTab(TAB)}
 document.querySelectorAll("#simsw button").forEach(b=>b.onclick=()=>setSim(b.dataset.s));
-function rdE(){const dm=$("e_dm").value;return{ev:1,veh:"E",ap:"PREPAID",ins:$("e_ins").value,nm:$("e_nm").value.trim(),otr:num($("e_otr").value),dm,dv:dm==="P"?0:num($("e_dpp").value),dpp:dm==="P"?pf($("e_dpp").value)/100:0,n:+$("e_n").value||0,pp:$("e_pp").value,cp:$("e_cpc").checked?1:0,pa:$("e_pac").checked?+$("e_pau").value:0,pq:$("e_pap").value,dai:$("e_dai").checked?1:0,jr:+$("e_jr").value||0,adm:num($("e_adm").value)}}
+function rdE(){const dm=$("e_dm").value;return{ev:1,veh:"E",ap:"PREPAID",ins:$("e_ins").value,nm:$("e_nm").value.trim(),otr:num($("e_otr").value),dm,dv:dm==="P"?0:num($("e_dpp").value),dpp:dm==="P"?pf($("e_dpp").value)/100:0,n:+$("e_n").value||0,pp:$("e_pp").value,cp:$("e_cpc").checked?1:0,pa:$("e_pac").checked?+$("e_pau").value:0,pq:$("e_pap").value,dai:$("e_dai").checked?1:0,jr:+$("e_jr").value||0,adm:num($("e_adm").value),provO:OVE.po,provN:OVE.pn,bgO:OVE.bg,bgO2:OVE.bg2,asrN:OVE.as,edited:OVE.ed,rfn:OVE.rf,dsk:num($("e_dsk").value)}}
 function refreshE(){const o=rdE(),E=CFG.ev,m=$("e_dm").value;$("e_pabox").classList.toggle("hide",!$("e_pac").checked);
  $("e_dpl").textContent=m==="P"?"DP (%)":m==="T"?"TDP konsumen (Rp), sudah termasuk DP murni, asuransi, admin, dll":"Angsuran per bulan yang diinginkan (Rp)";
  $("e_dpp").placeholder=m==="P"?"mis. 20":m==="T"?"mis. 300.000.000":"mis. 19.000.000";$("e_dpp").inputMode=m==="P"?"decimal":"numeric";
  $("e_vp").textContent=P(E.prov);{const rr=o.n&&o.dm==="P"&&o.dpp>0?(o.dpp>=CFG.rgT-1e-9?E.bunga:E.bunga20)[o.n-1]:null;$("e_vb").textContent=rr==null?"sesuai DP":P(rr)+" /th"}
- $("e_admh").textContent=o.n?"Otomatis dari Database: "+R(o.dai?E.daiAdm:E.adm[o.n-1]+E.up)+" (belum termasuk jarak)":"";paint()}
-function runE(save){const o=rdE(),E=CFG.ev,w=[],res=$("e_res");res.classList.remove("hide");
- let gk=null;if(o.dm!=="P"&&o.otr>0&&o.n&&o.dv>0){const r=solveDP(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.dpp=r.dpp;gk=o.dm;if(gk==="T")o.dpp=exactTDP(o)}
+ $("e_admh").textContent=o.n?"Otomatis dari Database: "+R(o.dai?E.daiAdm:E.adm[o.n-1]+E.up)+" (belum termasuk jarak)":"";optS("e_optsum",$("e_jr"),$("e_adm"));paint()}
+function runE(save,snap){const o=snap?{...snap.o}:rdE(),E=CFG.ev,w=[],res=$("e_res");res.classList.remove("hide");
+ let gk=null;if(snap)gk=o.dm&&o.dm!=="P"?o.dm:null;else if(o.dm!=="P"&&o.otr>0&&o.n&&o.dv>0){const r=solveDP(o);if(r.err){res.innerHTML=`<div class="w">⚠ ${r.err}</div>`;return}o.dpp=r.dpp;gk=o.dm;if(gk==="T")o.dpp=exactTDP(o)}
  if(o.otr<=0)w.push("OTR wajib diisi.");if(!(o.dpp>0))w.push(o.dm==="P"?"DP % wajib diisi.":"Nilai target wajib diisi.");else if(o.dpp>=1)w.push("DP harus di bawah 100%.");else if(o.dpp<E.dpmin-1e-9)w.push(`DP minimum EV ${P(E.dpmin)}.`);
  if(!o.n)w.push("Tenor wajib dipilih.");
- if(w.length){res.innerHTML=w.map(x=>`<div class="w">⚠ ${x}</div>`).join("");return}
- const dp=o.otr*o.dpp,c=calc(o,dp);LAST={o,c};
- res.innerHTML=`<div class="card">${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}${o.otr>2e9?`<div class="w">⚠ OTR di atas Rp2 miliar: tarif asuransi EV di Excel hanya sampai band Rp2 miliar, jadi asuransi di sini perkiraan.</div>`:""}<div class="hero"><span>Angsuran / bulan</span><b>${R(c.fix)}</b><small>${o.n} th ADDM · EV/PHEV · bunga ${P(c.r)} flat</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div><button class="p full" id="e_bd">Lihat rincian perhitungan</button><button class="full" id="e_cpy">Salin ringkasan</button></div>`;
+ if(snap)w.length=0;if(w.length){res.innerHTML=w.map(x=>`<div class="w">⚠ ${x}</div>`).join("");return}
+ const dp=o.otr*o.dpp,c=snap&&snap.c?snap.c:calc(o,dp);LAST={o,c};
+ res.innerHTML=`<div class="card">${snapNote(snap)}${gk?`<div class="k" style="margin-bottom:10px"><span>DP hasil goal seek (${gk==="T"?"dari TDP":"dari angsuran"})</span><b>${P(o.dpp)} · ${R(c.dp)}</b></div>`:""}${o.otr>2e9?`<div class="w">⚠ OTR di atas Rp2 miliar: tarif asuransi EV di Excel hanya sampai band Rp2 miliar, jadi asuransi di sini perkiraan.</div>`:""}${isEd(o)?`<div class="k" style="margin-bottom:10px"><span>Hasil edit</span><b style="font-size:14px">${edLabel(o,c)}</b></div>`:""}<div class="hero"><span>Angsuran / bulan</span><b>${R(c.fix)}</b><small>${o.n} th ADDM · EV/PHEV · bunga ${P(c.r)} flat</small></div><div class="two"><div class="k"><span>${o.cp?"TDP + CP":"TDP"}</span><b>${R(c.tdpcp)}</b></div><div class="k"><span>Pelunasan ke dealer</span><b>${R(c.lunas)}</b></div></div>${c.dsk>0?`<div class="k" style="margin-top:10px"><span>Net TDP (setelah diskon OTR ${R(c.dsk)})</span><b>${R(c.netTdp)}</b></div>`:""}<button class="p full" id="e_bd">Lihat rincian perhitungan</button><button class="full" id="e_cpy">Salin ringkasan</button></div>`;
  const sm={ev:1,nm:o.nm,otr:o.otr,dpp:o.dpp,n:o.n,a:c.fix,tdp:c.tdpcp,as:o.ins,da:o.jr?"Luar PTK "+CFG.jarak[o.jr][0]:"PTK"};
- $("e_bd").onclick=()=>{LAST={o,c};detailE()};$("e_cpy").onclick=e=>copy(txt(sm),e.target);
- if(save){addH({id:Date.now(),t:"EV",nm:o.nm,v:o,s:sm});if(!$("p_hist").classList.contains("hide"))hr()}
+ $("e_bd").onclick=()=>{LAST={o,c};OR=null;detailE()};$("e_cpy").onclick=e=>copy(txt(sm),e.target);
+ if(save){addH({id:Date.now(),t:"EV",nm:o.nm,v:o,s:sm,c});toast("✓ Tersimpan di Riwayat");if(!$("p_hist").classList.contains("hide"))hr()}
  res.scrollIntoView({behavior:"smooth",block:"start"})}
 function detailE(){const {o,c}=LAST,K=CFG,E=K.ev;
- $("dc").innerHTML=`<div class="card"><h4>Input · EV / PHEV</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Tenor",o.n+" tahun"],["Jenis angsuran","ADDM (asuransi prepaid)"],["Asuransi",(o.ins==="COMBINE"?"Combine":"All Risk (Comprehensive)")+" (prepaid)"],["Provisi",P(E.prov)+" ("+o.pp+")"],["Bunga",P(c.r)+" flat/th"],["Jarak",esc(K.jarak[o.jr][0])],["Paket Daifit",o.dai?"Ya":"Tidak"],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
+ $("dc").innerHTML=`<div class="card"><h4>Input · EV / PHEV</h4>${tb([["Merek",esc(o.nm||"-")],["OTR",R(o.otr)],["DP",P(o.dpp)+" = "+R(c.dp)],["Tenor",o.n+" tahun"],["Jenis angsuran","ADDM (asuransi prepaid)"],["Asuransi",(o.ins==="COMBINE"?"Combine":"All Risk (Comprehensive)")+" (prepaid)"],["Provisi",P(c.ph>0?c.prov/c.ph:E.prov)+" ("+o.pp+")"+(isEd(o)?" · diedit":"")],["Bunga",P(c.r)+" flat/th"],["Jarak",esc(c.jl||K.jarak[o.jr][0])],["Paket Daifit",o.dai?"Ya":"Tidak"],["Credit Protection",o.cp?"Ya":"Tidak"],["PA",o.pa?"UP "+o.pa+"jt ("+o.pq+")":"Tidak"]])}</div>
  <div class="card"><h4>Pembiayaan</h4>${tb([["DP murni",R(c.dp)],["PH awal (OTR - DP)",R(c.ph)],["+ PA onloan",R(o.pq==="ONLOAN"?c.pa:0)],["+ Provisi onloan",R(o.pp==="ONLOAN"?c.prov:0)],["Pokok hutang (PH akhir)",R(c.pk),"t"],["Bunga "+P(c.r)+" × "+o.n+" th",R(c.bunga)],["Total PH + bunga",R(c.tot),"t"],["Angsuran / bulan",R(c.fix),"t"],["Sisa angsuran setelah angsuran ke-1",c.sisa+" kali"]])}</div>
- <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi + TLP (prepaid)",R(c.asr)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:o.dai?[["Admin paket Daifit",R(c.ad)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP tanpa CP",R(c.tdp),"t"],["Credit Protection",R(c.cpv)],["TDP + CP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
- <div class="card"><h4>Asuransi ${o.ins==="COMBINE"?"Combine":"All Risk (Comprehensive)"}</h4><p class="mu" style="margin:0 0 8px;font-size:13px">${o.ins==="COMBINE"?"Tahun 1 All Risk, tahun berikutnya TLO.":"All Risk selama seluruh tenor."} Nilai pertanggungan turun tiap tahun: 100%, 95%, 90%, 85%, 80%.</p><div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${c.rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(c.prem)}</td><td>${R(c.tlp)}</td></tr></table></div>${tb([["Total premi + TLP (dibayar prepaid)",R(c.asr),"t"]])}<h4>Perbandingan jenis asuransi</h4>${tb(["COMBINE","COMPREHENSIVE"].map(k=>[(k===o.ins?"✓ ":"")+(k==="COMBINE"?"Combine":"All Risk (Comprehensive)"),R(calc({...o,ins:k},c.dp).asr),k===o.ins?"t":""]))}</div>`;
- $("dc").insertAdjacentHTML("beforeend",cpPa());$("dt").classList.remove("hide");$("dt").scrollTop=0}
+ <div class="card"><h4>Total DP (TDP)</h4>${tb([["DP murni",R(c.dp)],["Angsuran pertama",R(c.fix)],["Asuransi + TLP (prepaid)",R(c.asr)],["PA (prepaid)",R(o.pq==="PREPAID"?c.pa:0)],["Polis",R(c.polis!=null?c.polis:K.polis)],["Fidusia",R(c.fd)],["Provisi (prepaid)",R(o.pp==="PREPAID"?c.prov:0)],...(o.adm?[["Admin manual (dasar + upping)",R(o.adm)]]:o.dai?[["Admin paket Daifit",R(c.ad)]]:[["Admin dasar",R(c.ad)],["Upping admin",R(c.upg)]]),["Tambahan jarak",R(c.jr)],["TDP tanpa CP",R(c.tdp),"t"],["Credit Protection",R(c.cpv)],["TDP + CP",R(c.tdpcp),"t"],["Pelunasan ke dealer (OTR - TDP)",R(c.lunas),"t"]])}</div>
+ <div class="card"><h4>Asuransi ${o.ins==="COMBINE"?"Combine":"All Risk (Comprehensive)"}</h4><p class="mu" style="margin:0 0 8px;font-size:13px">${o.ins==="COMBINE"?"Tahun 1 All Risk, tahun berikutnya TLO.":"All Risk selama seluruh tenor."} Nilai pertanggungan turun tiap tahun: 100%, 95%, 90%, 85%, 80%.</p><div style="overflow-x:auto"><table><tr><th>Th</th><th>Nilai</th><th>Jenis</th><th>Rate</th><th>Premi</th><th>TLP</th></tr>${c.rows.map(r=>`<tr><td>${r.y}</td><td>${R(r.b)}<br><small>${P(r.b/o.otr)} × OTR</small></td><td>${r.kd==="TLO"?"TLO":"All Risk"}</td><td>${P(r.r)}</td><td>${R(r.pr)}</td><td>${R(o.otr*TLP)}</td></tr>`).join("")}<tr class="t"><td colspan="4">Total</td><td>${R(c.prem)}</td><td>${R(c.tlp)}</td></tr>${tarifRows(c.rows,o.otr,c.prem,c.tlp,TLP)}</table></div>${tb([["Total premi + TLP (dibayar prepaid)",R(c.asr),"t"]])}<h4>Perbandingan jenis asuransi</h4>${tb(["COMBINE","COMPREHENSIVE"].map(k=>[(k===o.ins?"✓ ":"")+(k==="COMBINE"?"Combine":"All Risk (Comprehensive)"),R(calc({...o,ins:k},c.dp).asr),k===o.ins?"t":""]))}</div>`;
+ $("dc").insertAdjacentHTML("beforeend",cpPa());$("dc").insertAdjacentHTML("afterbegin",topHtml());foldCards();bindTop();$("dt").classList.remove("hide");$("dt").scrollTop=0}
 function openHE(h){const v=h.v;setSim("E");$("e_nm").value=v.nm||"";$("e_otr").value=v.otr.toLocaleString("id-ID");$("e_dm").value="P";$("e_dpp").value=+(v.dpp*100).toFixed(10);
- $("e_n").value=v.n;$("e_ins").value=v.ins||"COMPREHENSIVE";$("e_pp").value=v.pp;$("e_pap").value=v.pq||"PREPAID";$("e_jr").value=v.jr;$("e_pau").value=v.pa||200;$("e_cpc").checked=!!v.cp;$("e_pac").checked=!!v.pa;$("e_dai").checked=!!v.dai;$("e_adm").value=v.adm?v.adm.toLocaleString("id-ID"):"";
- refreshE();goTab("calc");runE(false)}
-["e_otr","e_adm"].forEach(i=>$(i).addEventListener("input",e=>{const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}));
+ $("e_n").value=v.n;$("e_ins").value=v.ins||"COMPREHENSIVE";$("e_pp").value=v.pp;$("e_pap").value=v.pq||"PREPAID";$("e_jr").value=v.jr;$("e_pau").value=v.pa||200;$("e_cpc").checked=!!v.cp;$("e_pac").checked=!!v.pa;$("e_dai").checked=!!v.dai;$("e_adm").value=v.adm?v.adm.toLocaleString("id-ID"):"";$("e_dsk").value=v.dsk?v.dsk.toLocaleString("id-ID"):"";
+ OVE=ovFrom(v);refreshE();goTab("calc");runE(false,{o:v,c:h.c,ts:h.id})}
+["e_otr","e_adm","e_dsk"].forEach(i=>$(i).addEventListener("input",e=>{const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}));
 $("e_dpp").addEventListener("input",e=>{if($("e_dm").value!=="P"){const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""}});
 $("e_dm").addEventListener("change",()=>{$("e_dpp").value="";refreshE()});
-["e_nm","e_otr","e_adm","e_dpp","e_dm","e_n","e_ins","e_pp","e_cpc","e_pac","e_pau","e_pap","e_dai","e_jr"].forEach(i=>$(i).addEventListener("input",()=>{refreshE();$("e_res").classList.add("hide")}));
+["e_nm","e_otr","e_dsk","e_adm","e_dpp","e_dm","e_n","e_ins","e_pp","e_cpc","e_pac","e_pau","e_pap","e_dai","e_jr"].forEach(i=>$(i).addEventListener("input",()=>{OVE=NOV();refreshE();$("e_res").classList.add("hide")}));
 $("e_hit").onclick=()=>runE(true);
 ["e_dm","e_n","e_ins","e_pp","e_pau","e_pap"].forEach(i=>mk(i));
 refreshE();
+let LASTP="p";
+function rerender(){LAST.c.ev?detailE():detail()}
+const sumS=(o,c)=>({nm:o.nm,otr:o.otr,dpp:o.dpp,n:o.n,a:c.fix,b:c.mm?c.fix2:c.cap,m:c.mm?1:0,rv:c.mm?c.rv:0,tdp:c.tdpcp,as:o.veh==="C"?"TLO":o.ins,da:o.jr?"Luar PTK "+CFG.jarak[o.jr][0]:"PTK"});
+function NOV(){return{po:null,pn:null,bg:null,bg2:null,as:null,rf:null,ed:false}}
+const nn=x=>x!=null?x:null;
+function ovFrom(v){return{po:nn(v.provO),pn:nn(v.provN),bg:nn(v.bgO),bg2:nn(v.bgO2),as:nn(v.asrN),rf:nn(v.rfn),ed:!!v.edited}}
+const isEd=o=>!!(o&&(o.edited||o.provO!=null||o.provN!=null||o.bgO!=null||o.bgO2!=null||o.asrN!=null||o.rfn>0));
+const edLabel=(o,c)=>["Provisi "+P(c.ph>0?c.prov/c.ph:0)+" "+(o.pp==="PREPAID"?"Prepaid":"Onloan"),"Admin "+R(c.admin-c.jr),"Bunga "+P(c.r)+(c.mm?" / "+P(c.r2):""),"Asuransi "+R(c.asr),o.dsk>0?"Diskon "+R(o.dsk):null,o.rfn>0?"Refund "+R(o.rfn):null].filter(Boolean).join(" · ");
+function analisa(){const {o,c}=LAST,thr=(CFG.ak||DEF.ak).tipis,pct=c.otrNet>0?c.sel/c.otrNet:0,ltv=c.otrNet>0?c.risk/c.otrNet:0;let cl,ttl,tx;
+ if(c.sel<0){cl="bad";ttl="Melebihi nilai mobil";tx=`Total risiko kredit melampaui OTR net sebesar ${R(-c.sel)}. Struktur kredit over-financed.`}
+ else if(pct<thr){cl="warn";ttl="Bantalan tipis";tx=`OTR net hanya lebih tinggi ${R(c.sel)} (${P(pct)} dari OTR net) dari total risiko kredit, di bawah batas ${P(thr)}.`}
+ else{cl="ok";ttl="Bantalan cukup";tx=`OTR net masih lebih tinggi ${R(c.sel)} (${P(pct)} dari OTR net) dari total risiko kredit.`}
+ return `<div class="card"><h4>Analisa struktur kredit</h4><div class="st ${cl}"><b>${ttl}</b><br>${tx}</div>${tb([["Harga OTR",R(o.otr)],["DP ("+P(c.dp/o.otr)+")",R(c.dp)],["Biaya prepaid (angsuran 1, asuransi, polis, fidusia, admin, CP/PA)",R(c.prepaid)],["Total DP (DP + biaya prepaid)",R(c.tdpcp),"t"],["Diskon OTR",R(c.dsk)],["Net TDP (total DP - diskon)",R(c.netTdp),"t"],["OTR net (OTR - diskon)",R(c.otrNet),"t"],["PH murni (OTR - DP)",R(c.ph)],["Biaya onloan (dibiayai: asuransi, PA, provisi)",R(c.onloan)],["Total pokok hutang",R(c.pk),"t"],["Refund",R(c.rfn)],["Total risiko kredit (pokok hutang + refund)",R(c.risk),"t"],["Selisih: OTR net - total risiko kredit",R(c.sel),"t"],["Rasio total risiko kredit / OTR net",P(ltv)],["Bantalan (selisih / OTR net)",P(pct)]])}</div>`}
+function topHtml(){const {o,c}=LAST;let h=`<div class="row" style="margin:0 0 10px"><button type="button" id="fd_all">Buka semua bagian</button></div>`;
+ if(isEd(o))h+=`<div class="k" style="margin-bottom:10px"><span>✏️ Hasil sudah diedit</span><b style="font-size:13px">${edLabel(o,c)}</b><div class="row"><button type="button" id="bn_e">Edit lagi</button>${OR?'<button type="button" id="bn_r">Kembalikan asli</button>':""}<button type="button" id="bn_s" class="p">💾 Simpan</button></div></div>`;
+ return h+analisa()}
+function bindTop(){const e=$("bn_e");if(e)e.onclick=epOpen;const r=$("bn_r");if(r)r.onclick=()=>{LAST={o:OR.o,c:OR.c};OR=null;rerender()};const s=$("bn_s");if(s)s.onclick=()=>saveEdit(autoNm());
+ const a=$("fd_all");if(a)a.onclick=()=>{const ds=[...document.querySelectorAll("#dc details")],op=ds.some(d=>!d.open);ds.forEach(d=>d.open=op);a.textContent=op?"Tutup semua bagian":"Buka semua bagian"}}
+function autoNm(){const b0=(OR?OR.o:LAST.o),base=(b0.nm||"Tanpa merek").replace(/\s+edit\s+\d+$/i,"").trim(),esc2=base.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),re=new RegExp("^"+esc2+"\\s+edit\\s+(\\d+)$","i");let mx=0;H.forEach(h=>{const m=(h.nm||"").match(re);if(m)mx=Math.max(mx,+m[1])});return base+" edit "+(mx+1)}
+function saveEdit(nm){const o=LAST.o,c=LAST.c;addH({id:Date.now(),t:o.ev?"EV":undefined,nm,v:{...o,nm},s:{...sumS(o,c),nm,ev:o.ev?1:0},c});
+ cfm({title:"Tersimpan ke riwayat",text:nm,rows:cfRows(c),btns:[{t:"Lihat riwayat",p:1,fn:()=>{OR=null;$("dt").classList.add("hide");$("hq").value=nm;setSim(o.ev?"E":"K");goTab("hist")}},{t:"Lanjut"}]})}
+let INIT={};
+function epOpen(){const o=LAST.o,c=LAST.c,F=n=>Math.round(n).toLocaleString("id-ID"),mm=!!c.mm,set=(id,v)=>{$(id).value=v;INIT[id]=v};LASTP="p";
+ set("ep_dsk",o.dsk?F(o.dsk):"");set("ep_rf",o.rfn>0?F(o.rfn):"");set("ep_p",String(+((c.ph>0?c.prov/c.ph:0)*100).toFixed(4)));set("ep_n",F(c.prov));
+ $("ep_s").value=o.pp;paint();set("ep_ad",F(c.admin-c.jr));set("ep_bg",String(+(c.r*100).toFixed(4)));set("ep_bg2",mm?String(+(c.r2*100).toFixed(4)):"");set("ep_as",F(c.asr));
+ $("ep_bg2w").classList.toggle("hide",!mm);$("ep_bgl").textContent=mm?"Bunga efektif thn 1-4 (%)":"Bunga flat (% per tahun)";
+ $("ep_nm").value="";$("ep_nm").placeholder=autoNm();$("epop").classList.remove("hide")}
+const epClose=()=>$("epop").classList.add("hide");
+function epApply(save){const o0=LAST.o,c0=LAST.c,ch=id=>$(id).value!==INIT[id],tv=(id,f)=>{const t=$(id).value.trim();return t===""?null:f(t)},o2={...o0,pp:$("ep_s").value};
+ if(ch("ep_dsk"))o2.dsk=tv("ep_dsk",num)||0;if(ch("ep_rf"))o2.rfn=tv("ep_rf",num)||0;
+ if(LASTP==="n"&&ch("ep_n")){o2.provN=tv("ep_n",num);o2.provO=null}else if(ch("ep_p")){o2.provO=tv("ep_p",t=>pf(t)/100);o2.provN=null}
+ if(ch("ep_ad"))o2.adm=tv("ep_ad",num)||0;if(ch("ep_bg"))o2.bgO=tv("ep_bg",t=>pf(t)/100);if(ch("ep_bg2"))o2.bgO2=tv("ep_bg2",t=>pf(t)/100);if(ch("ep_as"))o2.asrN=tv("ep_as",num);
+ const key=x=>JSON.stringify([x.pp,x.dsk,x.rfn,x.provO,x.provN,x.adm,x.bgO,x.bgO2,x.asrN]),changed=key(o2)!==key(o0);
+ if(!changed&&!save){epClose();toast("Tidak ada perubahan");return}
+ if(changed){if(!OR)OR={o:{...o0},c:c0};
+  if(o2.provO==null&&o2.provN==null)o2.provN=c0.prov;
+  if(o2.bgO==null)o2.bgO=c0.r;if(c0.mm&&o2.bgO2==null)o2.bgO2=c0.r2;
+  if(o2.asrN==null)o2.asrN=c0.asr;
+  if(!o2.adm)o2.adm=c0.admin-c0.jr;
+  o2.edited=true;LAST={o:o2,c:calc(o2,c0.dp)}}
+ const nm=$("ep_nm").value.trim()||autoNm();epClose();rerender();
+ if(save)saveEdit(nm);else cfm({title:"Hasil edit diterapkan",text:"Rincian sudah dihitung ulang. Belum tersimpan di riwayat.",rows:cfRows(LAST.c),btns:[{t:"Simpan ke riwayat",p:1,fn:()=>saveEdit(autoNm())},{t:"Lanjut"}]})}
+for(const id of ["ep_dsk","ep_rf","ep_ad","ep_as"])$(id).addEventListener("input",e=>{const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):""});
+$("ep_p").addEventListener("input",()=>{LASTP="p";$("ep_n").value=Math.round(LAST.c.ph*pf($("ep_p").value)/100).toLocaleString("id-ID")});
+$("ep_n").addEventListener("input",e=>{LASTP="n";const v=num(e.target.value);e.target.value=v?v.toLocaleString("id-ID"):"";$("ep_p").value=LAST.c.ph>0?String(+(v/LAST.c.ph*100).toFixed(4)):"0"});
+$("ep_x").onclick=epClose;$("ep_ok").onclick=()=>epApply(false);$("ep_sv").onclick=()=>epApply(true);$("epop").addEventListener("click",e=>{if(e.target===$("epop"))epClose()});
+$("edb").onclick=epOpen;mk("ep_s");
+function cfm(o){$("cf_i").textContent=o.icon||"✓";$("cf_i").className="cfi"+(o.warn?" warn":"");$("cf_t").textContent=o.title;$("cf_p").textContent=o.text||"";
+ $("cf_r").innerHTML=(o.rows||[]).map(r=>`<div class="cfr"><span>${r[0]}</span><b>${r[1]}</b></div>`).join("");
+ const b=$("cf_b");b.innerHTML="";(o.btns||[{t:"Tutup"}]).forEach(x=>{const e=document.createElement("button");e.type="button";e.textContent=x.t;if(x.p)e.className="p";e.onclick=()=>{cfmClose();if(x.fn)x.fn()};b.appendChild(e)});$("cfm").classList.remove("hide")}
+const cfmClose=()=>$("cfm").classList.add("hide");
+const cfRows=c=>[["Angsuran",R(c.fix)+(c.mm?" · thn 5-8 "+R(c.fix2):"")],["TDP"+(LAST.o.cp?" + CP":""),R(c.tdpcp)],["Selisih risiko kredit",R(c.sel)]];
+function optS(id,jr,adm){const o=jr.options[jr.selectedIndex],t=o?o.text.replace(/\s*\(\+.*\)/,""):"";$(id).textContent=[t,adm.value.trim()?"admin manual":null].filter(Boolean).join(" · ")}
+const snapNote=s=>s&&s.c?`<div class="st ok">📌 <b>Hasil tersimpan</b> · ${new Date(s.ts).toLocaleString("id-ID",{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})}<br>Memakai tarif saat dihitung. Tekan Hitung untuk menghitung ulang dengan tarif terbaru.</div>`:"";
+const tarifRows=(rows,otr,prem,tlpAmt,tlpRate)=>{const n=rows.length,sr=rows.reduce((a,r)=>a+r.r,0);return `<tr class="t"><td colspan="3">Total tarif ${n} tahun</td><td>${P(sr)}</td><td></td><td>${tlpRate>0?P(tlpRate*n)+"<br><small>"+P(tlpRate)+" × "+n+" th</small>":"-"}</td></tr><tr><td colspan="3">Setara % dari OTR</td><td></td><td>${otr>0?P(prem/otr):"-"}</td><td>${otr>0&&tlpAmt>0?P(tlpAmt/otr):"-"}</td></tr>`};
+function foldCards(){[...$("dc").children].forEach(el=>{if(!el.classList.contains("card"))return;const h=el.querySelector("h4");if(!h)return;const t=h.textContent,d=document.createElement("details"),sm=document.createElement("summary"),fb=document.createElement("div");d.className="card";d.open=/^(Analisa struktur|Total DP)/.test(t);sm.textContent=t;fb.className="fb";h.remove();while(el.firstChild)fb.appendChild(el.firstChild);d.append(sm,fb);el.replaceWith(d)})}
+$("cfm").addEventListener("click",e=>{if(e.target===$("cfm"))cfmClose()});
+$("hq").addEventListener("input",hr);
 async function init(){await loadCfg();await loadH();try{if(window.claude&&claude.use){DB=await claude.use("db");if(DB){const u=await claude.use("user");if(u&&u.id)UID=await u.id()}}}catch(e){DB=null}
  if(DB){await loadCfg();await loadH()}hr()}
 fillJ();fillR();refresh();init();
