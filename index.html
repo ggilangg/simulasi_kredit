@@ -85,6 +85,16 @@ tr.t td{font-weight:700;border-top:1.5px solid var(--bd)}td button{min-height:34
 .cfb p{overflow-wrap:anywhere}.cfr{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd);font-size:14px;text-align:left}.cfr span{color:var(--mu)}
 .st{border-radius:14px;padding:12px 14px;margin:0 0 10px;font-size:14px}.st.ok{background:var(--ac2);color:var(--ac)}.st.warn{background:var(--wb);color:var(--wa)}.st.bad{background:color-mix(in srgb,var(--er) 15%,var(--card));color:var(--er)}
 #admh,#e_admh{display:block;margin:6px 2px 0}
+.shr{gap:8px}
+.k .rfp{display:block;margin-top:4px;font-size:12.5px;color:var(--mu);overflow-wrap:anywhere}
+.rfi{font-style:normal;display:inline-block;white-space:nowrap;margin:0 12px 2px 0}
+#rf_hero .hero b{font-size:32px}
+.rfl{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.rfl .hh b:first-child{font-size:15px}
+.k .rfn{display:block;font-size:12.5px;font-weight:600;color:var(--ac)}
+#rfpop details.card{margin-top:12px}
+.rft{overflow-x:auto}.rft table{min-width:520px}
+.rfx{min-height:40px;padding:6px 12px}
 </style></head><body>
 <header class="app"><div class="brand"><span class="logo">🏎️</span><div><b>Simulator Kredit</b><small>Konvensional · Hybrid · EV</small></div></div><span class="hb"><button id="inst" class="hide" type="button">📲 Pasang</button><button id="th" aria-label="Ganti tema">◐</button></span></header>
 <div class="segw"><div class="seg" id="simsw"><button type="button" class="on" data-s="K">Konvensional &amp; Hybrid</button><button type="button" data-s="E">EV</button></div></div>
@@ -141,10 +151,10 @@ tr.t td{font-weight:700;border-top:1.5px solid var(--bd)}td button{min-height:34
 <button class="p full" id="e_hit">Hitung</button>
 <div id="e_res" class="hide" style="margin-top:12px"></div></section>
 <section id="p_hist" class="hide"><div class="card srch"><input id="hq" type="search" placeholder="🔍 Cari nama hitungan, mis. BYD ATTO 1" autocomplete="off" enterkeyhint="search"><small id="hn"></small></div><div id="hl"></div></section>
-<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 12</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
+<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 13</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
 </main>
 <div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div>
-<div class="shr"><button id="edb" type="button">✏️ Edit</button></div>
+<div class="shr"><button id="rfb" type="button" class="p">💰 Hitung refund</button><button id="edb" type="button">✏️ Edit</button></div>
 <div id="dc"></div></div>
 <div id="epop" class="pop hide"><div class="pb">
 <h3>Edit hasil perhitungan</h3><p class="mu" style="margin:0 0 6px;font-size:13px">Ubah nilai yang perlu, lalu tekan Terapkan. Rincian langsung dihitung ulang. Database tidak berubah.</p>
@@ -159,6 +169,15 @@ tr.t td{font-weight:700;border-top:1.5px solid var(--bd)}td button{min-height:34
 <button type="button" class="full" id="ep_sv">Terapkan &amp; simpan ke riwayat</button>
 </div></div>
 <div id="cfm" class="pop hide"><div class="pb cfb"><div class="cfi" id="cf_i">✓</div><h3 id="cf_t"></h3><p class="mu" id="cf_p" style="margin:0 0 10px"></p><div id="cf_r"></div><div class="row" id="cf_b"></div></div></div>
+<div id="rfpop" class="pop hide"><div class="pb">
+<div class="hh"><h3 style="margin:0">Hitung refund</h3><button type="button" id="rf_x" class="rfx">Tutup</button></div>
+<p class="mu" style="margin:6px 0 0;font-size:13px">Pilih dealer. Angka dihitung otomatis dari perhitungan ini. Perhitungan kredit dan Database tidak berubah.</p>
+<label>Dealer</label><select id="rf_d"></select>
+<div id="rf_hero" style="margin-top:12px"></div>
+<div id="rf_in"></div>
+<div id="rf_out"></div>
+<div class="row"><button type="button" id="rf_cp">Salin</button><button type="button" class="p" id="rf_x2">Tutup</button></div>
+</div></div>
 <nav class="nav"><button id="n_calc" class="on"><span>🧮</span>Hitung</button><button id="n_hist"><span>🕘</span>Riwayat</button><button id="n_db"><span>🗄️</span>Database</button></nav>
 <div id="toast" class="toast"></div>
 
@@ -407,4 +426,83 @@ window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();DEFER=e;$("
 $("inst").onclick=async()=>{if(!DEFER)return;DEFER.prompt();try{await DEFER.userChoice}catch(e){}DEFER=null;$("inst").classList.add("hide")};
 window.addEventListener("appinstalled",()=>{$("inst").classList.add("hide");toast("Aplikasi terpasang ✓")});
 if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol))navigator.serviceWorker.register("sw.js").catch(()=>{});
+/* ===== Hitung refund (fitur tambahan di Rincian perhitungan) ===== */
+const RFR=(n,as=0,pf=0,pp=0,af=0,ap=0,ino=0,pq=0)=>({n,as,pf,pp,af,ap,ino,pq});
+const RFS=[
+{n:'Hyundai',ap:25,adm:0,roles:[RFR('Office',46.5,0,0,0,23.25),RFR('Operational Director',2.5,500000,0,0,1.25),RFR('OM',5,0,0,0,2.5,0,12.5),RFR('BM',10,0,25,0,17.5),RFR('SPV',6,0,25,0,15.5),RFR('Sales',30,0,50,0,40,1000000),RFR('Cad Dana Program',0,250000)]},
+{n:'Hyundai (tanpa SPV)',ap:25,adm:0,roles:[RFR('Office',52.5,0,0,0,26.25),RFR('Operational Director',2.5,500000,0,0,1.25),RFR('OM',5,0,0,0,2.5,0,12.5),RFR('BM',10,0,50,0,30),RFR('Sales',30,0,50,0,40,1000000),RFR('Cad Dana Program',0,250000)]},
+{n:'Jaecoo',ap:25,adm:4000000,roles:[RFR('Perusahaan',50),RFR('Sales',25,0,60,0,60),RFR('Supervisor (SPV)',10,0,20,0,20),RFR('Sales Head (BM)',10,0,20,0,20),RFR('Chief Territory (OM)',5)]},
+{n:'Daihatsu (Non-Terios, Medium)',ap:25,adm:0,roles:[RFR('Office',100),RFR('OM',0,750000),RFR('BM',0,0,20),RFR('SPV',0,0,22.5),RFR('Sales',0,0,57.5,0,0,1000000),RFR('Cad Dana Program',0,700000)]},
+{n:'BYD',ap:25,adm:0,roles:[RFR('Owner',40,0,0,800000),RFR('Office',4,0,0,80000),RFR('President Director',2.5,0,0,50000),RFR('Operational Director',0,750000),RFR('OM',5,0,0,100000,0,0,12.5),RFR('BM',10,0,25,200000,25),RFR('SPV',6,0,25,120000,25),RFR('Sales',30,0,50,600000,50),RFR('Cad Dana Program',2.5,500000,0,50000)]},
+{n:'BYD (tanpa SPV)',ap:25,adm:0,roles:[RFR('Owner',40,0,0,800000),RFR('Office',10,0,0,200000),RFR('President Director',2.5,0,0,50000),RFR('Operational Director',0,750000),RFR('OM',5,0,0,100000,0,0,12.5),RFR('BM',10,0,50,200000,50),RFR('Sales',30,0,50,600000,50),RFR('Cad Dana Program',2.5,500000,0,50000)]},
+{n:'Cherry',ap:25,adm:4000000,roles:[RFR('Perusahaan',50,0,50),RFR('Sales',25,0,25,1000000,0,1000000),RFR('Supervisor',10,0,10),RFR('Sales Head/BM',10,0,10),RFR('Chief Territory',5,0,5)]},
+{n:'Mitsubishi',ap:25,adm:4000000,roles:[RFR('Office',42.5,0,17,425000),RFR('Owner',20,0,8,200000),RFR('Owner (2)',7.5,0,3,75000),RFR('OM/GM',5,0,2,50000),RFR('BM',0,0,0,1200000),RFR('SM',0,0,0,500000),RFR('SPV',7.5,0,0,1000000),RFR('Sales',17.5,0,70,50000,0,1000000),RFR('Cad Dana Program',0,0,0,500000)]},
+{n:'Auto2000',ap:25,adm:4000000,roles:[RFR('Office',31.6),RFR('BM',8.5,0,50,1662500),RFR('SPV',9.4),RFR('Sales',46.8,0,50,1662500),RFR('ADH',3.7),RFR('Cad Dana Program',0,0,0,675000)]},
+{n:'Anzon',ap:25,adm:0,roles:[RFR('Office',100),RFR('BM',0,1000000),RFR('Sales',0,0,100,0,0,1000000),RFR('Cad Dana Program',0,300000)]}
+];
+const rfSum=(a,k)=>a.reduce((x,r)=>x+(+r[k]||0),0),rfPc=n=>+(+n).toFixed(2)+"%",rfIno=()=>RFS[RF.k].roles.some(r=>r.ino>0);
+let RF={k:0,b:null,v:null,ino:false,nm:{},r:null};
+/* Hitung: nominal tetap dan "% dari total" dibayar dulu, sisanya dibagi persen.
+   Tiap sel dibulatkan ke rupiah agar total = jumlah baris. */
+function rfCalc(s,f){
+ const pv=Math.max(+f.pv||0,0),bp=pv>=3?1.5:1,kp=Math.max(pv-bp,0),ph=Math.max(+f.ph||0,0),
+ pt=ph*pv/100,pk=ph*kp/100,bca=ph*Math.min(bp,pv)/100,
+ ao=Math.max((+f.ins||0)-(+f.tlp||0),0),ap=ao*(+s.ap||0)/100,adm=Math.max(+f.adm||0,0),
+ fp=rfSum(s.roles,"pf"),fq=pk*rfSum(s.roles,"pq")/100,fa=rfSum(s.roles,"af"),
+ rem=Math.max(pk-fp-fq,0),radm=Math.max(adm-fa,0),
+ rows=s.roles.map(r=>{const a=Math.round(ap*(+r.as||0)/100),p=Math.round((+r.pf||0)+pk*(+r.pq||0)/100+rem*(+r.pp||0)/100),d=Math.round((+r.af||0)+radm*(+r.ap||0)/100),i=f.ino?Math.round(+r.ino||0):0;return{n:r.n,a,p,d,i,t:a+p+d+i}}),
+ sa=rfSum(rows,"a"),sp=rfSum(rows,"p"),sd=rfSum(rows,"d"),si=rfSum(rows,"i"),
+ sisa=Math.round(radm-(sd-Math.round(fa)));
+ return{pv,bp,kp,ph,pt,pk,bca,ao,ap,adm,fp,fq,fa,rows,sa,sp,sd,si,total:sa+sp+sd+si,
+  lebihProv:sp-pk>5?Math.round(sp-pk):0,sisaAdm:sisa>5?sisa:0}}
+function rfOpen(){
+ if(!LAST||!LAST.c)return;
+ const c=LAST.c,ph=c.ph||0,adm=Math.max(Math.round((c.admin||0)-(c.jr||0)-(c.ad||0)),0);
+ RF.b={ph,pv:ph>0?(c.prov||0)/ph*100:0,ins:Math.round(c.asr||0),tlp:Math.round(c.tlp||0),adm};
+ RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};
+ const i=RFS.findIndex(s=>s.n===LS.g("sk_rf_d"));RF.k=i<0?0:i;RF.nm={};RF.ino=rfIno();
+ $("rf_d").value=RF.k;rfInputs();rfPaint();$("rfpop").classList.remove("hide");$("rfpop").firstElementChild.scrollTop=0}
+const rfClose=()=>$("rfpop").classList.add("hide");
+function rfInputs(){
+ const s=RFS[RF.k],was=[...$("rf_in").querySelectorAll("details")].map(d=>d.open),hasI=rfIno(),m=n=>n?n.toLocaleString("id-ID"):"";
+ $("rf_in").innerHTML=`<details class="card"><summary><span>Data dasar</span><small id="rf_sum"></small></summary><div class="fb">
+ <div class="g2"><div><label>Provisi total (%)</label><input id="rf_pv" inputmode="decimal" value="${+RF.v.pv.toFixed(4)}"></div><div><label>Upping admin (Rp)</label><input id="rf_adm" inputmode="numeric" value="${m(RF.v.adm)}" placeholder="0"></div></div>
+ <div class="g2"><div><label>Asuransi + TLP (Rp)</label><input id="rf_ins" inputmode="numeric" value="${m(RF.v.ins)}" placeholder="0"></div><div><label>TLP (Rp)</label><input id="rf_tlp" inputmode="numeric" value="${m(RF.v.tlp)}" placeholder="0"></div></div>
+ ${hasI?`<label class="ck"><input type="checkbox" id="rf_ino"${RF.ino?" checked":""}> Innatura berlaku</label>`:""}
+ <button type="button" class="full" id="rf_rs">↺ Kembalikan ke otomatis</button></div></details>
+ <details class="card"><summary><span>Nama penerima</span><small id="rf_nms"></small></summary><div class="fb">${s.roles.map((r,i)=>`<label>${esc(r.n)}</label><input data-rfn="${i}" placeholder="Opsional" value="${esc(RF.nm[i]||"")}">`).join("")}</div></details>`;
+ [...$("rf_in").querySelectorAll("details")].forEach((d,i)=>d.open=!!was[i])}
+function rfPaint(){
+ const s=RFS[RF.k],c=LAST.c,o=LAST.o,r=rfCalc(s,{ph:RF.b.ph,pv:RF.v.pv,ins:RF.v.ins,tlp:RF.v.tlp,adm:RF.v.adm,ino:RF.ino});RF.r=r;
+ const nm=i=>(RF.nm[i]||"").trim(),parts=a=>a.filter(x=>x[1]).map(x=>`<em class="rfi">${x[0]} ${R(x[1])}</em>`).join(""),
+ hasAP=rfSum(s.roles,"ap")>0,w=[];
+ if(r.lebihProv)w.push(`<div class="w">⚠ Provisi tetap dan "% dari total" (${R(r.sp)}) melebihi provisi yang dibagikan (${R(r.pk)}) sebesar ${R(r.lebihProv)}. Pembagian tetap mengikuti skema.</div>`);
+ if(r.sisaAdm)w.push(`<div class="w">⚠ ${hasAP?"Sisa upping admin yang belum terbagi":"Skema ini tidak membagi upping admin dengan persen. Sisa upping tidak masuk refund"}: ${R(r.sisaAdm)}.</div>`);
+ if(r.fa>0)w.push(`<div class="st ok">Admin tetap skema ${R(r.fa)} dibayarkan sesuai skema${r.adm<r.fa?`. Upping admin ${R(r.adm)} tidak cukup untuk dibagi persen`:""}.</div>`);
+ if(c.mm)w.push(`<div class="st ok">Mini For Max: asuransi yang dihitung adalah asuransi thn 1-4 (periode 1).</div>`);
+ $("rf_hero").innerHTML=`<div class="hero"><span>Total refund · ${esc(s.n)}</span><b>${R(r.total)}</b><small>${parts([["Provisi",r.sp],["Asuransi",r.sa],["Admin",r.sd],["Innatura",r.si]])||"Tidak ada bagian"}</small></div>${w.join("")}`;
+ const cell=(v,q,p)=>[v?R(v):"",q?rfPc(q)+" total":"",p?rfPc(p)+" sisa":""].filter(Boolean).join(" + ")||"-";
+ $("rf_out").innerHTML=`<h4>Hasil per penerima</h4><div class="rfl">${r.rows.map((x,i)=>`<div class="k"><div class="hh"><b>${esc(x.n)}</b><b>${R(x.t)}</b></div>${nm(i)?`<span class="rfn">${esc(nm(i))}</span>`:""}<span class="rfp">${parts([["Asuransi",x.a],["Provisi",x.p],["Admin",x.d],["Innatura",x.i]])||"Tidak ada bagian"}</span></div>`).join("")}</div>
+ <details class="card"><summary>Rincian dasar perhitungan</summary><div class="fb">${tb([["Harga OTR",R(o.otr)],["DP murni",R(c.dp)],["PH awal (OTR - DP)",R(r.ph)],["Provisi total "+rfPc(r.pv),R(r.pt)],["Ke BCAF "+rfPc(r.bp),R(r.bca)],["Provisi yang dibagikan "+rfPc(r.kp),R(r.pk),"t"],["Asuransi + TLP",R(RF.v.ins)],["TLP",R(RF.v.tlp)],["Asuransi yang dapat keluar",R(r.ao)],["Pool asuransi "+rfPc(s.ap),R(r.ap),"t"],["Admin dasar (tidak dihitung)",R(c.ad||0)],["Upping admin",R(r.adm)],["Admin tetap skema",R(r.fa)],["Sisa upping belum terbagi",R(r.sisaAdm)]])}
+ <h4>Rekap komponen</h4>${tb([["Provisi",R(r.sp)],["Asuransi",R(r.sa)],["Admin",R(r.sd)],["Innatura",R(r.si)],["Total refund",R(r.total),"t"]])}</div></details>
+ <details class="card"><summary>Skema ${esc(s.n)}</summary><div class="fb rft"><table><tr><th>Komponen</th><th>Asuransi</th><th>Provisi</th><th>Admin</th><th>Innatura</th></tr>${s.roles.map(x=>`<tr><td>${esc(x.n)}</td><td>${x.as?rfPc(x.as):"-"}</td><td>${cell(x.pf,x.pq,x.pp)}</td><td>${cell(x.af,0,x.ap)}</td><td>${x.ino?R(x.ino):"-"}</td></tr>`).join("")}</table></div></details>`;
+ const sm=$("rf_sum");if(sm)sm.textContent=RF.v.pv===RF.b.pv&&RF.v.ins===RF.b.ins&&RF.v.tlp===RF.b.tlp&&RF.v.adm===RF.b.adm?"otomatis":"diubah";
+ const ns=$("rf_nms");if(ns){const n=s.roles.filter((_,i)=>nm(i)).length;ns.textContent=n?n+" terisi":"opsional"}}
+function rfText(){
+ const s=RFS[RF.k],r=RF.r,o=LAST.o,c=LAST.c;
+ return [`REFUND ${s.n}`,`${o.nm||"-"}\nOTR : ${R(o.otr)}\nDP : ${R(c.dp)}`,`Provisi ${P(r.pv/100)} · dibagikan ${R(r.pk)}\nAsuransi keluar : ${R(r.ao)}`,
+  ...r.rows.map((x,i)=>`${x.n}${(RF.nm[i]||"").trim()?" ("+RF.nm[i].trim()+")":""}: ${R(x.t)}`),`TOTAL : ${R(r.total)}`].join("\n")}
+$("rf_d").innerHTML=RFS.map((s,i)=>`<option value="${i}">${esc(s.n)}</option>`).join("");
+$("rfb").onclick=rfOpen;
+$("rfpop").addEventListener("input",e=>{const t=e.target,d=t.dataset||{};
+ if(t.id==="rf_pv"){RF.v.pv=pf(t.value);rfPaint()}
+ else if(t.id==="rf_ins"||t.id==="rf_tlp"||t.id==="rf_adm"){const v=+String(t.value).replace(/\D/g,"")||0;t.value=v?v.toLocaleString("id-ID"):"";RF.v[t.id.slice(3)]=v;rfPaint()}
+ else if(d.rfn!=null){RF.nm[d.rfn]=t.value;rfPaint()}});
+$("rfpop").addEventListener("change",e=>{const t=e.target;
+ if(t.id==="rf_ino"){RF.ino=t.checked;rfPaint()}
+ else if(t.id==="rf_d"){RF.k=+t.value;LS.s("sk_rf_d",RFS[RF.k].n);RF.nm={};RF.ino=rfIno();rfInputs();rfPaint()}});
+$("rfpop").addEventListener("click",e=>{const b=e.target.closest("button");
+ if(e.target===$("rfpop")||(b&&(b.id==="rf_x"||b.id==="rf_x2")))rfClose();
+ else if(b&&b.id==="rf_rs"){RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};RF.ino=rfIno();rfInputs();rfPaint()}
+ else if(b&&b.id==="rf_cp")copy(rfText(),b)});
 </script></body></html>
