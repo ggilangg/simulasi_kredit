@@ -186,7 +186,7 @@ button.dl{background:var(--ac2);color:var(--ac);font-weight:700}
 <button class="p full" id="e_hit">Hitung</button>
 <div id="e_res" class="hide" style="margin-top:12px"></div></section>
 <section id="p_hist" class="hide"><div class="card srch"><input id="hq" type="search" placeholder="🔍 Cari nama hitungan, mis. BYD ATTO 1" autocomplete="off" enterkeyhint="search"><small id="hn"></small></div><div class="seg" id="hcat" style="margin-bottom:12px"><button type="button" data-c="all" class="on">Semua <small id="hca"></small></button><button type="button" data-c="deal">✓ Deal <small id="hcd"></small></button></div><div id="hs"></div><div id="hl"></div></section>
-<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 20</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
+<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 21</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
 </main>
 <div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div>
 <div class="shr"><button id="rfb" type="button" class="p">💰 Hitung refund</button><button id="edb" type="button">✏️ Edit</button></div>
@@ -485,7 +485,7 @@ const RFS=[
 {n:'Auto2000',ap:25,adm:0,roles:[RFR('Office',31.6),RFR('BM',8.5,0,50),RFR('SPV',9.4),RFR('Sales',46.8,0,50,0,0,1000000),RFR('ADH',3.7)]},
 {n:'Jaecoo',ap:25,adm:4000000,roles:[RFR('Perusahaan',50),RFR('Sales',15,0,60,0,60),RFR('Supervisor (SPV)',15,0,20,0,20),RFR('Sales Head (BM)',15,0,20,0,20),RFR('Chief Territory (OM)',5),RFR('Cad Dana Program',0,0,0,200000)]},
 {n:'Suzuki',ap:25,adm:4000000,roles:[RFR('Office',22),RFR('Owner',0),RFR('BM',16,1000000),RFR('SPV',22,0,0,0,62.5),RFR('Sales',40,0,100,0,37.5,1000000),RFR('Cad Dana Program',0,300000)]},
-{n:'Daihatsu',ap:25,adm:0,vars:[{n:'Terios',pf:{'OM':750000,'Cad Dana Program':850000}},{n:'Non Terios · Low (Grand Max, Sigra, Ayla)',pf:{'OM':500000,'Cad Dana Program':700000}},{n:'Non Terios · Medium (selain tipe Low)',pf:{'OM':750000,'Cad Dana Program':700000}}],roles:[RFR('Office',100),RFR('OM',0,750000),RFR('BM',0,0,20),RFR('SPV',0,0,22.5),RFR('Sales',0,0,57.5),RFR('Cad Dana Program',0,850000)]}
+{n:'Daihatsu',ap:25,adm:0,minLow:183900000,maxLow:248100000,vars:[{n:'Terios',pf:{'OM':750000,'Cad Dana Program':850000}},{n:'Non Terios · Low (Grand Max, Sigra, Ayla)',pf:{'OM':500000,'Cad Dana Program':700000}},{n:'Non Terios · Medium (selain tipe Low)',pf:{'OM':750000,'Cad Dana Program':700000}}],roles:[RFR('Office',100),RFR('OM',0,750000),RFR('BM',0,0,20,0,20),RFR('SPV',0,0,22.5,0,22.5),RFR('Sales',0,0,57.5,0,57.5,1000000),RFR('Cad Dana Program',0,850000)]}
 ];
 const rfSum=(a,k)=>a.reduce((x,r)=>x+(+r[k]||0),0),rfPc=n=>+(+n).toFixed(2)+"%",rfIno=()=>RFS[RF.k].roles.some(r=>r.ino>0);
 let RF={k:0,b:null,v:null,ino:false,nm:{},r:null};
@@ -502,8 +502,12 @@ function rfCalc(s,f){
  sisa=Math.round(radm-(sd-Math.round(fa*fs)));
  return{pv,bp,kp,ph,pt,pk,bca,ao,ap,adm,fp,fq,fa,rows,sa,sp,sd,si,total:sa+sp+sd+si,
   lebihProv:sp-pk>5?Math.round(sp-pk):0,sisaAdm:sisa>5?sisa:0}}
-function rfSch(){const s=RFS[RF.k],t=RF.rt||{},K=["as","pp","ap","pq","af","pf"],g=(k,i,v)=>t[k]&&t[k][i]!=null?t[k][i]:v;
- return{...s,roles:s.roles.map((r,i)=>{const x={...r},vm=s.vars&&s.vars[RF.vr||0]?s.vars[RF.vr||0].pf:null;if(vm&&vm[r.n]!=null)x.pf=vm[r.n];K.forEach(k=>x[k]=g(k,i,x[k]));if(RF.spv===false&&/SPV/i.test(r.n)){K.forEach(k=>x[k]=0);x.ino=0}return x})}}
+function rfVr(){const s=RFS[RF.k];if(!s.vars||RF.terios)return 0;const t=(LAST&&LAST.o?LAST.o.otr:0);return t>s.maxLow?2:1}
+function rfVInfo(){const s=RFS[RF.k];if(!s.vars)return"";const v=rfVr(),t=LAST&&LAST.o?LAST.o.otr:0,g=n=>"Rp"+(n/1e6).toLocaleString("id-ID",{maximumFractionDigits:1})+" jt";
+ if(v===0)return"Tipe Terios (dicentang)";
+ return v===2?"Tipe Medium: OTR "+R(t)+" di atas batas Low "+g(s.maxLow):"Tipe Low (Grand Max, Sigra, Ayla): OTR "+R(t)+" dalam rentang "+g(s.minLow)+" - "+g(s.maxLow)+(t<s.minLow?" ⚠ di bawah batas terendah "+g(s.minLow)+", cek tipe unit":"")}
+function rfSch(){const s=RFS[RF.k],t=RF.rt||{},K=["as","pp","ap","pq","af","pf","ino"],g=(k,i,v)=>t[k]&&t[k][i]!=null?t[k][i]:v;
+ return{...s,roles:s.roles.map((r,i)=>{const x={...r},vm=s.vars&&s.vars[rfVr()]?s.vars[rfVr()].pf:null;if(vm&&vm[r.n]!=null)x.pf=vm[r.n];K.forEach(k=>x[k]=g(k,i,x[k]));if(RF.spv===false&&/SPV/i.test(r.n)){K.forEach(k=>x[k]=0);x.ino=0}return x})}}
 function rfSums(){const s=rfSch();return[["Asuransi","as"],["Provisi (sisa)","pp"],["Admin (sisa)","ap"]].map(([n,k])=>({n,k,v:+rfSum(s.roles,k).toFixed(4)})).filter(g=>g.v>1e-9&&Math.abs(g.v-100)>.005)}
 const rfRt=()=>Object.values(RF.rt||{}).some(o=>Object.keys(o).length>0);
 function rfWarn(bad,tail){$("cfm").style.zIndex=99;cfm({icon:"⚠",warn:true,title:"Total persen belum 100%",text:bad.map(g=>g.n+" = "+rfPc(g.v)).join(" · ")+". "+tail,btns:[{t:"Mengerti",p:1}]})}
@@ -516,20 +520,20 @@ function rfTbl(r,s,nm){
  m=n=>n?Math.round(n).toLocaleString("id-ID"):"-",
  raw=(k,i,v,rp)=>{const x=RF.raw[k+":"+i];return x!=null?x:rp?(v?Math.round(v).toLocaleString("id-ID"):""):String(+(+v||0).toFixed(4))},
  isEd=(k,i)=>k==="po"?RF.po[i]!=null&&RF.po[i]!==bs[i].p:k==="do"?RF.do[i]!=null&&RF.do[i]!==bs[i].d:!!(RF.rt[k]&&RF.rt[k][i]!=null&&+RF.rt[k][i]!==+base.roles[i][k]),
- ig=(k,i,v,u,w)=>{const rp=u==="Rp",dis=pin&&k!=="as"&&k!=="po"&&k!=="do";return `<label class="ig${isEd(k,i)?" ed":""}${dis?" off":""}" style="width:${w}px">${rp?"<b>Rp</b>":""}<input data-rfk="${k}:${i}" inputmode="${rp?"numeric":"decimal"}" value="${raw(k,i,v,rp)}" placeholder="0" onfocus="if(!RF.rest)this.select()"${dis?" disabled":""}>${rp?"":"<b>"+u+"</b>"}</label>`},
+ ig=(k,i,v,u,w)=>{const rp=u==="Rp",dis=pin&&k!=="as"&&k!=="po"&&k!=="do"&&k!=="ino";return `<label class="ig${isEd(k,i)?" ed":""}${dis?" off":""}" style="width:${w}px">${rp?"<b>Rp</b>":""}<input data-rfk="${k}:${i}" inputmode="${rp?"numeric":"decimal"}" value="${raw(k,i,v,rp)}" placeholder="0" onfocus="if(!RF.rest)this.select()"${dis?" disabled":""}>${rp?"":"<b>"+u+"</b>"}</label>`},
  us=k=>base.roles.some(y=>+y[k]>0),
  chip=(k,t)=>{const g=gs.find(x=>x.k===k),v=+rfSum(rl,k).toFixed(4);return g?`<span class="chip bad">${t} ${rfPc(v)} ⚠ harus 100%</span>`:v>0?`<span class="chip ok">${t} ${rfPc(v)} ✓</span>`:""},
  rr=f=>rl.map((y,i)=>`<tr>${f(y,R2[i],i)}</tr>`).join(""),
  nc=(y,i)=>`<td class="sc"><b>${esc(y.n)}</b>${(nm(i)||"")?`<small>${esc(nm(i))}</small>`:""}</td>`,
  tab=(bd,t,d,hd,rows,foot)=>`<section class="rfc"><div class="rfh"><span class="bdg">${bd}</span><div><b>${t}</b><small>${d}</small></div></div><div class="rfe"><table><thead><tr>${hd.map((x,i)=>`<th${i?"":' class="sc"'}>${x}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div><div class="rfch">${foot}</div></section>`;
- let n=0;["as","pp","ap","pq","af","pf"].forEach(k=>rl.forEach((y,i)=>{if(isEd(k,i))n++}));rl.forEach((y,i)=>{if(isEd("po",i))n++;if(isEd("do",i))n++});
+ let n=0;["as","pp","ap","pq","af","pf","ino"].forEach(k=>rl.forEach((y,i)=>{if(isEd(k,i))n++}));rl.forEach((y,i)=>{if(isEd("po",i))n++;if(isEd("do",i))n++});
  let h=`<div class="rfs"><div class="rfsm"><small>Total refund</small><b>${R(r.total)}</b></div><div class="rfsg"><span><small>Asuransi</small>${m(r.sa)}</span><span><small>Provisi</small>${m(r.sp)}</span><span><small>Admin</small>${m(r.sd)}</span>${RF.ino?`<span><small>Innatura</small>${m(r.si)}</span>`:""}</div><div class="rfst">${gs.length?`<span class="chip bad">⚠ ${gs.length} kelompok belum 100%</span>`:`<span class="chip ok">✓ Persen 100%</span>`}${n?`<span class="chip">${n} sel diubah</span><button type="button" class="rfx" id="rf_rs2">↺ Kembalikan</button>`:""}</div></div>`;
  h+=pin?`<div class="st warn">🔒 Nominal terkunci dari penerapan sebelumnya. Tekan Kembalikan ke otomatis untuk mengubah skema.</div>`:`<small class="mu">Geser tabel ke samping untuk semua kolom. Kotak hijau = nilai yang kamu ubah.</small>`;
  if(s.ab){
   h+=tab("A","Komponen A","Asuransi, admin wajib, provisi tetap",["Penerima","Asuransi","Admin A","Provisi A","Total A"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("as",i,y.as,"%",84)}<small class="amt">${m(x.a)}</small></td><td>${ig("af",i,y.af,"Rp",112)}<small class="amt">${m(x.dA)}</small></td><td>${ig("pf",i,y.pf,"Rp",112)}${ig("pq",i,y.pq,"% total",112)}<small class="amt">${m(x.pA)}</small></td><td class="tt">${m(x.a+x.dA+x.pA)}</td>`),chip("as","Asuransi")+`<span class="chip">Admin wajib ${R(r.fa)}</span>`);
   h+=tab("B","Komponen B","Sisa admin dan sisa provisi dibagi persen",["Penerima","Admin B","Provisi B","Total B"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("ap",i,y.ap,"%",84)}<small class="amt">${m(x.dB)}</small></td><td>${ig("pp",i,y.pp,"%",84)}<small class="amt">${m(x.pB)}</small></td><td class="tt">${m(x.dB+x.pB)}</td>`),chip("ap","Admin")+chip("pp","Provisi"))}
  else h+=tab("S","Skema "+esc(s.n),"Asuransi, admin, dan provisi",["Penerima","Asuransi","Admin","Provisi","Total"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("as",i,y.as,"%",84)}<small class="amt">${m(x.a)}</small></td><td>${us("af")?ig("af",i,y.af,"Rp",112):""}${us("ap")?ig("ap",i,y.ap,"% sisa",112):""}<small class="amt">${m(x.d)}</small></td><td>${us("pf")?ig("pf",i,y.pf,"Rp",112):""}${us("pq")?ig("pq",i,y.pq,"% total",112):""}${us("pp")?ig("pp",i,y.pp,"% sisa",112):""}<small class="amt">${m(x.p)}</small></td><td class="tt">${m(x.a+x.d+x.p)}</td>`),chip("as","Asuransi")+chip("ap","Admin")+chip("pp","Provisi"));
- h+=tab(s.ab?"A+B":"Σ",s.ab?"Total A + B":"Total refund","Ubah Rp admin atau provisi langsung, penerima lain tetap",["Penerima","Asuransi","Admin","Provisi"].concat(RF.ino?["Innatura"]:[],["Total"]),rr((y,x,i)=>`${nc(y,i)}<td>${m(x.a)}</td><td>${ig("do",i,x.d,"Rp",112)}</td><td>${ig("po",i,x.p,"Rp",112)}</td>${RF.ino?`<td>${m(x.i)}</td>`:""}<td class="tt">${m(x.t)}</td>`)+`<tr class="tot"><td class="sc">Total</td><td>${m(r.sa)}</td><td>${m(r.sd)}</td><td>${m(r.sp)}</td>${RF.ino?`<td>${m(r.si)}</td>`:""}<td>${m(r.total)}</td></tr>`,"");
+ h+=tab(s.ab?"A+B":"Σ",s.ab?"Total A + B":"Total refund","Ubah Rp admin atau provisi langsung, penerima lain tetap",["Penerima","Asuransi","Admin","Provisi"].concat(RF.ino?["Innatura"]:[],["Total"]),rr((y,x,i)=>`${nc(y,i)}<td>${m(x.a)}</td><td>${ig("do",i,x.d,"Rp",112)}</td><td>${ig("po",i,x.p,"Rp",112)}</td>${RF.ino?`<td>${ig("ino",i,x.i,"Rp",112)}</td>`:""}<td class="tt">${m(x.t)}</td>`)+`<tr class="tot"><td class="sc">Total</td><td>${m(r.sa)}</td><td>${m(r.sd)}</td><td>${m(r.sp)}</td>${RF.ino?`<td>${m(r.si)}</td>`:""}<td>${m(r.total)}</td></tr>`,"");
  return h+`<button type="button" class="p full" id="rf_ap">Terapkan ke hitungan</button><small class="mu" style="display:block;margin-top:6px">Provisi dan upping admin nasabah ikut menyesuaikan, jangkar (TDP/angsuran) tetap.</small>`}
 function rfApply(){const o=LAST.o,c=LAST.c,b=rfBase(),r=rfOver();
  const bad=rfSums();if(bad.length){rfWarn(bad,"Perbaiki dulu sebelum diterapkan.");return}
@@ -537,7 +541,7 @@ function rfApply(){const o=LAST.o,c=LAST.c,b=rfBase(),r=rfOver();
  if(RF.v.pv!==RF.b.pv||RF.v.ins!==RF.b.ins||RF.v.tlp!==RF.b.tlp||RF.v.adm!==RF.b.adm){toast("Kembalikan Data dasar ke otomatis dulu");return}
  const np=c.prov+(r.sp-b.sp),nu=(c.upg||0)+(r.sd-b.sd);
  if(np<0||nu<0){toast("Provisi atau upping admin tidak boleh minus");return}
- const o2={...o,provN:np,provO:null,upg:nu,edited:true,rfo:{k:RF.k,n:RFS[RF.k].n,spv:RF.spv!==false,vr:RF.vr||0,ino:RF.ino,rt:JSON.parse(JSON.stringify(RF.rt)),p:r.rows.map(x=>x.p),d:r.rows.map(x=>x.d)}};delete o2.adm;
+ const o2={...o,provN:np,provO:null,upg:nu,edited:true,rfo:{k:RF.k,n:RFS[RF.k].n,spv:RF.spv!==false,tr:!!RF.terios,ino:RF.ino,rt:JSON.parse(JSON.stringify(RF.rt)),p:r.rows.map(x=>x.p),d:r.rows.map(x=>x.d)}};delete o2.adm;
  const q=reSolve(o2,c.dp);if(q.err){toast("⚠ "+q.err);return}
  if(!OR)OR={o:{...o},c};LAST={o:q.o,c:q.c};rfClose();rerender();
  cfm({title:"Refund diterapkan ke hitungan",text:"Provisi "+R(c.prov)+" → "+R(q.c.prov)+" · upping admin "+R(c.upg||0)+" → "+R(q.c.upg||0),rows:cfRows(q.c),btns:[{t:"Simpan ke riwayat",p:1,fn:()=>saveEdit(autoNm())},{t:"Lanjut"}]})}
@@ -546,17 +550,17 @@ function rfOpen(){
  const c=LAST.c,ph=c.ph||0,adm=Math.max(Math.round((c.admin||0)-(c.jr||0)-(c.ad||0)),0);
  RF.b={ph,pv:ph>0?(c.prov||0)/ph*100:0,ins:Math.round(c.asr||0),tlp:Math.round(c.tlp||0),adm};
  RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};
- const i=RFS.findIndex(s=>s.n===LS.g("sk_rf_d"));RF.k=i<0?0:i;RF.nm={};RF.ino=rfIno();RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{}};RF.raw={};RF.spv=true;RF.vr=0;{const f0=LAST.o.rfo,q=f0?(f0.n?RFS.findIndex(x=>x.n===f0.n):f0.k):-1;if(f0&&q>=0&&q<RFS.length){RF.fx=f0;RF.k=q;f0.k=q;RF.ino=!!f0.ino;RF.spv=f0.spv!==false;RF.vr=f0.vr||0;if(f0.rt)RF.rt=Object.assign({as:{},pp:{},ap:{},pq:{},af:{},pf:{}},JSON.parse(JSON.stringify(f0.rt)))}}
+ const i=RFS.findIndex(s=>s.n===LS.g("sk_rf_d"));RF.k=i<0?0:i;RF.nm={};RF.ino=rfIno();RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;{const f0=LAST.o.rfo,q=f0?(f0.n?RFS.findIndex(x=>x.n===f0.n):f0.k):-1;if(f0&&q>=0&&q<RFS.length){RF.fx=f0;RF.k=q;f0.k=q;RF.ino=!!f0.ino;RF.spv=f0.spv!==false;RF.terios=!!f0.tr;if(f0.rt)RF.rt=Object.assign({as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}},JSON.parse(JSON.stringify(f0.rt)))}}
  $("rf_d").value=RF.k;rfInputs();rfPaint();$("rfpop").classList.remove("hide");$("rfpop").firstElementChild.scrollTop=0}
 const rfClose=()=>$("rfpop").classList.add("hide");
 function rfInputs(){
- const s=RFS[RF.k],was=[...$("rf_in").querySelectorAll("details")].map(d=>d.open),hasI=rfIno(),m=n=>n?n.toLocaleString("id-ID"):"";
+ const s=RFS[RF.k],was=[...$("rf_in").querySelectorAll("details")].map(d=>d.open),hasI=true,m=n=>n?n.toLocaleString("id-ID"):"";
  $("rf_in").innerHTML=`<details class="card"><summary><span>Data dasar</span><small id="rf_sum"></small></summary><div class="fb">
  <div class="g2"><div><label>Provisi total (%)</label><input id="rf_pv" inputmode="decimal" value="${+RF.v.pv.toFixed(4)}"></div><div><label>Upping admin (Rp)</label><input id="rf_adm" inputmode="numeric" value="${m(RF.v.adm)}" placeholder="0"></div></div>
  <div class="g2"><div><label>Asuransi + TLP (Rp)</label><input id="rf_ins" inputmode="numeric" value="${m(RF.v.ins)}" placeholder="0"></div><div><label>TLP (Rp)</label><input id="rf_tlp" inputmode="numeric" value="${m(RF.v.tlp)}" placeholder="0"></div></div>
  ${hasI?`<label class="ck"><input type="checkbox" id="rf_ino"${RF.ino?" checked":""}> Innatura ada</label>`:""}
  ${RFS[RF.k].roles.some(r=>/SPV/i.test(r.n))?`<label class="ck"><input type="checkbox" id="rf_spv"${RF.spv===false?"":" checked"}${RF.fx&&RF.fx.k===RF.k?" disabled":""}> SPV ada</label>`:""}
- ${RFS[RF.k].vars?`<label>Tipe unit</label><select id="rf_vr"${RF.fx&&RF.fx.k===RF.k?" disabled":""}>${RFS[RF.k].vars.map((v,i)=>`<option value="${i}"${(RF.vr||0)===i?" selected":""}>${v.n}</option>`).join("")}</select>`:""}
+ ${RFS[RF.k].vars?`<label class="ck"><input type="checkbox" id="rf_tr"${RF.terios?" checked":""}${RF.fx&&RF.fx.k===RF.k?" disabled":""}> Tipe Terios</label><small class="mu" id="rf_vi">${rfVInfo()}</small>`:""}
  <button type="button" class="full" id="rf_rs">↺ Kembalikan ke otomatis</button></div></details>
  <details class="card"><summary><span>Nama penerima</span><small id="rf_nms"></small></summary><div class="fb">${s.roles.map((r,i)=>`<label>${esc(r.n)}</label><input data-rfn="${i}" placeholder="Opsional" value="${esc(RF.nm[i]||"")}">`).join("")}</div></details>`;
  [...$("rf_in").querySelectorAll("details")].forEach((d,i)=>d.open=!!was[i])}
@@ -587,19 +591,19 @@ $("rfb").onclick=rfOpen;
 $("rfpop").addEventListener("input",e=>{const t=e.target,d=t.dataset||{};
  if(t.id==="rf_pv"){RF.v.pv=pf(t.value);rfPaint()}
  else if(t.id==="rf_ins"||t.id==="rf_tlp"||t.id==="rf_adm"){const v=+String(t.value).replace(/\D/g,"")||0;t.value=v?v.toLocaleString("id-ID"):"";RF.v[t.id.slice(3)]=v;rfPaint()}
- else if(d.rfk){const q=d.rfk.split(":"),k=q[0],ix=+q[1],rp=k==="po"||k==="do"||k==="af"||k==="pf",bl=t.value.trim()==="",v=rp?(+String(t.value).replace(/\D/g,"")||0):Math.max(pf(t.value),0);
+ else if(d.rfk){const q=d.rfk.split(":"),k=q[0],ix=+q[1],rp=k==="po"||k==="do"||k==="af"||k==="pf"||k==="ino",bl=t.value.trim()==="",v=rp?(+String(t.value).replace(/\D/g,"")||0):Math.max(pf(t.value),0);
   RF.raw[d.rfk]=rp?(v?v.toLocaleString("id-ID"):(bl?"":"0")):t.value;
   if(k==="po")RF.po[ix]=bl?null:v;else if(k==="do")RF.do[ix]=bl?null:v;else RF.rt[k][ix]=v;rfPaint()}
  else if(d.rfn!=null){RF.nm[d.rfn]=t.value;rfPaint()}});
 $("rfpop").addEventListener("change",e=>{const t=e.target;
  if(t.id==="rf_ino"){RF.ino=t.checked;rfPaint()}
  else if(t.id==="rf_spv"){RF.spv=t.checked;rfPaint()}
- else if(t.id==="rf_vr"){RF.vr=+t.value;RF.rt.pf={};RF.raw={};rfPaint()}
+ else if(t.id==="rf_tr"){RF.terios=t.checked;RF.rt.pf={};RF.raw={};$("rf_vi").textContent=rfVInfo();rfPaint()}
  else if(t.dataset&&t.dataset.rfk){delete RF.raw[t.dataset.rfk];const bad=rfSums();rfPaint();if(bad.length)rfWarn(bad,"Ubah lagi sampai tepat 100%.")}
- else if(t.id==="rf_d"){RF.k=+t.value;LS.s("sk_rf_d",RFS[RF.k].n);RF.nm={};RF.po={};RF.do={};RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{}};RF.raw={};RF.spv=true;RF.vr=0;RF.ino=rfIno();rfInputs();rfPaint()}});
+ else if(t.id==="rf_d"){RF.k=+t.value;LS.s("sk_rf_d",RFS[RF.k].n);RF.nm={};RF.po={};RF.do={};RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfIno();rfInputs();rfPaint()}});
 $("rfpop").addEventListener("click",e=>{const b=e.target.closest("button");
  if(e.target===$("rfpop")||(b&&(b.id==="rf_x"||b.id==="rf_x2")))rfClose();
- else if(b&&(b.id==="rf_rs"||b.id==="rf_rs2")){RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{}};RF.raw={};RF.spv=true;RF.vr=0;RF.ino=rfIno();rfInputs();rfPaint()}
+ else if(b&&(b.id==="rf_rs"||b.id==="rf_rs2")){RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfIno();rfInputs();rfPaint()}
  else if(b&&b.id==="rf_ap")rfApply();
  else if(b&&b.id==="rf_cp")copy(rfText(),b)});
 </script></body></html>
