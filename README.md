@@ -30,10 +30,10 @@ README.md               panduan ini
 3. Ikon mobil sport muncul di layar utama. Buka dari sana dan aplikasi tampil layar penuh.
 
 ## Catatan penting
-- **Data tersimpan di HP itu sendiri.** Riwayat hitungan dan perubahan di tab Database (bunga, admin, dan lainnya) disimpan di browser perangkat. Tidak otomatis tersinkron antar HP dan hilang kalau Anda menghapus data situs Chrome.
+- **Data tersimpan di HP itu sendiri.** Riwayat hitungan (termasuk yang ditandai Deal) dan perubahan di tab Database (bunga, admin, dan lainnya) disimpan di browser perangkat. Tidak otomatis tersinkron antar HP dan hilang kalau Anda menghapus data situs Chrome.
 - Kalau ingin database bersama untuk satu tim, itu perlu server atau layanan penyimpanan tambahan.
-- **Memperbarui aplikasi:** ganti `index.html` di GitHub, lalu naikkan angka versi di `sw.js` (`sim-kredit-v2` menjadi `sim-kredit-v3`, dan seterusnya). Tutup dan buka lagi aplikasi di HP, dan versi baru dipakai.
-- Tarif (bunga, admin, asuransi, dan lainnya) mengikuti Excel Juni 2026. Cek ulang kalau memo tarif berubah.
+- **Memperbarui aplikasi:** ganti `index.html` **dan** `sw.js` di GitHub sekaligus (keduanya satu paket; file lain tidak berubah). Paket ini memakai `sim-kredit-v21` di `sw.js`. Kalau mengedit sendiri, naikkan angka versinya (v21 menjadi v22, dan seterusnya). Tutup dan buka lagi aplikasi di HP dengan internet menyala, dan versi baru dipakai.
+- Tarif (bunga, admin, asuransi) dan skema refund (Hyundai, BYD Arista, Anzon, Auto2000, Jaecoo, Suzuki, Daihatsu) mengikuti Excel dan memo terbaru. Cek ulang kalau memo berubah.
 
 ## Jika tidak bisa dipasang
 Gejala umum: tombol **Pasang** tidak muncul, atau muncul pesan **"Tidak dapat membuka aplikasi"**. Artinya Chrome menganggap aplikasi sudah terpasang atau ada sisa pemasangan lama yang rusak.
