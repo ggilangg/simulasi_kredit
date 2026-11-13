@@ -186,7 +186,7 @@ button.dl{background:var(--ac2);color:var(--ac);font-weight:700}
 <button class="p full" id="e_hit">Hitung</button>
 <div id="e_res" class="hide" style="margin-top:12px"></div></section>
 <section id="p_hist" class="hide"><div class="card srch"><input id="hq" type="search" placeholder="🔍 Cari nama hitungan, mis. BYD ATTO 1" autocomplete="off" enterkeyhint="search"><small id="hn"></small></div><div class="seg" id="hcat" style="margin-bottom:12px"><button type="button" data-c="all" class="on">Semua <small id="hca"></small></button><button type="button" data-c="deal">✓ Deal <small id="hcd"></small></button></div><div id="hs"></div><div id="hl"></div></section>
-<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 21</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
+<section id="p_db" class="hide"><div class="card"><h3>Database</h3><p class="mu" style="margin:0">Ubah bunga, provisi, admin, dan ketentuan lain di sini. <b id="dbs"></b></p><small>Versi aplikasi 22</small></div><div id="ed"></div><div class="row"><button class="p" id="dsave">Simpan</button><button id="drst">Muat nilai bawaan</button></div></section>
 </main>
 <div id="dt" class="sheet hide"><div class="sh"><b>Rincian perhitungan</b><button id="dx">Tutup</button></div>
 <div class="shr"><button id="rfb" type="button" class="p">💰 Hitung refund</button><button id="edb" type="button">✏️ Edit</button></div>
@@ -485,9 +485,9 @@ const RFS=[
 {n:'Auto2000',ap:25,adm:0,roles:[RFR('Office',31.6),RFR('BM',8.5,0,50),RFR('SPV',9.4),RFR('Sales',46.8,0,50,0,0,1000000),RFR('ADH',3.7)]},
 {n:'Jaecoo',ap:25,adm:4000000,roles:[RFR('Perusahaan',50),RFR('Sales',15,0,60,0,60),RFR('Supervisor (SPV)',15,0,20,0,20),RFR('Sales Head (BM)',15,0,20,0,20),RFR('Chief Territory (OM)',5),RFR('Cad Dana Program',0,0,0,200000)]},
 {n:'Suzuki',ap:25,adm:4000000,roles:[RFR('Office',22),RFR('Owner',0),RFR('BM',16,1000000),RFR('SPV',22,0,0,0,62.5),RFR('Sales',40,0,100,0,37.5,1000000),RFR('Cad Dana Program',0,300000)]},
-{n:'Daihatsu',ap:25,adm:0,minLow:183900000,maxLow:248100000,vars:[{n:'Terios',pf:{'OM':750000,'Cad Dana Program':850000}},{n:'Non Terios · Low (Grand Max, Sigra, Ayla)',pf:{'OM':500000,'Cad Dana Program':700000}},{n:'Non Terios · Medium (selain tipe Low)',pf:{'OM':750000,'Cad Dana Program':700000}}],roles:[RFR('Office',100),RFR('OM',0,750000),RFR('BM',0,0,20,0,20),RFR('SPV',0,0,22.5,0,22.5),RFR('Sales',0,0,57.5,0,57.5,1000000),RFR('Cad Dana Program',0,850000)]}
+{n:'Daihatsu',inoOff:1,ap:25,adm:0,minLow:183900000,maxLow:248100000,vars:[{n:'Terios',pf:{'OM':750000,'Cad Dana Program':850000}},{n:'Non Terios · Low (Grand Max, Sigra, Ayla)',pf:{'OM':500000,'Cad Dana Program':700000}},{n:'Non Terios · Medium (selain tipe Low)',pf:{'OM':750000,'Cad Dana Program':700000}}],roles:[RFR('Office',100),RFR('OM',0,750000),RFR('BM',0,0,20,0,20),RFR('SPV',0,0,22.5,0,22.5),RFR('Sales',0,0,57.5,0,57.5,1000000),RFR('Cad Dana Program',0,850000)]}
 ];
-const rfSum=(a,k)=>a.reduce((x,r)=>x+(+r[k]||0),0),rfPc=n=>+(+n).toFixed(2)+"%",rfIno=()=>RFS[RF.k].roles.some(r=>r.ino>0);
+const c2=x=>Math.round((x+Number.EPSILON)*100)/100,R2d=x=>"Rp "+(+x||0).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2}),rfInoDef=()=>rfIno()&&!RFS[RF.k].inoOff,rfSum=(a,k)=>a.reduce((x,r)=>x+(+r[k]||0),0),rfPc=n=>+(+n).toFixed(2)+"%",rfIno=()=>RFS[RF.k].roles.some(r=>r.ino>0);
 let RF={k:0,b:null,v:null,ino:false,nm:{},r:null};
 /* Hitung: nominal tetap dan "% dari total" dibayar dulu, sisanya dibagi persen.
    Tiap sel dibulatkan ke rupiah agar total = jumlah baris. */
@@ -497,10 +497,10 @@ function rfCalc(s,f){
  ao=Math.max((+f.ins||0)-(+f.tlp||0),0),ap=ao*(+s.ap||0)/100,adm=Math.max(+f.adm||0,0),
  fp=rfSum(s.roles,"pf"),fq=pk*rfSum(s.roles,"pq")/100,fa=rfSum(s.roles,"af"),fs=fa>0?Math.min(1,adm/fa):1,
  rem=Math.max(pk-fp-fq,0),radm=Math.max(adm-fa,0),
- rows=s.roles.map(r=>{const a=Math.round(ap*(+r.as||0)/100),pA=Math.round((+r.pf||0)+pk*(+r.pq||0)/100),pB=Math.round(rem*(+r.pp||0)/100),dA=Math.round((+r.af||0)*fs),dB=Math.round(radm*(+r.ap||0)/100),p=pA+pB,d=dA+dB,i=f.ino?Math.round(+r.ino||0):0;return{n:r.n,a,p,d,i,pA,pB,dA,dB,t:a+p+d+i}}),
- sa=rfSum(rows,"a"),sp=rfSum(rows,"p"),sd=rfSum(rows,"d"),si=rfSum(rows,"i"),
+ rows=s.roles.map(r=>{const a=c2(ap*(+r.as||0)/100),pA=c2((+r.pf||0)+pk*(+r.pq||0)/100),pB=c2(rem*(+r.pp||0)/100),dA=c2((+r.af||0)*fs),dB=c2(radm*(+r.ap||0)/100),p=c2(pA+pB),d=c2(dA+dB),i=f.ino?c2(+r.ino||0):0;return{n:r.n,a,p,d,i,pA,pB,dA,dB,t:c2(a+p+d+i)}}),
+ sa=c2(rfSum(rows,"a")),sp=c2(rfSum(rows,"p")),sd=c2(rfSum(rows,"d")),si=c2(rfSum(rows,"i")),
  sisa=Math.round(radm-(sd-Math.round(fa*fs)));
- return{pv,bp,kp,ph,pt,pk,bca,ao,ap,adm,fp,fq,fa,rows,sa,sp,sd,si,total:sa+sp+sd+si,
+ return{pv,bp,kp,ph,pt,pk,bca,ao,ap,adm,fp,fq,fa,rows,sa,sp,sd,si,total:c2(sa+sp+sd+si),
   lebihProv:sp-pk>5?Math.round(sp-pk):0,sisaAdm:sisa>5?sisa:0}}
 function rfVr(){const s=RFS[RF.k];if(!s.vars||RF.terios)return 0;const t=(LAST&&LAST.o?LAST.o.otr:0);return t>s.maxLow?2:1}
 function rfVInfo(){const s=RFS[RF.k];if(!s.vars)return"";const v=rfVr(),t=LAST&&LAST.o?LAST.o.otr:0,g=n=>"Rp"+(n/1e6).toLocaleString("id-ID",{maximumFractionDigits:1})+" jt";
@@ -511,14 +511,16 @@ function rfSch(){const s=RFS[RF.k],t=RF.rt||{},K=["as","pp","ap","pq","af","pf",
 function rfSums(){const s=rfSch();return[["Asuransi","as"],["Provisi (sisa)","pp"],["Admin (sisa)","ap"]].map(([n,k])=>({n,k,v:+rfSum(s.roles,k).toFixed(4)})).filter(g=>g.v>1e-9&&Math.abs(g.v-100)>.005)}
 const rfRt=()=>Object.values(RF.rt||{}).some(o=>Object.keys(o).length>0);
 function rfWarn(bad,tail){$("cfm").style.zIndex=99;cfm({icon:"⚠",warn:true,title:"Total persen belum 100%",text:bad.map(g=>g.n+" = "+rfPc(g.v)).join(" · ")+". "+tail,btns:[{t:"Mengerti",p:1}]})}
+function rfTyped(x){const q=String(x).replace(/[^\d,]/g,""),i=q.indexOf(","),a=(i<0?q:q.slice(0,i)).replace(/^0+(?=\d)/,""),b=i<0?null:q.slice(i+1).replace(/,/g,"").slice(0,2);
+ return{t:(a?(+a).toLocaleString("id-ID"):(i>=0?"0":""))+(b===null?"":","+b),v:q===""?0:parseFloat((a||"0")+"."+(b||"0"))}}
 function rfBase(){const s=rfSch(),r=rfCalc(s,{ph:RF.b.ph,pv:RF.v.pv,ins:RF.v.ins,tlp:RF.v.tlp,adm:RF.v.adm,ino:RF.ino}),fx=RF.fx&&RF.fx.k===RF.k&&RF.fx.p.length===r.rows.length?RF.fx:null;
- if(fx){r.rows=r.rows.map((x,i)=>({...x,p:fx.p[i],d:fx.d[i],t:x.a+fx.p[i]+fx.d[i]+x.i}));r.sp=rfSum(r.rows,"p");r.sd=rfSum(r.rows,"d");r.total=r.sa+r.sp+r.sd+r.si;r.lebihProv=0;r.sisaAdm=0}return r}
-function rfOver(){const r=rfBase();let ch=false;r.rows=r.rows.map((x,i)=>{const p=RF.po[i]!=null?RF.po[i]:x.p,d=RF.do[i]!=null?RF.do[i]:x.d;if(p!==x.p||d!==x.d)ch=true;return{...x,p,d,t:x.a+p+d+x.i}});
- if(ch){r.sp=rfSum(r.rows,"p");r.sd=rfSum(r.rows,"d");r.total=r.sa+r.sp+r.sd+r.si;r.lebihProv=0;r.sisaAdm=0}r.ed=ch;return r}
+ if(fx){r.rows=r.rows.map((x,i)=>({...x,p:fx.p[i],d:fx.d[i],t:c2(x.a+fx.p[i]+fx.d[i]+x.i)}));r.sp=c2(rfSum(r.rows,"p"));r.sd=c2(rfSum(r.rows,"d"));r.total=c2(r.sa+r.sp+r.sd+r.si);r.lebihProv=0;r.sisaAdm=0}return r}
+function rfOver(){const r=rfBase();let ch=false;r.rows=r.rows.map((x,i)=>{const p=RF.po[i]!=null?RF.po[i]:x.p,d=RF.do[i]!=null?RF.do[i]:x.d;if(p!==x.p||d!==x.d)ch=true;return{...x,p,d,t:c2(x.a+p+d+x.i)}});
+ if(ch){r.sp=c2(rfSum(r.rows,"p"));r.sd=c2(rfSum(r.rows,"d"));r.total=c2(r.sa+r.sp+r.sd+r.si);r.lebihProv=0;r.sisaAdm=0}r.ed=ch;return r}
 function rfTbl(r,s,nm){
  const base=RFS[RF.k],rl=s.roles,pin=!!(RF.fx&&RF.fx.k===RF.k),bs=rfBase().rows,R2=r.rows,gs=rfSums(),
- m=n=>n?Math.round(n).toLocaleString("id-ID"):"-",
- raw=(k,i,v,rp)=>{const x=RF.raw[k+":"+i];return x!=null?x:rp?(v?Math.round(v).toLocaleString("id-ID"):""):String(+(+v||0).toFixed(4))},
+ m=n=>n?(+n).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2}):"-",
+ raw=(k,i,v,rp)=>{const x=RF.raw[k+":"+i];return x!=null?x:rp?(v?(+v).toLocaleString("id-ID",{minimumFractionDigits:2,maximumFractionDigits:2}):""):String(+(+v||0).toFixed(4))},
  isEd=(k,i)=>k==="po"?RF.po[i]!=null&&RF.po[i]!==bs[i].p:k==="do"?RF.do[i]!=null&&RF.do[i]!==bs[i].d:!!(RF.rt[k]&&RF.rt[k][i]!=null&&+RF.rt[k][i]!==+base.roles[i][k]),
  ig=(k,i,v,u,w)=>{const rp=u==="Rp",dis=pin&&k!=="as"&&k!=="po"&&k!=="do"&&k!=="ino";return `<label class="ig${isEd(k,i)?" ed":""}${dis?" off":""}" style="width:${w}px">${rp?"<b>Rp</b>":""}<input data-rfk="${k}:${i}" inputmode="${rp?"numeric":"decimal"}" value="${raw(k,i,v,rp)}" placeholder="0" onfocus="if(!RF.rest)this.select()"${dis?" disabled":""}>${rp?"":"<b>"+u+"</b>"}</label>`},
  us=k=>base.roles.some(y=>+y[k]>0),
@@ -527,10 +529,10 @@ function rfTbl(r,s,nm){
  nc=(y,i)=>`<td class="sc"><b>${esc(y.n)}</b>${(nm(i)||"")?`<small>${esc(nm(i))}</small>`:""}</td>`,
  tab=(bd,t,d,hd,rows,foot)=>`<section class="rfc"><div class="rfh"><span class="bdg">${bd}</span><div><b>${t}</b><small>${d}</small></div></div><div class="rfe"><table><thead><tr>${hd.map((x,i)=>`<th${i?"":' class="sc"'}>${x}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div><div class="rfch">${foot}</div></section>`;
  let n=0;["as","pp","ap","pq","af","pf","ino"].forEach(k=>rl.forEach((y,i)=>{if(isEd(k,i))n++}));rl.forEach((y,i)=>{if(isEd("po",i))n++;if(isEd("do",i))n++});
- let h=`<div class="rfs"><div class="rfsm"><small>Total refund</small><b>${R(r.total)}</b></div><div class="rfsg"><span><small>Asuransi</small>${m(r.sa)}</span><span><small>Provisi</small>${m(r.sp)}</span><span><small>Admin</small>${m(r.sd)}</span>${RF.ino?`<span><small>Innatura</small>${m(r.si)}</span>`:""}</div><div class="rfst">${gs.length?`<span class="chip bad">⚠ ${gs.length} kelompok belum 100%</span>`:`<span class="chip ok">✓ Persen 100%</span>`}${n?`<span class="chip">${n} sel diubah</span><button type="button" class="rfx" id="rf_rs2">↺ Kembalikan</button>`:""}</div></div>`;
+ let h=`<div class="rfs"><div class="rfsm"><small>Total refund</small><b>${R2d(r.total)}</b></div><div class="rfsg"><span><small>Asuransi</small>${m(r.sa)}</span><span><small>Provisi</small>${m(r.sp)}</span><span><small>Admin</small>${m(r.sd)}</span>${RF.ino?`<span><small>Innatura</small>${m(r.si)}</span>`:""}</div><div class="rfst">${gs.length?`<span class="chip bad">⚠ ${gs.length} kelompok belum 100%</span>`:`<span class="chip ok">✓ Persen 100%</span>`}${n?`<span class="chip">${n} sel diubah</span><button type="button" class="rfx" id="rf_rs2">↺ Kembalikan</button>`:""}</div></div>`;
  h+=pin?`<div class="st warn">🔒 Nominal terkunci dari penerapan sebelumnya. Tekan Kembalikan ke otomatis untuk mengubah skema.</div>`:`<small class="mu">Geser tabel ke samping untuk semua kolom. Kotak hijau = nilai yang kamu ubah.</small>`;
  if(s.ab){
-  h+=tab("A","Komponen A","Asuransi, admin wajib, provisi tetap",["Penerima","Asuransi","Admin A","Provisi A","Total A"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("as",i,y.as,"%",84)}<small class="amt">${m(x.a)}</small></td><td>${ig("af",i,y.af,"Rp",112)}<small class="amt">${m(x.dA)}</small></td><td>${ig("pf",i,y.pf,"Rp",112)}${ig("pq",i,y.pq,"% total",112)}<small class="amt">${m(x.pA)}</small></td><td class="tt">${m(x.a+x.dA+x.pA)}</td>`),chip("as","Asuransi")+`<span class="chip">Admin wajib ${R(r.fa)}</span>`);
+  h+=tab("A","Komponen A","Asuransi, admin wajib, provisi tetap",["Penerima","Asuransi","Admin A","Provisi A","Total A"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("as",i,y.as,"%",84)}<small class="amt">${m(x.a)}</small></td><td>${ig("af",i,y.af,"Rp",112)}<small class="amt">${m(x.dA)}</small></td><td>${ig("pf",i,y.pf,"Rp",112)}${ig("pq",i,y.pq,"% total",112)}<small class="amt">${m(x.pA)}</small></td><td class="tt">${m(x.a+x.dA+x.pA)}</td>`),chip("as","Asuransi")+`<span class="chip">Admin wajib ${R2d(r.fa)}</span>`);
   h+=tab("B","Komponen B","Sisa admin dan sisa provisi dibagi persen",["Penerima","Admin B","Provisi B","Total B"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("ap",i,y.ap,"%",84)}<small class="amt">${m(x.dB)}</small></td><td>${ig("pp",i,y.pp,"%",84)}<small class="amt">${m(x.pB)}</small></td><td class="tt">${m(x.dB+x.pB)}</td>`),chip("ap","Admin")+chip("pp","Provisi"))}
  else h+=tab("S","Skema "+esc(s.n),"Asuransi, admin, dan provisi",["Penerima","Asuransi","Admin","Provisi","Total"],rr((y,x,i)=>`${nc(y,i)}<td>${ig("as",i,y.as,"%",84)}<small class="amt">${m(x.a)}</small></td><td>${us("af")?ig("af",i,y.af,"Rp",112):""}${us("ap")?ig("ap",i,y.ap,"% sisa",112):""}<small class="amt">${m(x.d)}</small></td><td>${us("pf")?ig("pf",i,y.pf,"Rp",112):""}${us("pq")?ig("pq",i,y.pq,"% total",112):""}${us("pp")?ig("pp",i,y.pp,"% sisa",112):""}<small class="amt">${m(x.p)}</small></td><td class="tt">${m(x.a+x.d+x.p)}</td>`),chip("as","Asuransi")+chip("ap","Admin")+chip("pp","Provisi"));
  h+=tab(s.ab?"A+B":"Σ",s.ab?"Total A + B":"Total refund","Ubah Rp admin atau provisi langsung, penerima lain tetap",["Penerima","Asuransi","Admin","Provisi"].concat(RF.ino?["Innatura"]:[],["Total"]),rr((y,x,i)=>`${nc(y,i)}<td>${m(x.a)}</td><td>${ig("do",i,x.d,"Rp",112)}</td><td>${ig("po",i,x.p,"Rp",112)}</td>${RF.ino?`<td>${ig("ino",i,x.i,"Rp",112)}</td>`:""}<td class="tt">${m(x.t)}</td>`)+`<tr class="tot"><td class="sc">Total</td><td>${m(r.sa)}</td><td>${m(r.sd)}</td><td>${m(r.sp)}</td>${RF.ino?`<td>${m(r.si)}</td>`:""}<td>${m(r.total)}</td></tr>`,"");
@@ -550,7 +552,7 @@ function rfOpen(){
  const c=LAST.c,ph=c.ph||0,adm=Math.max(Math.round((c.admin||0)-(c.jr||0)-(c.ad||0)),0);
  RF.b={ph,pv:ph>0?(c.prov||0)/ph*100:0,ins:Math.round(c.asr||0),tlp:Math.round(c.tlp||0),adm};
  RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};
- const i=RFS.findIndex(s=>s.n===LS.g("sk_rf_d"));RF.k=i<0?0:i;RF.nm={};RF.ino=rfIno();RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;{const f0=LAST.o.rfo,q=f0?(f0.n?RFS.findIndex(x=>x.n===f0.n):f0.k):-1;if(f0&&q>=0&&q<RFS.length){RF.fx=f0;RF.k=q;f0.k=q;RF.ino=!!f0.ino;RF.spv=f0.spv!==false;RF.terios=!!f0.tr;if(f0.rt)RF.rt=Object.assign({as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}},JSON.parse(JSON.stringify(f0.rt)))}}
+ const i=RFS.findIndex(s=>s.n===LS.g("sk_rf_d"));RF.k=i<0?0:i;RF.nm={};RF.ino=rfInoDef();RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;{const f0=LAST.o.rfo,q=f0?(f0.n?RFS.findIndex(x=>x.n===f0.n):f0.k):-1;if(f0&&q>=0&&q<RFS.length){RF.fx=f0;RF.k=q;f0.k=q;RF.ino=!!f0.ino;RF.spv=f0.spv!==false;RF.terios=!!f0.tr;if(f0.rt)RF.rt=Object.assign({as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}},JSON.parse(JSON.stringify(f0.rt)))}}
  $("rf_d").value=RF.k;rfInputs();rfPaint();$("rfpop").classList.remove("hide");$("rfpop").firstElementChild.scrollTop=0}
 const rfClose=()=>$("rfpop").classList.add("hide");
 function rfInputs(){
@@ -566,33 +568,33 @@ function rfInputs(){
  [...$("rf_in").querySelectorAll("details")].forEach((d,i)=>d.open=!!was[i])}
 function rfPaint(){
  const s=rfSch(),c=LAST.c,o=LAST.o,r=rfOver();RF.r=r;
- const nm=i=>(RF.nm[i]||"").trim(),parts=a=>a.filter(x=>x[1]).map(x=>`<em class="rfi">${x[0]} ${R(x[1])}</em>`).join(""),
+ const nm=i=>(RF.nm[i]||"").trim(),parts=a=>a.filter(x=>x[1]).map(x=>`<em class="rfi">${x[0]} ${R2d(x[1])}</em>`).join(""),
  hasAP=rfSum(s.roles,"ap")>0,w=[];
  rfSums().forEach(g=>w.push(`<div class="w">⚠ Total persen ${g.n} ${rfPc(g.v)}, harus 100%.</div>`));
- if(r.lebihProv)w.push(`<div class="w">⚠ Provisi tetap dan "% dari total" (${R(r.sp)}) melebihi provisi yang dibagikan (${R(r.pk)}) sebesar ${R(r.lebihProv)}. Pembagian tetap mengikuti skema.</div>`);
- if(r.sisaAdm)w.push(`<div class="w">⚠ ${hasAP?"Sisa upping admin yang belum terbagi":"Skema ini tidak membagi upping admin dengan persen. Sisa upping tidak masuk refund"}: ${R(r.sisaAdm)}.</div>`);
- if(r.fa>0)w.push(r.adm<r.fa?`<div class="w">⚠ Upping admin ${R(r.adm)} di bawah admin wajib ${R(r.fa)}. Admin tetap per penerima dikurangi proporsional.</div>`:`<div class="st ok">Admin wajib ${R(r.fa)} terpenuhi.</div>`);
+ if(r.lebihProv)w.push(`<div class="w">⚠ Provisi tetap dan "% dari total" (${R2d(r.sp)}) melebihi provisi yang dibagikan (${R2d(r.pk)}) sebesar ${R2d(r.lebihProv)}. Pembagian tetap mengikuti skema.</div>`);
+ if(r.sisaAdm)w.push(`<div class="w">⚠ ${hasAP?"Sisa upping admin yang belum terbagi":"Skema ini tidak membagi upping admin dengan persen. Sisa upping tidak masuk refund"}: ${R2d(r.sisaAdm)}.</div>`);
+ if(r.fa>0)w.push(r.adm<r.fa?`<div class="w">⚠ Upping admin ${R2d(r.adm)} di bawah admin wajib ${R2d(r.fa)}. Admin tetap per penerima dikurangi proporsional.</div>`:`<div class="st ok">Admin wajib ${R2d(r.fa)} terpenuhi.</div>`);
  if(r.pv>0&&r.pv<3.5)w.push(`<div class="st ok">Provisi di bawah 3,5%: bagian BCAF 1%, sisanya refund.</div>`);
  if(c.mm)w.push(`<div class="st ok">Mini For Max: asuransi yang dihitung adalah asuransi thn 1-4 (periode 1).</div>`);
- $("rf_hero").innerHTML=`<div class="hero"><span>Total refund · ${esc(s.n)}</span><b>${R(r.total)}</b><small>${parts([["Provisi",r.sp],["Asuransi",r.sa],["Admin",r.sd],["Innatura",r.si]])||"Tidak ada bagian"}</small></div>${w.join("")}`;
+ $("rf_hero").innerHTML=`<div class="hero"><span>Total refund · ${esc(s.n)}</span><b>${R2d(r.total)}</b><small>${parts([["Provisi",r.sp],["Asuransi",r.sa],["Admin",r.sd],["Innatura",r.si]])||"Tidak ada bagian"}</small></div>${w.join("")}`;
  const ae=document.activeElement,fk=ae&&ae.dataset?ae.dataset.rfk:null;
- $("rf_out").innerHTML=`<h4>Hasil per penerima</h4><div class="rfl">${r.rows.map((x,i)=>`<div class="k"><div class="hh"><b>${esc(x.n)}</b><b>${R(x.t)}</b></div>${nm(i)?`<span class="rfn">${esc(nm(i))}</span>`:""}<span class="rfp">${parts([["Asuransi",x.a],["Provisi",x.p],["Admin",x.d],["Innatura",x.i]])||"Tidak ada bagian"}</span></div>`).join("")}</div>
- <details class="card"><summary>Rincian dasar perhitungan</summary><div class="fb">${tb([["Harga OTR",R(o.otr)],["DP murni",R(c.dp)],["PH awal (OTR - DP)",R(r.ph)],["Provisi total "+rfPc(r.pv),R(r.pt)],["Ke BCAF "+rfPc(r.bp),R(r.bca)],["Provisi yang dibagikan "+rfPc(r.kp),R(r.pk),"t"],["Asuransi + TLP",R(RF.v.ins)],["TLP",R(RF.v.tlp)],["Asuransi yang dapat keluar",R(r.ao)],["Pool asuransi "+rfPc(s.ap),R(r.ap),"t"],["Admin dasar (tidak dihitung)",R(c.ad||0)],["Upping admin",R(r.adm)],["Admin tetap skema",R(r.fa)],["Sisa upping belum terbagi",R(r.sisaAdm)]])}
- <h4>Rekap komponen</h4>${tb([["Provisi",R(r.sp)],["Asuransi",R(r.sa)],["Admin",R(r.sd)],["Innatura",R(r.si)],["Total refund",R(r.total),"t"]])}</div></details>`+`<h4>Edit komponen skema</h4>`+rfTbl(r,s,nm);
+ $("rf_out").innerHTML=`<h4>Hasil per penerima</h4><div class="rfl">${r.rows.map((x,i)=>`<div class="k"><div class="hh"><b>${esc(x.n)}</b><b>${R2d(x.t)}</b></div>${nm(i)?`<span class="rfn">${esc(nm(i))}</span>`:""}<span class="rfp">${parts([["Asuransi",x.a],["Provisi",x.p],["Admin",x.d],["Innatura",x.i]])||"Tidak ada bagian"}</span></div>`).join("")}</div>
+ <details class="card"><summary>Rincian dasar perhitungan</summary><div class="fb">${tb([["Harga OTR",R2d(o.otr)],["DP murni",R2d(c.dp)],["PH awal (OTR - DP)",R2d(r.ph)],["Provisi total "+rfPc(r.pv),R2d(r.pt)],["Ke BCAF "+rfPc(r.bp),R2d(r.bca)],["Provisi yang dibagikan "+rfPc(r.kp),R2d(r.pk),"t"],["Asuransi + TLP",R2d(RF.v.ins)],["TLP",R2d(RF.v.tlp)],["Asuransi yang dapat keluar",R2d(r.ao)],["Pool asuransi "+rfPc(s.ap),R2d(r.ap),"t"],["Admin dasar (tidak dihitung)",R2d(c.ad||0)],["Upping admin",R2d(r.adm)],["Admin tetap skema",R2d(r.fa)],["Sisa upping belum terbagi",R2d(r.sisaAdm)]])}
+ <h4>Rekap komponen</h4>${tb([["Provisi",R2d(r.sp)],["Asuransi",R2d(r.sa)],["Admin",R2d(r.sd)],["Innatura",R2d(r.si)],["Total refund",R2d(r.total),"t"]])}</div></details>`+`<h4>Edit komponen skema</h4>`+rfTbl(r,s,nm);
  if(fk){const e=$("rf_out").querySelector(`[data-rfk="${fk}"]`);if(e){RF.rest=1;e.focus();RF.rest=0;try{e.setSelectionRange(e.value.length,e.value.length)}catch(_){}}}
  const sm=$("rf_sum");if(sm)sm.textContent=RF.v.pv===RF.b.pv&&RF.v.ins===RF.b.ins&&RF.v.tlp===RF.b.tlp&&RF.v.adm===RF.b.adm?"otomatis":"diubah";
  const ns=$("rf_nms");if(ns){const n=s.roles.filter((_,i)=>nm(i)).length;ns.textContent=n?n+" terisi":"opsional"}}
 function rfText(){
  const s=RFS[RF.k],r=RF.r,o=LAST.o,c=LAST.c;
- return [`REFUND ${s.n}`,`${o.nm||"-"}\nOTR : ${R(o.otr)}\nDP : ${R(c.dp)}`,`Provisi ${P(r.pv/100)} · dibagikan ${R(r.pk)}\nAsuransi keluar : ${R(r.ao)}`,
-  ...r.rows.map((x,i)=>`${x.n}${(RF.nm[i]||"").trim()?" ("+RF.nm[i].trim()+")":""}: ${R(x.t)}`),`TOTAL : ${R(r.total)}`].join("\n")}
+ return [`REFUND ${s.n}`,`${o.nm||"-"}\nOTR : ${R2d(o.otr)}\nDP : ${R2d(c.dp)}`,`Provisi ${P(r.pv/100)} · dibagikan ${R2d(r.pk)}\nAsuransi keluar : ${R2d(r.ao)}`,
+  ...r.rows.map((x,i)=>`${x.n}${(RF.nm[i]||"").trim()?" ("+RF.nm[i].trim()+")":""}: ${R2d(x.t)}`),`TOTAL : ${R2d(r.total)}`].join("\n")}
 $("rf_d").innerHTML=RFS.map((s,i)=>`<option value="${i}">${esc(s.n)}</option>`).join("");
 $("rfb").onclick=rfOpen;
 $("rfpop").addEventListener("input",e=>{const t=e.target,d=t.dataset||{};
  if(t.id==="rf_pv"){RF.v.pv=pf(t.value);rfPaint()}
  else if(t.id==="rf_ins"||t.id==="rf_tlp"||t.id==="rf_adm"){const v=+String(t.value).replace(/\D/g,"")||0;t.value=v?v.toLocaleString("id-ID"):"";RF.v[t.id.slice(3)]=v;rfPaint()}
- else if(d.rfk){const q=d.rfk.split(":"),k=q[0],ix=+q[1],rp=k==="po"||k==="do"||k==="af"||k==="pf"||k==="ino",bl=t.value.trim()==="",v=rp?(+String(t.value).replace(/\D/g,"")||0):Math.max(pf(t.value),0);
-  RF.raw[d.rfk]=rp?(v?v.toLocaleString("id-ID"):(bl?"":"0")):t.value;
+ else if(d.rfk){const q=d.rfk.split(":"),k=q[0],ix=+q[1],rp=k==="po"||k==="do"||k==="af"||k==="pf"||k==="ino",bl=t.value.trim()==="",ty=rp?rfTyped(t.value):null,v=rp?ty.v:Math.max(pf(t.value),0);
+  RF.raw[d.rfk]=rp?ty.t:t.value;
   if(k==="po")RF.po[ix]=bl?null:v;else if(k==="do")RF.do[ix]=bl?null:v;else RF.rt[k][ix]=v;rfPaint()}
  else if(d.rfn!=null){RF.nm[d.rfn]=t.value;rfPaint()}});
 $("rfpop").addEventListener("change",e=>{const t=e.target;
@@ -600,10 +602,10 @@ $("rfpop").addEventListener("change",e=>{const t=e.target;
  else if(t.id==="rf_spv"){RF.spv=t.checked;rfPaint()}
  else if(t.id==="rf_tr"){RF.terios=t.checked;RF.rt.pf={};RF.raw={};$("rf_vi").textContent=rfVInfo();rfPaint()}
  else if(t.dataset&&t.dataset.rfk){delete RF.raw[t.dataset.rfk];const bad=rfSums();rfPaint();if(bad.length)rfWarn(bad,"Ubah lagi sampai tepat 100%.")}
- else if(t.id==="rf_d"){RF.k=+t.value;LS.s("sk_rf_d",RFS[RF.k].n);RF.nm={};RF.po={};RF.do={};RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfIno();rfInputs();rfPaint()}});
+ else if(t.id==="rf_d"){RF.k=+t.value;LS.s("sk_rf_d",RFS[RF.k].n);RF.nm={};RF.po={};RF.do={};RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfInoDef();rfInputs();rfPaint()}});
 $("rfpop").addEventListener("click",e=>{const b=e.target.closest("button");
  if(e.target===$("rfpop")||(b&&(b.id==="rf_x"||b.id==="rf_x2")))rfClose();
- else if(b&&(b.id==="rf_rs"||b.id==="rf_rs2")){RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfIno();rfInputs();rfPaint()}
+ else if(b&&(b.id==="rf_rs"||b.id==="rf_rs2")){RF.v={pv:RF.b.pv,ins:RF.b.ins,tlp:RF.b.tlp,adm:RF.b.adm};RF.po={};RF.do={};RF.fx=null;RF.rt={as:{},pp:{},ap:{},pq:{},af:{},pf:{},ino:{}};RF.raw={};RF.spv=true;RF.terios=false;RF.ino=rfInoDef();rfInputs();rfPaint()}
  else if(b&&b.id==="rf_ap")rfApply();
  else if(b&&b.id==="rf_cp")copy(rfText(),b)});
 </script></body></html>
